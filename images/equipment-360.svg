@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" fill="none">
+  <defs>
+    <linearGradient id="sg360" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22D3EE"/>
+      <stop offset=".5" stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#FB923C"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rundum-Bahnen -->
+  <ellipse cx="160" cy="160" rx="118" ry="46" stroke="url(#sg360)" stroke-width="2.6" opacity=".75"/>
+  <ellipse cx="160" cy="160" rx="118" ry="46" stroke="url(#sg360)" stroke-width="2.6" opacity=".4" transform="rotate(60 160 160)"/>
+  <ellipse cx="160" cy="160" rx="118" ry="46" stroke="url(#sg360)" stroke-width="2.6" opacity=".4" transform="rotate(-60 160 160)"/>
+
+  <!-- Rotationspfeil -->
+  <path d="M264 148a108 108 0 0 1-8 26" stroke="url(#sg360)" stroke-width="3.4" stroke-linecap="round"/>
+  <path d="M250 168l8 10 11-5" stroke="url(#sg360)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- Kameragehäuse (schlank, hochkant) -->
+  <rect x="128" y="86" width="64" height="148" rx="16" fill="#0F1828" stroke="#93A7C4" stroke-width="3"/>
+  <rect x="137" y="95" width="46" height="130" rx="10" stroke="#93A7C4" stroke-width="1.5" opacity=".3"/>
+
+  <!-- Linse vorne -->
+  <circle cx="160" cy="122" r="21" fill="#0B1119" stroke="#93A7C4" stroke-width="3"/>
+  <circle cx="160" cy="122" r="13" stroke="url(#sg360)" stroke-width="3"/>
+  <circle cx="160" cy="122" r="5" fill="url(#sg360)"/>
+  <circle cx="154" cy="116" r="2.4" fill="#E8EFF9" opacity=".7"/>
+
+  <!-- zweite Linse (Rückseite, angedeutet) -->
+  <path d="M139 196a21 21 0 0 0 42 0 21 21 0 0 0-42 0Z" fill="#0B1119" stroke="#93A7C4" stroke-width="3"/>
+  <circle cx="160" cy="196" r="12" stroke="url(#sg360)" stroke-width="2.6" opacity=".8"/>
+  <circle cx="160" cy="196" r="4" fill="url(#sg360)" opacity=".8"/>
+
+  <!-- Status-LED + Taste -->
+  <circle cx="160" cy="158" r="3.4" fill="url(#sg360)"/>
+  <rect x="148" y="216" width="24" height="7" rx="3.5" fill="#93A7C4" opacity=".5"/>
+
+  <!-- Beschriftung 360 -->
+  <text x="160" y="284" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="26" font-weight="700" fill="url(#sg360)" letter-spacing="2">360°</text>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" fill="none">
+  <defs>
+    <linearGradient id="mg" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#8A6428"/>
+      <stop offset=".4" stop-color="#D6A952"/>
+      <stop offset=".7" stop-color="#F8DDA7"/>
+      <stop offset="1" stop-color="#C08A3E"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 3D-Achsen -->
+  <g stroke="#A08A5E" stroke-width="2.2" stroke-linecap="round" opacity=".85">
+    <line x1="46" y1="88" x2="46" y2="44"/>
+    <path d="M41 51l5-8 5 8" fill="none"/>
+    <line x1="46" y1="88" x2="92" y2="88"/>
+    <path d="M85 83l8 5-8 5" fill="none"/>
+    <line x1="46" y1="88" x2="20" y2="116"/>
+    <path d="M29 114l-9 3 2-10" fill="none"/>
+  </g>
+
+  <!-- Bewegungs-Messspur -->
+  <path d="M52 262 C 104 296, 202 298, 248 250" stroke="url(#mg)" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 11"/>
+  <path d="M242 262l10-11-15-2" stroke="url(#mg)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <!-- Gehaeuse -->
+  <rect x="86" y="70" width="152" height="152" rx="36" fill="#0B1017" stroke="#A08A5E" stroke-width="3"/>
+  <rect x="97" y="81" width="130" height="130" rx="28" stroke="#A08A5E" stroke-width="1.6" opacity=".35"/>
+
+  <!-- Sensor-Ring -->
+  <circle cx="162" cy="146" r="47" stroke="url(#mg)" stroke-width="4.5"/>
+  <circle cx="162" cy="146" r="30" stroke="#A08A5E" stroke-width="2" opacity=".5"/>
+  <circle cx="162" cy="146" r="7.5" fill="url(#mg)"/>
+
+  <!-- Taste -->
+  <rect x="148" y="196" width="28" height="6" rx="3" fill="#A08A5E" opacity=".55"/>
+</svg>
