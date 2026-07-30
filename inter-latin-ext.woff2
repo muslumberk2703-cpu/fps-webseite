@@ -6,19 +6,19 @@
   <title>Fivestar Property Scan – Technischer Immobilien-Check in Antalya & Alanya | 3D-Vermessung, Wärmebild & Drohne</title>
   <meta name="description" content="Unabhängige Immobilien-Checks in Antalya, Alanya und der ganzen Türkei: 3D-Aufmaß mit virtuellem Rundgang, Wärmebilddiagnostik, Drohnen-Inspektion und Baubegleitung. Auch für Makler, Planer und Gewerbe. Digitaler Bericht in 48 Stunden – Website in 5 Sprachen.">
   <meta name="theme-color" content="#0b1119">
-  <link rel="canonical" href="https://www.fivestarpropertyscan.com/de/">
-  <link rel="alternate" hreflang="de" href="https://www.fivestarpropertyscan.com/de/">
-  <link rel="alternate" hreflang="en" href="https://www.fivestarpropertyscan.com/en/">
-  <link rel="alternate" hreflang="tr" href="https://www.fivestarpropertyscan.com/tr/">
-  <link rel="alternate" hreflang="ru" href="https://www.fivestarpropertyscan.com/ru/">
-  <link rel="alternate" hreflang="ar" href="https://www.fivestarpropertyscan.com/ar/">
-  <link rel="alternate" hreflang="x-default" href="https://www.fivestarpropertyscan.com/">
+  <link rel="canonical" href="https://www.fivepropscan.com/de/">
+  <link rel="alternate" hreflang="de" href="https://www.fivepropscan.com/de/">
+  <link rel="alternate" hreflang="en" href="https://www.fivepropscan.com/en/">
+  <link rel="alternate" hreflang="tr" href="https://www.fivepropscan.com/tr/">
+  <link rel="alternate" hreflang="ru" href="https://www.fivepropscan.com/ru/">
+  <link rel="alternate" hreflang="ar" href="https://www.fivepropscan.com/ar/">
+  <link rel="alternate" hreflang="x-default" href="https://www.fivepropscan.com/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Fivestar Property Scan">
   <meta property="og:title" content="Fivestar Property Scan – Wissen, was Sie kaufen.">
   <meta property="og:description" content="Technische Immobilien-Checks in Antalya & Alanya: 3D-Vermessung, Wärmebild, Drohne & Baubegleitung. Bericht in 48 h.">
   <meta property="og:locale" content="de_DE">
-  <meta property="og:url" content="https://www.fivestarpropertyscan.com/de/">
+  <meta property="og:url" content="https://www.fivepropscan.com/de/">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="preload" href="../fonts/playfair-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -213,11 +213,16 @@
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Gefällemessung auf Terrassen, Balkonen &amp; in Duschen – läuft Wasser richtig ab?</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Zufahrten, Rampen &amp; Treppen: Steigung &amp; Stufenmaße</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Lot-, Flucht- &amp; Ebenheitskontrolle an Wänden und Böden</div>
+            </div>
+            <details class="mehr">
+              <summary>Alle Leistungen anzeigen</summary>
+              <div class="feature-grid">
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Aufmaß für Küche, Möbel &amp; Renovierung – direkt aus dem 3D-Modell</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Türen &amp; Fenster: Öffnungsmaße für Austausch &amp; Umbau</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Export als Grundriss, Punktwolke oder CAD-Datei für Ihren Planer</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Alle Messwerte dokumentiert im Bericht</div>
-            </div>
+              </div>
+            </details>
             <p class="service-note"><b>Typischer Fall:</b> Vor der Unterschrift die tatsächliche Wohnfläche verifizieren – schon wenige m² Abweichung bedeuten an der türkischen Riviera schnell einen fünfstelligen Betrag.</p>
           </div>
         </article>
@@ -241,13 +246,18 @@
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Dämmungs-Check: Fehlstellen &amp; Wärmeverluste</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Wärmebrücken an Fassade, Decken &amp; Rollladenkästen</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Undichte Fenster &amp; Türen: Zugluft &amp; defekte Dichtungen</div>
+            </div>
+            <details class="mehr">
+              <summary>Alle Leistungen anzeigen</summary>
+              <div class="feature-grid">
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Flachdach- &amp; Abdichtungskontrolle</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Fußbodenheizung: Verlauf &amp; Funktion sichtbar machen</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Warm- &amp; Kaltwasserleitungen im Wandverlauf orten</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Elektro-Check: Steckdosen, Sicherungskasten &amp; überhitzte Kontakte</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Klimaanlage &amp; Boiler: Funktion &amp; Energieverluste</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Vorher-/Nachher-Dokumentation bei Sanierungen</div>
-            </div>
+              </div>
+            </details>
             <p class="service-note"><b>Gut zu wissen:</b> Ein frischer Anstrich kostet ein paar hundert Euro – ein übersehener Wasserschaden schnell das Hundertfache. Das Wärmebild zeigt die Wahrheit unter der Farbe.</p>
           </div>
         </article>
@@ -271,11 +281,16 @@
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Dachrinnen &amp; Regenwasser-Ableitung</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Solaranlagen &amp; Warmwasser-Kollektoren von oben</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Grundstücksüberblick &amp; Außenanlagen aus der Luft</div>
+            </div>
+            <details class="mehr">
+              <summary>Alle Leistungen anzeigen</summary>
+              <div class="feature-grid">
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Baufortschritts-Dokumentation für Käufer im Ausland</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> 4K-Video &amp; hochauflösende Fotos als Nachweis</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Schwer zugängliche Bereiche ohne Gerüstkosten</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Große Objekte am Stück: über 100 Minuten Flugzeit vor Ort</div>
-            </div>
+              </div>
+            </details>
             <p class="service-note"><b>Verantwortungsvoll:</b> Wir fliegen mit einer Drohne unter 249 g Abfluggewicht. Genehmigungslage und Flugverbotszonen klären wir vor jedem Einsatz – geflogen wird nur, wo es erlaubt ist.</p>
           </div>
         </article>
@@ -299,11 +314,16 @@
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> <b>Für Hotels &amp; Pensionen:</b> Zimmer und Anlage virtuell zeigen statt nur beschreiben</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> <b>Für Büros &amp; Gewerbeflächen:</b> Interessenten besichtigen ohne Termin</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> <b>Für Wohnungen &amp; Villen:</b> Käufer aus dem Ausland gehen von zuhause durch</div>
+            </div>
+            <details class="mehr">
+              <summary>Alle Leistungen anzeigen</summary>
+              <div class="feature-grid">
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Ein Link für Website, Instagram, WhatsApp und Immobilienportale</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Maße lassen sich nachträglich im Modell abgreifen – ohne zweite Anfahrt</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Bleibt dauerhaft abrufbar – auch als Archiv des Zustands zum Stichtag</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Kombinierbar mit Fotos, Video und Luftaufnahmen aus demselben Termin</div>
-            </div>
+              </div>
+            </details>
             <p class="service-note"><b>Typischer Fall:</b> Ein Ladenlokal in Alanya soll an einen Investor in Dubai vermietet werden. Statt Flug und Termin schickt der Makler einen Link – und der Interessent läuft selbst durch das Objekt.</p>
           </div>
         </article>
@@ -327,13 +347,18 @@
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Drohnenaufnahmen: Baufortschritt und Dach aus der Luft</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Kontrolle kritischer Phasen: Rohbau, Estrich, Abdichtung, Elektro &amp; Sanitär – bevor alles verschlossen wird</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Ebenheit, Lot &amp; Gefälle messen, solange Korrekturen noch möglich sind</div>
+            </div>
+            <details class="mehr">
+              <summary>Alle Leistungen anzeigen</summary>
+              <div class="feature-grid">
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Wärmebild-Check von Leitungen &amp; Fußbodenheizung vor dem Verschließen</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> m²-Kontrolle schon während des Baus – nicht erst bei der Übergabe</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Abgleich mit Bauplan &amp; Baubeschreibung</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Kurzbericht nach jedem Termin – digital, in Ihrer Sprache</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Direkter Draht per WhatsApp bei Rückfragen zwischendurch</div>
               <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Lückenlose Dokumentation bis zur Schlüsselübergabe</div>
-            </div>
+              </div>
+            </details>
             <p class="service-note"><b>Warum das entscheidend ist:</b> In Antalya und Alanya wird sehr viel vom Plan weg verkauft. Wer erst bei der Übergabe genau hinschaut, verhandelt aus der schwächsten Position – dann ist der Kaufpreis längst bezahlt und der Mangel zugebaut.</p>
           </div>
         </article>
@@ -446,13 +471,18 @@
             <h3>Makler &amp; Bauträger</h3>
             <p>Verkaufen, bevor jemand ins Flugzeug steigt: Ihre Objekte sind rund um die Uhr begehbar – aus Berlin, Moskau oder Dubai.</p>
             <div class="b2b-list">
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> 3D-Rundgang für Website, Exposé und Immobilienportale</div>
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Interessenten sortieren sich vor – deutlich weniger Besichtigungen ohne Kaufabsicht</div>
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Maßhaltiger Grundriss statt handgezeichneter Skizze</div>
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Luftaufnahmen von Lage, Dach und Umgebung</div>
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Foto- und Videopaket aus demselben Termin</div>
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Musterwohnung einmal scannen, für alle baugleichen Einheiten nutzen</div>
-            </div>
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> 3D-Rundgang für Website, Exposé und Immobilienportale</div>
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Interessenten sortieren sich vor – deutlich weniger Besichtigungen ohne Kaufabsicht</div>
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Maßhaltiger Grundriss statt handgezeichneter Skizze</div>
+              </div>
+              <details class="mehr b2b-mehr">
+                <summary>Mehr dazu</summary>
+                <div class="b2b-list">
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Luftaufnahmen von Lage, Dach und Umgebung</div>
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Foto- und Videopaket aus demselben Termin</div>
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Musterwohnung einmal scannen, für alle baugleichen Einheiten nutzen</div>
+                </div>
+              </details>
             <p class="b2b-out"><b>Sie bekommen:</b> einen Link, den Sie überall einbetten – fertig aufbereitet innerhalb von 48 Stunden.</p>
           </div>
 
@@ -462,13 +492,18 @@
             <h3>Architekten, Planer &amp; Ingenieure</h3>
             <p>Bestand aufnehmen statt abmessen: Ein Scan-Termin ersetzt tagelanges Aufmaß vor Ort – und liefert Daten, die in Ihre Software passen.</p>
             <div class="b2b-list">
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Digitale Bestandsaufnahme in Stunden statt Tagen</div>
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Maßhaltige Grundrisse als Planungsgrundlage</div>
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> CAD-kompatible Daten und Punktwolke</div>
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Bestandsdokumentation vor Umbau, Sanierung und Rückbau</div>
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Nachmessen im Modell – ohne zweite Anfahrt</div>
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Wärmebild ergänzend bei Bauschäden, Feuchte und Dämmung</div>
-            </div>
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Digitale Bestandsaufnahme in Stunden statt Tagen</div>
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Maßhaltige Grundrisse als Planungsgrundlage</div>
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> CAD-kompatible Daten und Punktwolke</div>
+              </div>
+              <details class="mehr b2b-mehr">
+                <summary>Mehr dazu</summary>
+                <div class="b2b-list">
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Bestandsdokumentation vor Umbau, Sanierung und Rückbau</div>
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Nachmessen im Modell – ohne zweite Anfahrt</div>
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Wärmebild ergänzend bei Bauschäden, Feuchte und Dämmung</div>
+                </div>
+              </details>
             <p class="b2b-out"><b>Sie bekommen:</b> Punktwolke und Grundriss im Format Ihrer Wahl, plus das begehbare Modell als Referenz.</p>
           </div>
 
@@ -478,13 +513,18 @@
             <h3>Gewerbe &amp; Industrie</h3>
             <p>Flächen, Anlagen und Zustände festgehalten – abrufbar, wann immer jemand danach fragt: Versicherung, Betreiber oder Nachmieter.</p>
             <div class="b2b-list">
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Hotels, Läden, Büros, Lager und Produktionsflächen</div>
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Zustandsdokumentation für Versicherung und Betreiber</div>
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Übergabe- und Rückgabeprotokolle bei Miete und Pacht</div>
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Facility Management mit begehbarem Modell</div>
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Flächenermittlung für Verträge und Nebenkosten</div>
-              <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Schadensdokumentation mit Wärmebild und Luftaufnahme</div>
-            </div>
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Hotels, Läden, Büros, Lager und Produktionsflächen</div>
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Zustandsdokumentation für Versicherung und Betreiber</div>
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Übergabe- und Rückgabeprotokolle bei Miete und Pacht</div>
+              </div>
+              <details class="mehr b2b-mehr">
+                <summary>Mehr dazu</summary>
+                <div class="b2b-list">
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Facility Management mit begehbarem Modell</div>
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Flächenermittlung für Verträge und Nebenkosten</div>
+                <div class="feat"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Schadensdokumentation mit Wärmebild und Luftaufnahme</div>
+                </div>
+              </details>
             <p class="b2b-out"><b>Sie bekommen:</b> einen digitalen Zwilling, der den Zustand zum Stichtag beweisbar festhält.</p>
           </div>
 
@@ -715,7 +755,8 @@
               <span><b>Schreiben Sie uns in Ihrer Sprache.</b> Ob Deutsch, Englisch, Türkisch, Russisch oder Arabisch – per WhatsApp oder E-Mail antworten wir Ihnen in der Sprache, in der Sie uns schreiben.</span>
             </div>
             <div style="margin:2px 0 4px">
-              <div class="contact-line" data-phone-line><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5 9 3l1.7 4-2 1.6a13.5 13.5 0 0 0 6.7 6.7l1.6-2 4 1.7-.5 2.4c-.2 1-1.1 1.7-2.1 1.6C10.6 18.9 5.1 13.4 4.9 5.6c0-1 .7-1.9 1.7-2.1Z" stroke="url(#ig)" stroke-width="1.9" fill="none" stroke-linejoin="round"/></svg><span data-phone></span></div>
+              <div class="contact-line" data-phone-line><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5 9 3l1.7 4-2 1.6a13.5 13.5 0 0 0 6.7 6.7l1.6-2 4 1.7-.5 2.4c-.2 1-1.1 1.7-2.1 1.6C10.6 18.9 5.1 13.4 4.9 5.6c0-1 .7-1.9 1.7-2.1Z" stroke="url(#ig)" stroke-width="1.9" fill="none" stroke-linejoin="round"/></svg><a data-phone href="#"></a><span class="tel-tag">Deutschland</span></div>
+              <div class="contact-line" data-phone-tr-line><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5 9 3l1.7 4-2 1.6a13.5 13.5 0 0 0 6.7 6.7l1.6-2 4 1.7-.5 2.4c-.2 1-1.1 1.7-2.1 1.6C10.6 18.9 5.1 13.4 4.9 5.6c0-1 .7-1.9 1.7-2.1Z" stroke="url(#ig)" stroke-width="1.9" fill="none" stroke-linejoin="round"/></svg><a data-phone-tr href="#"></a><span class="tel-tag">Türkei</span></div>
               <div class="contact-line"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="url(#ig)" stroke-width="1.9" fill="none"/><path d="m4 7 8 6 8-6" stroke="url(#ig)" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><a data-email href="#kontakt"></a></div>
               <div class="contact-line"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="url(#ig)" stroke-width="1.9" fill="none"/><path d="M12 7.5V12l3 2" stroke="url(#ig)" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Mo–Sa · 09:00–18:00 Uhr</span></div>
             </div>
@@ -723,6 +764,7 @@
             <ul class="area-chips">
               <li>Antalya</li><li>Alanya</li><li>Side</li><li>Belek</li><li>Kemer</li><li>Manavgat</li><li>Mahmutlar</li><li>Konyaaltı</li><li>Lara</li><li>Kaş & Kalkan</li>
             </ul>
+            <p class="zypern-hinweis"><b>Auch Nordzypern:</b> Für Objekte in Nordzypern kommen wir auf Anfrage ebenfalls – melden Sie sich einfach, dann klären wir Termin und Anfahrt.</p>
             <a class="btn btn-wa btn-lg" data-wa href="#kontakt">
               <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><use href="#ic-wa"/></svg>
               WhatsApp-Chat starten
@@ -837,7 +879,7 @@
       <p>Inhaber: <em>[Name wird ergänzt]</em><br>
       Anschrift: <em>[Anschrift wird ergänzt]</em></p>
       <p>E-Mail: <span data-email-text></span><br>
-      WhatsApp: <span data-phone></span></p>
+Telefon: <span data-phone></span> / <span data-phone-tr></span></p>
       <p>Verantwortlich für den Inhalt dieser Website: Fivestar Property Scan. Alle Angaben ohne Gewähr.</p>
     </div>
   </div>

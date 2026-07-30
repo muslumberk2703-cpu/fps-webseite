@@ -1,7 +1,9 @@
 /* ==========================================================================
-   Cyprus Property Check (CPC) — Design-System "Black & Gold"
+   Fivestar Property Scan (FPS) — Design-System "Anthrazit & Gold"
    Statisch, ohne Build-Tools. Gilt für Splash + alle Sprachversionen.
    Sprachen: de, en, tr, ru, ar (ar = RTL)
+   Hinweis: Auf dem Handy greift am Ende der Datei ein eigener Block, der
+   Hintergrund, Schrift und Farbverläufe aufhellt (Lesbarkeit bei Sonne).
    ========================================================================== */
 
 /* ---------- Fonts ---------- */
@@ -688,6 +690,64 @@ html[lang="ar"] .p-badge { letter-spacing: 0; }
 }
 [dir="rtl"] .size-hint { border-left: 0; border-right: 2px solid var(--cyan); border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
 .size-hint b { color: var(--text); }
+
+/* ---------- Aufklappbare Punktelisten ----------
+   Die Leistungsblöcke haben 10–12 Punkte. Offen wirkt das erschlagend,
+   gekürzt verliert man Inhalt (auch für Google). Deshalb: die stärksten
+   Punkte stehen offen, der Rest kommt hinter einen Schalter.
+   Bewusst ohne JavaScript gelöst (<details>), damit es auch dann
+   funktioniert, wenn Skripte blockiert sind. */
+.mehr { margin-top: 12px; }
+.mehr > summary {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  font-family: var(--font-display); font-size: 0.9rem; font-weight: 600;
+  color: var(--cyan); padding: 7px 2px; list-style: none;
+  transition: color 0.2s;
+}
+.mehr > summary::-webkit-details-marker { display: none; }
+.mehr > summary::after {
+  content: ""; width: 8px; height: 8px; flex: none;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px); transition: transform 0.25s var(--ease);
+}
+.mehr[open] > summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+.mehr > summary:hover { color: var(--text); }
+.mehr > summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 4px; }
+.mehr .feature-grid, .mehr .b2b-list { margin-top: 12px; }
+@media (prefers-reduced-motion: reduce) { .mehr > summary::after { transition: none; } }
+
+/* Rueckmeldung beim Kopieren von E-Mail/Telefon (Desktop) */
+.kopier-toast {
+  position: fixed; left: 50%; bottom: 26px; transform: translate(-50%, 14px);
+  z-index: 200; max-width: min(92vw, 520px);
+  background: linear-gradient(165deg, #1D2A3C, #131C29);
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 12px 22px; font-size: 0.9rem; color: var(--text);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s var(--ease);
+  overflow-wrap: anywhere; text-align: center;
+}
+.kopier-toast.an { opacity: 1; transform: translate(-50%, 0); }
+@media (prefers-reduced-motion: reduce) { .kopier-toast { transition: none; } }
+
+/* Hinweis auf Nordzypern unter den Einsatzorten */
+.zypern-hinweis {
+  margin: 12px 0 4px; padding: 11px 14px;
+  border-inline-start: 2px solid var(--gold);
+  background: rgba(214, 169, 82, 0.08);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.86rem; color: var(--muted);
+}
+[dir="rtl"] .zypern-hinweis { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+.zypern-hinweis b { color: var(--text); font-weight: 600; }
+
+/* Laender-Kennzeichnung hinter den Telefonnummern */
+.tel-tag {
+  font-size: 0.76rem; color: var(--muted); font-weight: 500;
+  border: 1px solid var(--line-soft); border-radius: 999px;
+  padding: 2px 9px; margin-inline-start: 8px; white-space: nowrap;
+}
 @media (max-width: 560px) {
   .size-note { padding: 24px 20px 22px; }
   .size-list li { flex-direction: column; gap: 4px; }
@@ -1109,12 +1169,15 @@ body.splash-page { display: flex; flex-direction: column; min-height: 100svh; }
    ========================================================================== */
 @media (max-width: 860px) {
   :root {
-    --bg: #1A2434;              /* deutlich heller als Desktop (#0B1119) */
-    --bg2: #222E41;
-    --text: #F5F9FF;
-    --muted: #BECBDD;           /* heller = besser lesbar, auch draußen */
-    --line: rgba(170, 190, 214, 0.34);
-    --line-soft: rgba(170, 190, 214, 0.18);
+    --bg: #243044;              /* deutlich heller als Desktop (#0B1119) */
+    --bg2: #2D3B52;
+    --text: #FAFCFF;
+    --muted: #D4DEEC;           /* heller = besser lesbar, auch draußen */
+    --line: rgba(180, 200, 224, 0.40);
+    --line-soft: rgba(180, 200, 224, 0.22);
+    /* Farbverlauf für Zahlen, Eyebrows und Hervorhebungen: auf dem hellen
+       Untergrund brauchen die Töne mehr Leuchtkraft, sonst wirken sie matt. */
+    --grad: linear-gradient(120deg, #7DE9FA, #C3B0FF 52%, #FFC08A);
   }
 
   body { font-size: 16.5px; line-height: 1.7; }
@@ -1130,18 +1193,27 @@ body.splash-page { display: flex; flex-direction: column; min-height: 100svh; }
 
   /* Karten & Flächen heller absetzen */
   .card,
-  .faq-item { background: linear-gradient(165deg, #29384E, #1E293B); }
-  .about-points li { background: #26334799; }
-  .size-note { background: linear-gradient(165deg, #29384E, #1E293B); }
+  .faq-item { background: linear-gradient(165deg, #37485F, #2A374C); }
+  .about-points li { background: #33425AAA; }
+  .size-note { background: linear-gradient(165deg, #37485F, #2A374C); }
   .device-frame,
-  .scan-card { background: linear-gradient(160deg, #243347, #17202F); }
-  .site-header.scrolled { background: rgba(26, 36, 52, 0.95); }
-  .mobile-nav { background: rgba(26, 36, 52, 0.985); }
-  .lang-menu { background: rgba(34, 46, 65, 0.98); }
-  .modal-box { background: linear-gradient(165deg, #29384E, #1B2536); }
-  .field input, .field textarea, .field select { background: #17202F; }
-  .field select option { background: #222E41; }
-  .site-footer { background: #16202E; }
+  .scan-card { background: linear-gradient(160deg, #31425A, #232F42); }
+  .site-header.scrolled { background: rgba(36, 48, 68, 0.95); }
+  .mobile-nav { background: rgba(42, 56, 78, 0.99); }
+  .lang-menu { background: rgba(45, 59, 82, 0.98); }
+  .modal-box { background: linear-gradient(165deg, #37485F, #273346); }
+  .field input, .field textarea, .field select { background: #222E40; }
+  .field select option { background: #2D3B52; }
+  .site-footer { background: #202C3E; }
+
+  /* Zahlen und Kennwerte kräftiger: auf dem Handy sollen sie sofort ins Auge
+     springen, nicht im Hintergrund verschwinden. */
+  .stat-num { filter: saturate(1.15) brightness(1.06); }
+  .stat-label { color: #E2EAF5; }
+  .spec-list li span:last-child { color: #FFFFFF; }
+  .feat { color: #E4EDF8; }
+  .m-chip { color: #FFFFFF; }
+  .tech-sub, .service-tag { color: #CBD8E8; }
 
   /* Logo deutlich größer und wieder mit vollem Namen */
   .logo { gap: 12px; }
