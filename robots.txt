@@ -4,4 +4,4 @@ Allow: /
 # Internes Kalkulationswerkzeug – nicht für Suchmaschinen
 Disallow: /kalkulation.html
 
-Sitemap: https://www.fivestarpropertyscan.com/sitemap.xml
+Sitemap: https://www.fivepropscan.com/sitemap.xml

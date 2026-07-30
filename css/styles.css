@@ -1,7 +1,9 @@
 /* ==========================================================================
-   Cyprus Property Check (CPC) — Design-System "Black & Gold"
+   Fivestar Property Scan (FPS) — Design-System "Anthrazit & Gold"
    Statisch, ohne Build-Tools. Gilt für Splash + alle Sprachversionen.
    Sprachen: de, en, tr, ru, ar (ar = RTL)
+   Hinweis: Auf dem Handy greift am Ende der Datei ein eigener Block, der
+   Hintergrund, Schrift und Farbverläufe aufhellt (Lesbarkeit bei Sonne).
    ========================================================================== */
 
 /* ---------- Fonts ---------- */
@@ -146,7 +148,7 @@
   --radius-sm: 11px;
   --shadow: 0 24px 70px rgba(2, 6, 12, 0.6);
   --shadow-lg: 0 30px 80px rgba(2, 6, 12, 0.7);
-  --header-h: 74px;
+  --header-h: 86px;
   --container: 1180px;
   --ease: cubic-bezier(0.22, 0.7, 0.25, 1);
 }
@@ -174,6 +176,23 @@ body {
   background: var(--bg);
   overflow-x: hidden;
 }
+
+/* ---------- Kein seitliches Verrutschen auf dem Handy ----------
+   Grid- und Flex-Kinder haben von Haus aus min-width:auto und können
+   dadurch nicht schmaler werden als ihr breitester Inhalt (z. B. ein
+   Button mit nowrap oder eine lange E-Mail-Adresse). Das sprengt auf
+   schmalen Displays die Seitenbreite. */
+.hero-grid > *, .contact-grid > *, .price-grid > *, .about-grid > *,
+.grid-3 > *, .grid-4 > *, .grid-5 > *, .steps > *, .service > *,
+.footer-grid > *, .form-grid > *, .lang-cards > * { min-width: 0; }
+
+/* Lange Wörter (E-Mail, URLs) dürfen umbrechen */
+.contact-line, .contact-line a, .modal-box p, .footer-about p,
+[data-email-text], [data-phone] { overflow-wrap: anywhere; }
+
+/* Sicherheitsnetz: falls doch einmal etwas übersteht, wird es
+   abgeschnitten statt scrollbar (clip erlaubt weiterhin sticky/fixed). */
+html { overflow-x: clip; }
 html[lang="ar"] body { line-height: 1.95; font-size: 16px; }
 img, svg { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
@@ -277,17 +296,17 @@ h2 { font-size: clamp(1.85rem, 3.6vw, 2.8rem); font-weight: 700; }
 
 /* Logo / Wortmarke */
 .logo { display: flex; align-items: center; gap: 11px; margin-right: auto; }
-.logo-icon { height: 40px; width: auto; flex: none; }
+.logo-icon { height: 58px; width: auto; flex: none; }
 .logo-text { display: flex; flex-direction: column; line-height: 1; }
 .logo-text b {
-  font-family: var(--font-display); font-size: 1.06rem; font-weight: 700;
+  font-family: var(--font-display); font-size: 1.32rem; font-weight: 700;
   letter-spacing: 0.13em;
   background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .logo-text span {
-  font-family: var(--font-display); font-size: 0.56rem; font-weight: 600;
+  font-family: var(--font-display); font-size: 0.66rem; font-weight: 600;
   letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--muted); margin-top: 5px;
+  color: var(--muted); margin-top: 6px;
 }
 .nav-links { display: flex; align-items: center; gap: 2px; }
 .nav-links a {
@@ -560,6 +579,9 @@ html[lang="ar"] .service-tag { letter-spacing: 0.04em; }
 .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 22px; margin-top: 24px; }
 .feat { display: flex; gap: 10px; align-items: flex-start; font-size: 0.93rem; color: #C8D4E4; }
 .feat svg { width: 17px; height: 17px; flex: none; margin-top: 3px; }
+/* Ohne das hier wuerde ein <b> im Punkt zu einem eigenen Flex-Element und
+   die Zeile bräche in zwei Spalten ("Für Hotels:" | "Zimmer zeigen ..."). */
+.feat > b { display: contents; }
 .service-note {
   margin-top: 26px; padding: 15px 18px; border-radius: var(--radius-sm);
   border: 1px solid var(--line); border-left: 3px solid var(--orange);
@@ -668,12 +690,96 @@ html[lang="ar"] .p-badge { letter-spacing: 0; }
 }
 [dir="rtl"] .size-hint { border-left: 0; border-right: 2px solid var(--cyan); border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
 .size-hint b { color: var(--text); }
+
+/* ---------- Aufklappbare Punktelisten ----------
+   Die Leistungsblöcke haben 10–12 Punkte. Offen wirkt das erschlagend,
+   gekürzt verliert man Inhalt (auch für Google). Deshalb: die stärksten
+   Punkte stehen offen, der Rest kommt hinter einen Schalter.
+   Bewusst ohne JavaScript gelöst (<details>), damit es auch dann
+   funktioniert, wenn Skripte blockiert sind. */
+.mehr { margin-top: 12px; }
+.mehr > summary {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  font-family: var(--font-display); font-size: 0.9rem; font-weight: 600;
+  color: var(--cyan); padding: 7px 2px; list-style: none;
+  transition: color 0.2s;
+}
+.mehr > summary::-webkit-details-marker { display: none; }
+.mehr > summary::after {
+  content: ""; width: 8px; height: 8px; flex: none;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px); transition: transform 0.25s var(--ease);
+}
+.mehr[open] > summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+.mehr > summary:hover { color: var(--text); }
+.mehr > summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 4px; }
+.mehr .feature-grid, .mehr .b2b-list { margin-top: 12px; }
+@media (prefers-reduced-motion: reduce) { .mehr > summary::after { transition: none; } }
+
+/* Rueckmeldung beim Kopieren von E-Mail/Telefon (Desktop) */
+.kopier-toast {
+  position: fixed; left: 50%; bottom: 26px; transform: translate(-50%, 14px);
+  z-index: 200; max-width: min(92vw, 520px);
+  background: linear-gradient(165deg, #1D2A3C, #131C29);
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 12px 22px; font-size: 0.9rem; color: var(--text);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s var(--ease);
+  overflow-wrap: anywhere; text-align: center;
+}
+.kopier-toast.an { opacity: 1; transform: translate(-50%, 0); }
+@media (prefers-reduced-motion: reduce) { .kopier-toast { transition: none; } }
+
+/* Hinweis auf Nordzypern unter den Einsatzorten */
+.zypern-hinweis {
+  margin: 12px 0 4px; padding: 11px 14px;
+  border-inline-start: 2px solid var(--gold);
+  background: rgba(214, 169, 82, 0.08);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.86rem; color: var(--muted);
+}
+[dir="rtl"] .zypern-hinweis { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+.zypern-hinweis b { color: var(--text); font-weight: 600; }
+
+/* Laender-Kennzeichnung hinter den Telefonnummern */
+.tel-tag {
+  font-size: 0.76rem; color: var(--muted); font-weight: 500;
+  border: 1px solid var(--line-soft); border-radius: 999px;
+  padding: 2px 9px; margin-inline-start: 8px; white-space: nowrap;
+}
 @media (max-width: 560px) {
   .size-note { padding: 24px 20px 22px; }
   .size-list li { flex-direction: column; gap: 4px; }
   .size-list li span:last-child { text-align: left; }
   [dir="rtl"] .size-list li span:last-child { text-align: right; }
 }
+
+/* ---------- Fuer Firmen (Makler, Planer, Gewerbe) ----------
+   Eigener Hintergrund, damit der Bereich sich sichtbar vom
+   Privatkunden-Teil absetzt: andere Zielgruppe, andere Ansprache. */
+.section-b2b {
+  background:
+    radial-gradient(1000px 460px at 50% -6%, rgba(139, 92, 246, 0.12), transparent 68%),
+    linear-gradient(180deg, rgba(16, 24, 39, 0.85), rgba(11, 17, 25, 0));
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+}
+.b2b-card { display: flex; flex-direction: column; }
+.b2b-role {
+  font-family: var(--font-display); font-size: 0.73rem; font-weight: 600;
+  letter-spacing: 0.17em; text-transform: uppercase;
+  color: var(--cyan); margin-bottom: 8px;
+}
+html[lang="ar"] .b2b-role { letter-spacing: 0.05em; }
+.b2b-list { display: grid; gap: 11px; margin: 18px 0 22px; }
+.b2b-out {
+  margin-top: auto; padding-top: 16px;
+  border-top: 1px solid var(--line-soft);
+  font-size: 0.86rem; color: var(--muted);
+}
+.b2b-out b { color: var(--text); font-weight: 600; }
+.b2b-cta { text-align: center; margin-top: 26px; }
 
 /* ---------- FAQ ---------- */
 .faq-wrap { max-width: 820px; margin: 0 auto; }
@@ -716,6 +822,48 @@ html[lang="ar"] .p-badge { letter-spacing: 0; }
 .about-points b { display: block; font-family: var(--font-display); color: var(--text); }
 .about-points span { color: var(--muted); font-size: 0.88rem; }
 
+/* ==========================================================================
+   Marken-Band – grosses Logo mit Luft drumherum, direkt vor dem Kontakt.
+   Bewusst nur EINMAL auf der Seite: gross und ruhig wirkt wertiger als oft
+   und klein.
+   ========================================================================== */
+.brand-band {
+  position: relative;
+  padding: 86px 0 82px;
+  text-align: center;
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+  background:
+    radial-gradient(620px 300px at 50% 0%, rgba(214, 169, 82, 0.10), transparent 70%),
+    radial-gradient(520px 280px at 50% 100%, rgba(34, 211, 238, 0.07), transparent 70%);
+  overflow: hidden;
+}
+/* zarte Lichtlinie oben */
+.brand-band::before {
+  content: ""; position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+  width: min(420px, 70%); height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.brand-band img {
+  width: min(420px, 76%); height: auto; margin: 0 auto 26px;
+  filter: drop-shadow(0 18px 44px rgba(214, 169, 82, 0.22));
+}
+.brand-band .bb-claim {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.45rem, 3.4vw, 2.15rem); letter-spacing: -0.02em;
+  margin: 0 0 12px;
+}
+html[lang="ar"] .brand-band .bb-claim { letter-spacing: 0; }
+.brand-band .bb-sub {
+  color: var(--muted); font-size: 0.96rem; margin: 0 0 20px;
+}
+.brand-band .bb-stars { display: flex; justify-content: center; gap: 7px; }
+.brand-band .bb-stars svg { width: 14px; height: 14px; }
+@media (max-width: 860px) {
+  .brand-band { padding: 62px 0 58px; }
+  .brand-band img { width: min(340px, 84%); margin-bottom: 22px; }
+}
+
 /* ---------- Kontakt ---------- */
 .contact-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 26px; align-items: stretch; }
 .contact-card { display: flex; flex-direction: column; }
@@ -757,6 +905,20 @@ html[lang="ar"] .p-badge { letter-spacing: 0; }
 .field select option { background: #111A26; }
 .form-note { font-size: 0.8rem; color: var(--muted); margin: 14px 0 18px; }
 
+/* Rückmeldung nach dem Absenden */
+.form-status {
+  margin: 0 0 16px; padding: 13px 16px; border-radius: var(--radius-sm);
+  font-size: 0.9rem; border: 1px solid var(--line);
+}
+.form-status[hidden] { display: none; }
+.form-status.is-ok { border-color: rgba(37, 211, 102, 0.5); background: rgba(37, 211, 102, 0.08); color: #D7F5E3; }
+.form-status.is-err { border-color: rgba(251, 146, 60, 0.5); background: rgba(251, 146, 60, 0.08); color: #FBE3CC; }
+/* kurzes Aufblitzen, wenn ein Paket vorgewählt wurde */
+.field select.just-set {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.18);
+}
+
 /* ---------- Footer ---------- */
 .site-footer { border-top: 1px solid var(--line-soft); padding: 60px 0 34px; margin-top: 40px; background: rgba(7, 12, 19, 0.6); }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 36px; margin-bottom: 44px; }
@@ -766,6 +928,12 @@ html[lang="ar"] .footer-grid h4 { letter-spacing: 0.02em; }
 [dir="rtl"] .footer-grid a, [dir="rtl"] .footer-grid button { text-align: right; }
 .footer-grid a:hover, .footer-grid button:hover { color: var(--text); }
 .footer-about p { color: var(--muted); font-size: 0.9rem; max-width: 320px; }
+
+/* Grosse Wortmarke im Footer – ersetzt die kleine Kopfzeilen-Variante.
+   Spezifität muss über ".footer-grid a" liegen, sonst greift dort display:block. */
+.footer-grid a.footer-logo-big { display: block; padding: 0; margin: 0 0 16px; }
+.footer-grid a.footer-logo-big img { width: min(250px, 82%); height: auto; }
+.footer-grid a.footer-brand-small { display: none; }
 .footer-bottom {
   border-top: 1px solid var(--line-soft); padding-top: 24px;
   display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
@@ -818,6 +986,40 @@ html[lang="ar"] .footer-grid h4 { letter-spacing: 0.02em; }
 [dir="rtl"] .modal-close { right: auto; left: 16px; }
 .modal-close:hover { color: var(--text); border-color: var(--cyan); transform: rotate(90deg); }
 body.modal-open { overflow: hidden; }
+
+/* ==========================================================================
+   Gestaffelter Auftritt im Hero
+   Die Elemente kommen nacheinander herein statt alles gleichzeitig – das
+   ist der Effekt, der eine Seite am stärksten „wertig" wirken lässt.
+   ========================================================================== */
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes heroCard {
+  from { opacity: 0; transform: translateY(26px) scale(.985); }
+  to   { opacity: 1; transform: none; }
+}
+.hero-badge,
+.hero h1,
+.hero .lead,
+.hero-cta,
+.trust-chips { animation: heroIn .8s var(--ease) both; }
+.hero-badge  { animation-delay: .05s; }
+.hero h1     { animation-delay: .16s; }
+.hero .lead  { animation-delay: .28s; }
+.hero-cta    { animation-delay: .40s; }
+.trust-chips { animation-delay: .52s; }
+.scan-card   { animation: heroCard 1s var(--ease) both .30s; }
+/* Chips im Scan-Display erscheinen zuletzt, nacheinander */
+.m-chip { animation: heroIn .7s var(--ease) both, float-y 5.6s ease-in-out infinite; }
+.m-chip.c1 { animation-delay: .95s, 1.7s; }
+.m-chip.c2 { animation-delay: 1.15s, 2.6s; }
+.m-chip.c3 { animation-delay: 1.35s, 3.4s; }
+.scroll-hint { animation: heroIn 1s var(--ease) both 1.5s; }
+
+/* Sanftes Parallax – nur Desktop, wird per JS gesetzt */
+.scan-card { will-change: transform; }
 
 /* ---------- Reveal-Animationen ---------- */
 .reveal { opacity: 0; transform: translateY(28px); }
@@ -957,7 +1159,122 @@ body.splash-page { display: flex; flex-direction: column; min-height: 100svh; }
   .footer-grid { grid-template-columns: 1fr; gap: 26px; }
   .modal-box { padding: 26px 22px; }
   .lang-cards { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
-  .logo-text span { display: none; }
+}
+
+/* ==========================================================================
+   MOBIL-OPTIMIERUNG (Handy & kleines Tablet)
+   Auf kleinen Displays wirkt sehr dunkles Anthrazit erdrückend und ist
+   draußen bei Sonne schlecht lesbar. Deshalb hier: hellerer Untergrund,
+   kräftigere Kontraste, größere Schrift, größeres Logo.
+   ========================================================================== */
+@media (max-width: 860px) {
+  :root {
+    --bg: #243044;              /* deutlich heller als Desktop (#0B1119) */
+    --bg2: #2D3B52;
+    --text: #FAFCFF;
+    --muted: #D4DEEC;           /* heller = besser lesbar, auch draußen */
+    --line: rgba(180, 200, 224, 0.40);
+    --line-soft: rgba(180, 200, 224, 0.22);
+    /* Farbverlauf für Zahlen, Eyebrows und Hervorhebungen: auf dem hellen
+       Untergrund brauchen die Töne mehr Leuchtkraft, sonst wirken sie matt. */
+    --grad: linear-gradient(120deg, #7DE9FA, #C3B0FF 52%, #FFC08A);
+  }
+
+  body { font-size: 16.5px; line-height: 1.7; }
+
+  /* Farbschleier kräftiger, damit es nicht flach wirkt */
+  .bg-fx {
+    background:
+      radial-gradient(760px 520px at 88% -8%, rgba(34, 211, 238, 0.20), transparent 62%),
+      radial-gradient(680px 520px at -14% 30%, rgba(139, 92, 246, 0.17), transparent 60%),
+      radial-gradient(800px 620px at 74% 108%, rgba(251, 146, 60, 0.15), transparent 62%),
+      var(--bg);
+  }
+
+  /* Karten & Flächen heller absetzen */
+  .card,
+  .faq-item { background: linear-gradient(165deg, #37485F, #2A374C); }
+  .about-points li { background: #33425AAA; }
+  .size-note { background: linear-gradient(165deg, #37485F, #2A374C); }
+  .device-frame,
+  .scan-card { background: linear-gradient(160deg, #31425A, #232F42); }
+  .site-header.scrolled { background: rgba(36, 48, 68, 0.95); }
+  .mobile-nav { background: rgba(42, 56, 78, 0.99); }
+  .lang-menu { background: rgba(45, 59, 82, 0.98); }
+  .modal-box { background: linear-gradient(165deg, #37485F, #273346); }
+  .field input, .field textarea, .field select { background: #222E40; }
+  .field select option { background: #2D3B52; }
+  .site-footer { background: #202C3E; }
+
+  /* Zahlen und Kennwerte kräftiger: auf dem Handy sollen sie sofort ins Auge
+     springen, nicht im Hintergrund verschwinden. */
+  .stat-num { filter: saturate(1.15) brightness(1.06); }
+  .stat-label { color: #E2EAF5; }
+  .spec-list li span:last-child { color: #FFFFFF; }
+  .feat { color: #E4EDF8; }
+  .m-chip { color: #FFFFFF; }
+  .tech-sub, .service-tag { color: #CBD8E8; }
+
+  /* Logo deutlich größer und wieder mit vollem Namen */
+  .logo { gap: 12px; }
+  .logo-icon { height: 64px; }
+  .logo-text b { font-size: 1.46rem; letter-spacing: 0.11em; }
+  .logo-text span { display: block; font-size: 0.7rem; letter-spacing: 0.16em; margin-top: 5px; }
+  .site-header { height: 92px; }
+  .header-inner { height: 92px; }
+  :root { --header-h: 92px; }
+
+  /* Schriftgrößen: nichts unter ~14px */
+  .trust-chips { font-size: 0.98rem; gap: 11px 18px; }
+  .feat { font-size: 1rem; }
+  .spec-list li { font-size: 0.92rem; padding: 10px 2px; }
+  .tech-card .tech-name { font-size: 1.15rem; }
+  .tech-card .tech-sub { font-size: 0.95rem; }
+  .tech-card img { width: 152px; margin-bottom: 18px; }
+  .p-hint { font-size: 0.95rem; }
+  .p-feats li { font-size: 1rem; }
+  .size-list li { font-size: 0.97rem; }
+  .size-hint { font-size: 0.96rem; }
+  .form-note, .form-status { font-size: 0.92rem; }
+  .card p, .step p { font-size: 1rem; }
+  .about-points li { font-size: 1rem; }
+  .about-points span { font-size: 0.95rem; }
+  .contact-line { font-size: 1rem; }
+  .area-chips li { font-size: 0.88rem; padding: 6px 14px; }
+  .faq-q { font-size: 1.05rem; }
+  .faq-a-inner p { font-size: 1rem; }
+  .price-note, .tech-note { font-size: 0.96rem; }
+  .service-tag { font-size: 0.8rem; }
+  .hero-badge { font-size: 0.9rem; }
+  .footer-grid a, .footer-grid button { font-size: 1rem; padding: 7px 0; }
+  .footer-about p { font-size: 0.98rem; }
+  .footer-bottom { font-size: 0.92rem; }
+  .modal-box p, .modal-box li { font-size: 1rem; }
+
+  /* Mehr Luft, damit es geordneter wirkt */
+  .section { padding: 68px 0; }
+  .card { padding: 26px 22px; }
+  .section-head { margin-bottom: 40px; }
+  .service { padding: 44px 0; }
+
+  /* Grosses Logo im Footer als Wiedererkennung */
+  .footer-grid a.footer-logo-big { margin: 0 0 20px; }
+  .footer-grid a.footer-logo-big img { width: min(300px, 84%); }
+}
+
+@media (max-width: 480px) {
+  /* Buttons dürfen auf schmalen Displays umbrechen statt zu überstehen */
+  .btn { white-space: normal; text-align: center; line-height: 1.35; }
+  .btn-lg { padding: 15px 20px; }
+}
+
+@media (max-width: 420px) {
+  .logo-icon { height: 58px; }
+  .logo-text b { font-size: 1.3rem; }
+  .logo-text span { font-size: 0.63rem; letter-spacing: 0.13em; }
+  .site-header, .header-inner { height: 86px; }
+  :root { --header-h: 86px; }
+  .container { padding: 0 18px; }
 }
 
 /* ---------- Reduzierte Bewegung ---------- */

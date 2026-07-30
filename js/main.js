@@ -1,29 +1,39 @@
 /* ==========================================================================
-   Cyprus Property Check (CPC) — main.js
-   Gilt für Splash + alle Sprachversionen. Laden mit <script defer>.
+   Fivestar Property Scan (FPS) — main.js
+   Gilt für Sprachauswahl + alle Sprachversionen. Laden mit <script defer>.
    ========================================================================== */
 
 /* =========================================================
    KONFIGURATION — hier EINMAL ändern, gilt für die ganze
    Website (alle Sprachen, alle Buttons, Formular, Footer).
 
-   whatsapp:  Nur Ziffern mit Ländervorwahl, z. B. "905331234567"
-              oder "4917664834261".
-              Solange hier noch ein Platzhalter mit "X" steht,
-              leiten alle WhatsApp-Buttons automatisch auf
-              E-Mail um und die Telefonzeile wird ausgeblendet.
+   whatsapp:      Nur Ziffern mit Ländervorwahl, ohne + und ohne Leerzeichen.
+                  Beispiel Türkei: "905331234567"
+                  Sobald hier eine türkische Nummer steht, einfach ersetzen –
+                  alle Buttons in allen Sprachen übernehmen sie automatisch.
+
+   phoneDisplay:  So wird die Nummer auf der Seite angezeigt.
+
+   web3formsKey:  Schlüssel für den Formular-Versand (kostenlos auf
+                  web3forms.com mit der eigenen E-Mail anfordern, dauert
+                  2 Minuten, kein Konto nötig).
+                  Solange hier nichts steht, schickt das Formular die
+                  Anfrage stattdessen über WhatsApp – es geht also nie
+                  etwas verloren.
    ========================================================= */
 var CPC_CONFIG = {
-  whatsapp: "+90 5XX XXX XX XX", // TODO: echte WhatsApp-Nummer eintragen
-  email: "muslumberk2703@gmail.com",
-  phoneDisplay: "+90 5XX XXX XX XX"
+  whatsapp: "4917664834261",
+  phoneDisplay: "+49 151 7452 0981",
+  phoneTR: "+90 568 687 86 86",
+  email: "info@fivepropscan.com",
+  web3formsKey: "6db0d6c8-1441-4b84-977a-54483c6b6f3d"
 };
 
 (function () {
   "use strict";
 
   var body = document.body;
-  var LANGS = ["de", "en", "tr", "ru", "fa", "ar"];
+  var LANGS = ["de", "en", "tr", "ru", "ar"];
 
   /* ---------- Sprachwahl speichern (Splash-Karten + Umschalter) ---------- */
   document.querySelectorAll("[data-lang]").forEach(function (el) {
@@ -55,7 +65,7 @@ var CPC_CONFIG = {
   var waDigits = String(CPC_CONFIG.whatsapp).replace(/\D/g, "");
   var waReady = /^\d{8,15}$/.test(waDigits) && !/x/i.test(String(CPC_CONFIG.whatsapp));
   var waText = body.getAttribute("data-wa-text") || "";
-  var mailSubject = body.getAttribute("data-mail-subject") || "Cyprus Property Check";
+  var mailSubject = body.getAttribute("data-mail-subject") || "Fivestar Property Scan";
 
   function waLink(text) {
     return "https://wa.me/" + waDigits + "?text=" + encodeURIComponent(text);
@@ -75,18 +85,95 @@ var CPC_CONFIG = {
       a.href = mailLink(mailSubject, waText);
     }
   });
+  /* ---------- E-Mail und Telefon ohne "Womit oeffnen?"-Dialog ----------
+     mailto: und tel: funktionieren auf dem Handy zuverlaessig - dort ist
+     immer eine Mail- und Telefon-App vorhanden. Auf einem PC ohne
+     eingerichtetes Mailprogramm zeigt Windows stattdessen die Abfrage
+     "Wie moechten Sie diese Datei oeffnen?" - das kostet Anfragen.
+     Deshalb: auf Touch-Geraeten normale Links, am Rechner kopiert ein
+     Klick die Adresse bzw. Nummer in die Zwischenablage. */
+  var istTouch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+  var KOPIERT = {
+    de: "In die Zwischenablage kopiert",
+    en: "Copied to clipboard",
+    tr: "Panoya kopyalandı",
+    ru: "Скопировано в буфер обмена",
+    ar: "تم النسخ إلى الحافظة"
+  };
+  var kopiertText = KOPIERT[(document.documentElement.lang || "de").slice(0, 2)] || KOPIERT.en;
+  var toastEl = null, toastTimer = null;
+
+  function zeigeToast(text) {
+    if (!toastEl) {
+      toastEl = document.createElement("div");
+      toastEl.className = "kopier-toast";
+      toastEl.setAttribute("role", "status");
+      document.body.appendChild(toastEl);
+    }
+    toastEl.textContent = text;
+    toastEl.classList.add("an");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove("an"); }, 2200);
+  }
+
+  function inZwischenablage(wert) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(wert).then(function () {
+        zeigeToast(kopiertText + ": " + wert);
+      }).catch(function () { zeigeToast(wert); });
+      return;
+    }
+    var hilf = document.createElement("textarea");
+    hilf.value = wert;
+    hilf.setAttribute("readonly", "");
+    hilf.style.cssText = "position:fixed;left:-9999px;top:0";
+    document.body.appendChild(hilf);
+    hilf.select();
+    try { document.execCommand("copy"); zeigeToast(kopiertText + ": " + wert); }
+    catch (e) { zeigeToast(wert); }
+    document.body.removeChild(hilf);
+  }
+
+  function verdrahte(el, wert, protokoll) {
+    el.textContent = wert;
+    if (istTouch) {
+      el.setAttribute("href", protokoll + wert.replace(/[^\d+@.\-_a-zA-Z]/g, ""));
+    } else {
+      el.setAttribute("href", "#");
+      el.setAttribute("title", kopiertText);
+      el.addEventListener("click", function (e) {
+        e.preventDefault();
+        inZwischenablage(wert);
+      });
+    }
+  }
+
   document.querySelectorAll("a[data-email]").forEach(function (a) {
-    a.href = mailLink(mailSubject, "");
-    if (!a.textContent.trim()) a.textContent = CPC_CONFIG.email;
+    verdrahte(a, CPC_CONFIG.email, "mailto:");
   });
   document.querySelectorAll("[data-email-text]").forEach(function (el) {
     el.textContent = CPC_CONFIG.email;
   });
   document.querySelectorAll("[data-phone]").forEach(function (el) {
-    el.textContent = CPC_CONFIG.phoneDisplay;
+    if (el.tagName === "A") { verdrahte(el, CPC_CONFIG.phoneDisplay, "tel:"); }
+    else { el.textContent = CPC_CONFIG.phoneDisplay; }
   });
+  document.querySelectorAll("[data-phone-tr]").forEach(function (el) {
+    if (!CPC_CONFIG.phoneTR) {
+      var zeile = el.closest("[data-phone-tr-line]") || el;
+      zeile.hidden = true;
+      return;
+    }
+    if (el.tagName === "A") { verdrahte(el, CPC_CONFIG.phoneTR, "tel:"); }
+    else { el.textContent = CPC_CONFIG.phoneTR; }
+  });
+  /* Telefonzeilen zeigen, sobald eine Nummer hinterlegt ist. Frueher hing das
+     an der WhatsApp-Nummer, weil es nur eine gemeinsame Nummer gab. */
   document.querySelectorAll("[data-phone-line]").forEach(function (el) {
-    if (!waReady) el.hidden = true;
+    if (!CPC_CONFIG.phoneDisplay) el.hidden = true;
+  });
+  document.querySelectorAll("[data-phone-tr-line]").forEach(function (el) {
+    if (!CPC_CONFIG.phoneTR) el.hidden = true;
   });
 
   /* ---------- Sprach-Dropdown ---------- */
@@ -182,6 +269,31 @@ var CPC_CONFIG = {
     document.querySelectorAll("[data-count]").forEach(animateCount);
   }
 
+  /* ---------- Sanftes Parallax im Hero (nur Desktop) ----------
+     Die Scan-Karte wandert beim Scrollen etwas langsamer als der Text –
+     erzeugt Tiefe. Auf Handys bewusst aus (Akku/Leistung), ebenso bei
+     „weniger Bewegung" in den Systemeinstellungen. */
+  var scanCard = document.querySelector(".scan-card");
+  if (scanCard && !reduceMotion && window.matchMedia("(min-width: 1081px)").matches) {
+    // Erst starten, wenn die Einblend-Animation durch ist – sonst
+    // überschreibt sie das Parallax-transform.
+    setTimeout(function () {
+      scanCard.style.animation = "none";
+      var last = null;
+      // transform ist eine reine Compositor-Eigenschaft – direktes Setzen im
+      // Scroll-Event ist günstig und funktioniert auch, wenn der Browser
+      // requestAnimationFrame gerade nicht bedient (Tab im Hintergrund).
+      var apply = function () {
+        var y = window.scrollY;
+        if (y > 1100) return;
+        var v = Math.round(y * 0.07 * 10) / 10;
+        if (v !== last) { scanCard.style.transform = "translateY(" + v + "px)"; last = v; }
+      };
+      window.addEventListener("scroll", apply, { passive: true });
+      apply();
+    }, 1450);
+  }
+
   /* ---------- Aktiven Nav-Link markieren ---------- */
   var navAnchors = Array.prototype.slice.call(document.querySelectorAll('.nav-links a[href^="#"]'));
   if (navAnchors.length && "IntersectionObserver" in window) {
@@ -251,9 +363,31 @@ var CPC_CONFIG = {
     }
   });
 
-  /* ---------- Kontaktformular → E-Mail (statisch, ohne Backend) ---------- */
+  /* ---------- Paket-Buttons: zum Formular springen + Paket vorwählen ---------- */
+  var pkgSelect = document.querySelector("form[data-contact] select[name]");
+  document.querySelectorAll("[data-package]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var wanted = btn.getAttribute("data-package");
+      if (pkgSelect) {
+        Array.prototype.forEach.call(pkgSelect.options, function (opt) {
+          if (opt.text.trim() === wanted.trim()) pkgSelect.value = opt.value;
+        });
+        // kurz hervorheben, damit die Vorauswahl auffällt
+        pkgSelect.classList.add("just-set");
+        setTimeout(function () { pkgSelect.classList.remove("just-set"); }, 1600);
+      }
+      var firstField = document.getElementById("f-name");
+      if (firstField) setTimeout(function () { firstField.focus({ preventScroll: true }); }, 600);
+    });
+  });
+
+  /* ---------- Kontaktformular ---------- */
   var form = document.querySelector("form[data-contact]");
   if (form) {
+    var statusBox = form.querySelector("[data-form-status]");
+    var submitBtn = form.querySelector('button[type="submit"]');
+    var submitLabel = submitBtn ? submitBtn.textContent : "";
+
     var collect = function () {
       var lines = [];
       form.querySelectorAll("input, textarea, select").forEach(function (f) {
@@ -264,16 +398,74 @@ var CPC_CONFIG = {
       });
       return lines.join("\n");
     };
+
+    var showStatus = function (text, ok) {
+      if (!statusBox) return;
+      statusBox.textContent = text;
+      statusBox.className = "form-status " + (ok ? "is-ok" : "is-err");
+      statusBox.hidden = false;
+    };
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var subject = form.getAttribute("data-subject") || mailSubject;
-      location.href = mailLink(subject, collect() + "\n");
+      var key = String(CPC_CONFIG.web3formsKey || "").trim();
+
+      // Ohne Schlüssel: direkt über WhatsApp senden (nie mailto – das öffnet
+      // beim Besucher sonst einen Programm-Auswahldialog).
+      if (!key) {
+        if (waReady) {
+          window.open(waLink(subject + "\n\n" + collect()), "_blank", "noopener");
+          showStatus(form.getAttribute("data-wa-sent") || "", true);
+        } else {
+          // Letzter Ausweg: Anfrage in die Zwischenablage, damit der Besucher
+          // sie selbst verschicken kann. Bewusst kein mailto: - das oeffnet
+          // sonst den Programm-Auswahldialog.
+          inZwischenablage(subject + "\n\n" + collect());
+          showStatus(kopiertText + " – " + CPC_CONFIG.email, true);
+        }
+        return;
+      }
+
+      var payload = { access_key: key, subject: subject, from_name: "Fivestar Property Scan" };
+      form.querySelectorAll("input, textarea, select").forEach(function (f) {
+        if (!f.name) return;
+        var label = form.querySelector('label[for="' + f.id + '"]');
+        payload[label ? label.textContent.trim() : f.name] = f.value;
+      });
+
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = form.getAttribute("data-sending") || "…"; }
+
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload)
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (res && res.success) {
+            form.reset();
+            showStatus(form.getAttribute("data-ok") || "OK", true);
+          } else {
+            showStatus(form.getAttribute("data-err") || "", false);
+          }
+        })
+        .catch(function () {
+          showStatus(form.getAttribute("data-err") || "", false);
+        })
+        .then(function () {
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = submitLabel; }
+        });
     });
+
+    // "… oder per WhatsApp": schickt die ausgefüllten Felder als Chat-Nachricht
     var formWa = form.querySelector("[data-form-wa]");
     if (formWa) {
       if (waReady) {
+        formWa.hidden = false;
         formWa.addEventListener("click", function () {
-          window.open(waLink(collect()), "_blank", "noopener");
+          var subject = form.getAttribute("data-subject") || mailSubject;
+          window.open(waLink(subject + "\n\n" + collect()), "_blank", "noopener");
         });
       } else {
         formWa.hidden = true;
