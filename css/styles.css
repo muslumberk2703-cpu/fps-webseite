@@ -1176,8 +1176,13 @@ body.splash-page { display: flex; flex-direction: column; min-height: 100svh; }
     --line: rgba(180, 200, 224, 0.40);
     --line-soft: rgba(180, 200, 224, 0.22);
     /* Farbverlauf für Zahlen, Eyebrows und Hervorhebungen: auf dem hellen
-       Untergrund brauchen die Töne mehr Leuchtkraft, sonst wirken sie matt. */
-    --grad: linear-gradient(120deg, #7DE9FA, #C3B0FF 52%, #FFC08A);
+       Untergrund brauchen die Töne deutlich mehr Leuchtkraft, sonst wirken
+       sie matt. Bewusst helle Pastelltöne – bei kurzen Wörtern wie „kaufen"
+       sieht man ohnehin nur einen Ausschnitt des Verlaufs, der muss also
+       an JEDER Stelle hell genug sein. */
+    --grad: linear-gradient(120deg, #5DDFF5, #B49BFF 52%, #FFB877);
+    /* Gold für die großen Ziffern in den Bildrahmen */
+    --gold-grad: linear-gradient(120deg, #D9A857, #F8DDA7 38%, #FFF3D6 62%, #E8BE72);
   }
 
   body { font-size: 16.5px; line-height: 1.7; }
@@ -1206,10 +1211,35 @@ body.splash-page { display: flex; flex-direction: column; min-height: 100svh; }
   .field select option { background: #2D3B52; }
   .site-footer { background: #202C3E; }
 
-  /* Zahlen und Kennwerte kräftiger: auf dem Handy sollen sie sofort ins Auge
-     springen, nicht im Hintergrund verschwinden. */
-  .stat-num { filter: saturate(1.15) brightness(1.06); }
+  /* Alles Farbige kräftiger: auf dem Handy sollen die Verlaufstexte sofort
+     ins Auge springen, nicht im Hintergrund verschwinden. Der Filter wirkt
+     auch auf background-clip:text und hebt den ganzen Verlauf an. */
+  .stat-num,
+  .grad-text,
+  .eyebrow { filter: saturate(1.35); }
+  .stat-num { font-weight: 700; }
   .stat-label { color: #E2EAF5; }
+
+  /* Die großen Ziffern im Bildrahmen standen auf 30 % Deckkraft und waren
+     dadurch kaum zu sehen. */
+  .device-frame .df-num {
+    color: transparent;
+    background: var(--gold-grad);
+    -webkit-background-clip: text; background-clip: text;
+    opacity: 0.9;
+  }
+
+  /* Bildrahmen heller, damit die Geräte-Grafiken nicht absaufen */
+  .device-frame::before {
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.24), rgba(139, 92, 246, 0.16) 45%, transparent 70%);
+  }
+
+  /* Abschnitts-Etiketten („3D-Aufmaß", „360°-Rundgang") kräftiger */
+  .service-tag {
+    color: #8CEEFF;
+    border-color: rgba(140, 238, 255, 0.55);
+    background: rgba(34, 211, 238, 0.14);
+  }
   .spec-list li span:last-child { color: #FFFFFF; }
   .feat { color: #E4EDF8; }
   .m-chip { color: #FFFFFF; }
