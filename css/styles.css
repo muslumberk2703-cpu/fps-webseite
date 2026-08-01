@@ -196,6 +196,10 @@ html { overflow-x: clip; }
 html[lang="ar"] body { line-height: 1.95; font-size: 16px; }
 img, svg { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
+/* Das hidden-Attribut setzt display:none nur im Browser-Grundstil - jede
+   eigene display-Regel (z. B. .btn mit inline-flex) gewinnt dagegen.
+   Ohne diese Zeile blieben ausgeblendete Knöpfe sichtbar. */
+[hidden] { display: none !important; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.14; margin: 0 0 0.5em; letter-spacing: -0.015em; }
 html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3, html[lang="ar"] h4 { letter-spacing: 0; line-height: 1.5; }
@@ -309,6 +313,9 @@ h2 { font-size: clamp(1.85rem, 3.6vw, 2.8rem); font-weight: 700; }
   color: var(--muted); margin-top: 6px;
 }
 .nav-links { display: flex; align-items: center; gap: 2px; }
+/* Ohne nowrap bricht „Für Firmen" / „Для бизнеса" mitten im Menü um und
+   der Kopf wird zweizeilig. */
+.nav-links a { white-space: nowrap; }
 .nav-links a {
   padding: 9px 12px; border-radius: 8px; font-size: 0.92rem; font-weight: 500;
   color: var(--muted); transition: color 0.2s, background 0.2s;
@@ -490,6 +497,59 @@ html[lang="ar"] .hero h1 { letter-spacing: 0; }
 .m-chip.c2 { top: 44%; right: 3.5%; animation-delay: 1.4s; }
 .m-chip.c3 { bottom: 6%; left: 3.5%; animation-delay: 2.6s; }
 @keyframes float-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+/* ---------- Drohne umkreist das Haus ----------
+   Zwei ineinander verschachtelte Bewegungen ergeben die Ellipse: der äußere
+   Rahmen wandert waagerecht, das Bild darin senkrecht – mit halber Periode
+   und Phasenversatz. Das ist die verlässlichste Variante; offset-path wäre
+   eleganter, wird aber von älteren Handy-Browsern noch übergangen.
+   Die hintere Bahnhälfte läuft kleiner, blasser und HINTER dem Haus
+   (z-index 0 gegen z-index 1 der Hausgrafik) – das erzeugt die Tiefe.
+   Bewusst langsam (14 s pro Runde): eine Drohne, die hektisch kreist,
+   wirkt wie ein Spielzeug. */
+.drohne {
+  /* --umlauf ist der halbe Bahndurchmesser. Er MUSS zur Kartenbreite
+     passen: die Karte schneidet ab (overflow:hidden), sonst fliegt die
+     Drohne an den Umkehrpunkten halb aus dem Bild. Faustregel:
+     --umlauf + halbe Drohnenbreite < halbe Kartenbreite. */
+  --umlauf: 165px;
+  --drohne-b: 116px;
+  position: absolute; top: 41%; left: 50%; z-index: 3;
+  width: var(--drohne-b); margin-left: calc(var(--drohne-b) / -2);
+  pointer-events: none;
+  animation: drohne-x 14s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+}
+.drohne img {
+  width: 100%;
+  filter: drop-shadow(0 8px 16px rgba(2, 6, 12, 0.55));
+  animation: drohne-y 14s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+}
+@keyframes drohne-x {
+  0%   { transform: translateX(calc(var(--umlauf) * -1)); z-index: 0; }
+  25%  { transform: translateX(0); z-index: 0; }
+  50%  { transform: translateX(var(--umlauf)); z-index: 3; }
+  75%  { transform: translateX(0); z-index: 3; }
+  100% { transform: translateX(calc(var(--umlauf) * -1)); z-index: 0; }
+}
+@keyframes drohne-y {
+  /* hinten: höher, kleiner, blasser – vorne: tiefer, größer, klar */
+  0%   { transform: translateY(0) scale(0.86); opacity: 0.72; }
+  25%  { transform: translateY(-34px) scale(0.7); opacity: 0.5; }
+  50%  { transform: translateY(0) scale(0.86); opacity: 0.72; }
+  75%  { transform: translateY(34px) scale(1.06); opacity: 1; }
+  100% { transform: translateY(0) scale(0.86); opacity: 0.72; }
+}
+/* Karte schmaler → Bahn enger. Werte gegen die tatsächliche Kartenbreite
+   geprüft (Karte 354 px bei 390 px Fenster: 110 + 46 = 156 < 177). */
+@media (max-width: 1080px) { .drohne { --umlauf: 128px; --drohne-b: 100px; } }
+@media (max-width: 620px)  { .drohne { --umlauf: 110px; --drohne-b: 92px; } }
+@media (max-width: 400px)  { .drohne { --umlauf: 92px;  --drohne-b: 82px; } }
+@media (prefers-reduced-motion: reduce) {
+  /* Nicht ausblenden – die Drohne gehört zur Aussage. Nur stillstellen,
+     an der vorderen, gut sichtbaren Position. */
+  .drohne { animation: none; transform: translateX(calc(var(--umlauf) * 0.72)); z-index: 3; }
+  .drohne img { animation: none; transform: translateY(26px); opacity: 1; }
+}
+
 .scroll-hint {
   position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%);
   width: 24px; height: 40px; border: 1.5px solid var(--line); border-radius: 999px;
@@ -553,6 +613,74 @@ html[lang="ar"] .hero h1 { letter-spacing: 0; }
 .service { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 58px; align-items: center; padding: 64px 0; }
 .service + .service { border-top: 1px solid var(--line-soft); }
 .service.flip .service-visual { order: 2; }
+
+/* ---------- Leistungen als Aufklapper ----------
+   Die Klasse .klappbar setzt JavaScript. Ohne JavaScript greift keine
+   dieser Regeln und die Leistungen stehen weiterhin vollständig da. */
+.service.klappbar { display: block; padding: 0; align-items: initial; }
+.service.klappbar .service-innen {
+  display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 58px;
+  align-items: center; padding: 8px 0 58px;
+}
+.service.klappbar.flip .service-innen .service-visual { order: 2; }
+/* Etikett und Überschrift stehen schon in der Kopfzeile – im aufgeklappten
+   Text noch einmal wäre doppelt. Sie bleiben im Quelltext stehen (für
+   Suchmaschinen), nur sichtbar sind sie nicht mehr. */
+.service.klappbar .service-innen > div > .service-tag,
+.service.klappbar .service-innen > div > h3 { display: none; }
+.service.klappbar .service-innen .desc { margin-top: 0; }
+
+.service-kopf {
+  display: flex; align-items: center; gap: 20px; width: 100%;
+  padding: 24px 6px; text-align: start;
+  border-radius: var(--radius-sm);
+  transition: background 0.25s;
+}
+.service-kopf:hover { background: rgba(148, 163, 184, 0.06); }
+.service-kopf:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.kopf-bild {
+  width: 62px; height: 62px; flex: none; border-radius: 14px;
+  display: grid; place-items: center; overflow: hidden;
+  border: 1px solid var(--line);
+  background: linear-gradient(160deg, rgba(20, 30, 46, 0.9), rgba(11, 17, 25, 0.95));
+}
+.kopf-bild img { width: 78%; height: auto; }
+.kopf-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.kopf-etikett {
+  font-family: var(--font-display); font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+html[lang="ar"] .kopf-etikett { letter-spacing: 0.04em; }
+.kopf-titel { font-family: var(--font-display); font-size: 1.16rem; font-weight: 600; color: var(--text); }
+.kopf-pfeil {
+  width: 11px; height: 11px; flex: none; margin-inline-end: 6px;
+  border-right: 2px solid var(--cyan); border-bottom: 2px solid var(--cyan);
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 0.3s var(--ease);
+}
+.service.offen .kopf-pfeil { transform: rotate(-135deg) translate(-2px, -2px); }
+
+/* Auf- und Zuklappen ohne gemessene Höhen: das Raster wächst von 0fr auf
+   1fr. Funktioniert bei beliebig langem Inhalt und braucht kein JavaScript
+   für die Animation. */
+.service-koerper {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s var(--ease);
+}
+.service.offen .service-koerper { grid-template-rows: 1fr; }
+.service-koerper > .service-innen { overflow: hidden; min-height: 0; }
+.service:not(.offen) .service-koerper > .service-innen { padding-bottom: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .service-koerper { transition: none; }
+  .kopf-pfeil { transition: none; }
+}
+@media (max-width: 900px) {
+  .service.klappbar .service-innen { grid-template-columns: 1fr; gap: 26px; padding-bottom: 40px; }
+  .service-kopf { gap: 15px; padding: 20px 4px; }
+  .kopf-bild { width: 54px; height: 54px; }
+  .kopf-titel { font-size: 1.05rem; }
+}
 .service-visual { position: relative; }
 .device-frame {
   position: relative; border-radius: 20px; border: 1px solid var(--line);
@@ -566,6 +694,14 @@ html[lang="ar"] .hero h1 { letter-spacing: 0; }
   filter: blur(6px);
 }
 .device-frame img { position: relative; width: min(78%, 320px); }
+/* Echte Fotos haben andere Seitenverhaeltnisse als die Zeichnungen: sie
+   fuellen den Rahmen und werden beschnitten statt verzerrt. */
+.device-frame img.echtes-foto,
+.tech-card img.echtes-foto {
+  width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px;
+}
+.kopf-bild img.echtes-foto { width: 100%; height: 100%; object-fit: cover; }
+.scan-house.echtes-foto { width: 100%; border-radius: 14px; }
 .device-frame .df-num {
   position: absolute; top: 12px; right: 20px;
   font-family: var(--font-mark); font-weight: 500; font-size: 3rem; letter-spacing: 0.02em;
@@ -653,24 +789,84 @@ html[lang="ar"] .service-tag { letter-spacing: 0.04em; }
 .p-feats li { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; font-size: 0.92rem; color: #C8D4E4; }
 .p-feats svg { width: 17px; height: 17px; flex: none; margin-top: 3px; }
 .price-card .btn { width: 100%; }
+/* Empfohlenes Paket. Es reicht nicht, die eine Karte hübsch zu machen –
+   erst wenn die beiden Nachbarn sichtbar zurücktreten, wird die Mitte zur
+   Empfehlung statt zu einer von drei gleichwertigen Optionen. */
 .price-card.featured {
   border: 1px solid transparent;
   background:
-    linear-gradient(165deg, #17233A, #0D1420) padding-box,
+    linear-gradient(165deg, #1B2942, #0D1420) padding-box,
     var(--grad) border-box;
-  box-shadow: 0 26px 70px rgba(139, 92, 246, 0.22);
-  transform: scale(1.03);
+  box-shadow: 0 30px 80px rgba(139, 92, 246, 0.3), 0 0 0 1px rgba(34, 211, 238, 0.18);
+  transform: scale(1.06);
+  z-index: 2;
 }
-.price-card.featured:hover { transform: scale(1.03) translateY(-5px); }
+.price-card.featured:hover { transform: scale(1.06) translateY(-5px); }
+.price-card.featured .price { font-size: 3.1rem; }
+.price-card.featured .p-name { font-size: 1.32rem; }
+.price-card.featured .p-feats li { color: var(--text); }
+
+/* Die Nebenkarten treten zurück: kleiner, ruhiger, ohne Goldpreis.
+   Beim Überfahren kommen sie auf volle Deckkraft – zurücktreten heißt
+   nicht wegsperren. */
+.price-card:not(.featured) {
+  transform: scale(0.97);
+  opacity: 0.88;
+  background: linear-gradient(165deg, rgba(17, 26, 38, 0.55), rgba(11, 17, 25, 0.7));
+  transition: opacity 0.3s, transform 0.3s var(--ease), border-color 0.3s;
+}
+.price-card:not(.featured):hover { opacity: 1; transform: scale(0.97) translateY(-4px); }
+.price-card:not(.featured) .price { font-size: 2.2rem; }
+.price-card:not(.featured) .price,
+.price-card:not(.featured) .price .p-from {
+  background: none; -webkit-background-clip: border-box; background-clip: border-box;
+  color: var(--muted);
+}
 .p-badge {
   position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
   background: var(--grad); color: #071018;
   font-family: var(--font-display); font-size: 0.7rem; font-weight: 700;
   letter-spacing: 0.1em; text-transform: uppercase;
   border-radius: 999px; padding: 5px 15px; white-space: nowrap;
+  box-shadow: 0 8px 22px rgba(34, 211, 238, 0.35);
 }
 html[lang="ar"] .p-badge { letter-spacing: 0; }
 .price-note { text-align: center; color: var(--muted); font-size: 0.88rem; max-width: 720px; margin: 28px auto 0; }
+
+/* ---------- Muster-Bericht ----------
+   Der teuerste Einwand vor dem Kauf ist „ich weiß nicht, was ich dafür
+   kriege". Deshalb steht das Ergebnis direkt unter den Preisen – nicht
+   erst im FAQ. */
+.bericht {
+  margin: 46px auto 0; max-width: 940px;
+  display: grid; grid-template-columns: 250px 1fr; gap: 34px; align-items: center;
+  padding: 34px 34px 30px;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background:
+    radial-gradient(600px 260px at 88% 0%, rgba(214, 169, 82, 0.10), transparent 66%),
+    linear-gradient(165deg, rgba(20, 30, 46, 0.9), rgba(11, 17, 25, 0.92));
+}
+.bericht-vorschau img { width: 100%; border-radius: 10px; }
+.bericht-text h3 { font-size: clamp(1.2rem, 2.2vw, 1.6rem); margin-bottom: 8px; }
+.bericht-text > p { color: var(--muted); font-size: 0.96rem; margin: 0 0 18px; }
+.bericht-list { display: grid; gap: 9px; margin-bottom: 22px; }
+.bericht-list li {
+  position: relative; padding-inline-start: 26px;
+  font-size: 0.95rem; color: #D5E0EE;
+}
+.bericht-list li::before {
+  content: ""; position: absolute; inset-inline-start: 0; top: 0.55em;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--gold-grad);
+}
+.bericht-list b { color: var(--text); font-weight: 600; }
+.bericht-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+.bericht-note { margin: 16px 0 0; font-size: 0.84rem; color: var(--muted); }
+@media (max-width: 780px) {
+  .bericht { grid-template-columns: 1fr; gap: 24px; padding: 26px 22px 24px; }
+  .bericht-vorschau { max-width: 220px; margin: 0 auto; }
+  .bericht-cta .btn { width: 100%; }
+}
 
 /* Preisstaffel nach Objektgröße */
 .size-note {
@@ -738,17 +934,83 @@ html[lang="ar"] .p-badge { letter-spacing: 0; }
 .kopier-toast.an { opacity: 1; transform: translate(-50%, 0); }
 @media (prefers-reduced-motion: reduce) { .kopier-toast { transition: none; } }
 
+/* ==========================================================================
+   REIHENFOLGE DER ABSCHNITTE
+   Die Seite folgt der Kundenreise, nicht der Reihenfolge im Quelltext:
+     Problem → Bin ich gemeint? → Wie läuft das? → Was genau? → Was kostet es?
+     → Wer macht das? → Womit? → (Firmenkunden separat) → Fragen → Kontakt
+   Gelöst über flex/order statt über Umsortieren im HTML: Das ist gefahrlos
+   umkehrbar und macht die Absicht an einer Stelle sichtbar.
+   Die Sprachen benutzen unterschiedliche IDs, deshalb sind alle gelistet.
+   ========================================================================== */
+main { display: flex; flex-direction: column; }
+.hero                                                            { order: 0; }
+#warum, #why, #neden, #pochemu                                   { order: 1; }
+#fuer-wen, #for-whom, #kimler-icin, #dlya-kogo                   { order: 2; }
+#einfach                                                         { order: 3; }
+#leistungen, #services, #hizmetler, #uslugi                      { order: 4; }
+#pakete, #packages, #paketler, #pakety                           { order: 5; }
+#stimmen                                                         { order: 6; }
+#ueber, #about, #hakkimizda, #o-nas                              { order: 7; }
+#technik, #equipment, #ekipman, #oborudovanie                    { order: 8; }
+#firmen, #business, #kurumsal, #biznes                           { order: 9; }
+#faq, #sss                                                       { order: 10; }
+.brand-band                                                      { order: 11; }
+#kontakt, #contact, #iletisim                                    { order: 12; }
+
+/* ==========================================================================
+   ABSCHNITTSTRENNER
+   Bis hierhin liefen alle Abschnitte auf demselben Untergrund ineinander –
+   die Seite wirkte wie ein einziger langer Textblock. Jetzt wechselt der
+   Untergrund im Rhythmus, dazu eine Haarlinie mit Goldakzent in der Mitte.
+   Man sieht damit auch beim schnellen Scrollen, wo ein Thema endet.
+   Wieder über die IDs statt über Klassen im HTML – wie die Reihenfolge oben,
+   damit die Abschnittslogik an EINER Stelle steht und nicht in 5 Dateien.
+   ========================================================================== */
+#fuer-wen, #for-whom, #kimler-icin, #dlya-kogo,
+#pakete, #packages, #paketler, #pakety,
+#technik, #equipment, #ekipman, #oborudovanie,
+#faq, #sss {
+  background:
+    linear-gradient(180deg, rgba(148, 163, 184, 0.055), rgba(148, 163, 184, 0.02) 55%, transparent);
+}
+
+/* Trennlinie zwischen den Hauptblöcken, mit Goldpunkt in der Mitte */
+#fuer-wen, #for-whom, #kimler-icin, #dlya-kogo,
+#einfach,
+#leistungen, #services, #hizmetler, #uslugi,
+#pakete, #packages, #paketler, #pakety,
+#ueber, #about, #hakkimizda, #o-nas,
+#technik, #equipment, #ekipman, #oborudovanie,
+#faq, #sss,
+#kontakt, #contact, #iletisim { border-top: 1px solid var(--line-soft); }
+
+#fuer-wen::before, #for-whom::before, #kimler-icin::before, #dlya-kogo::before,
+#einfach::before,
+#leistungen::before, #services::before, #hizmetler::before, #uslugi::before,
+#pakete::before, #packages::before, #paketler::before, #pakety::before,
+#ueber::before, #about::before, #hakkimizda::before, #o-nas::before,
+#technik::before, #equipment::before, #ekipman::before, #oborudovanie::before,
+#faq::before, #sss::before,
+#kontakt::before, #contact::before, #iletisim::before {
+  content: ""; position: absolute; top: -3px; left: 50%; transform: translateX(-50%);
+  width: 46px; height: 5px; border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.55;
+}
+
 /* ---------- Persönliche Vorstellung ----------
    Die Seite wirkte bis hierhin anonym. Ein Gesicht und ein paar ehrliche
    Sätze wiegen bei einem Fremden mehr als jede Leistungsliste. */
 .person {
-  margin-top: 46px; padding: 34px;
-  display: grid; grid-template-columns: 200px 1fr; gap: 32px; align-items: start;
+  margin-top: 46px; padding: 30px;
+  display: grid; grid-template-columns: 260px 1fr; gap: 30px; align-items: start;
   border: 1px solid var(--line); border-radius: var(--radius);
   background: linear-gradient(165deg, rgba(20, 30, 46, 0.75), rgba(11, 17, 25, 0.85));
 }
+/* Querformat 3:2 – so bleiben Person UND das Logo im Hintergrund sichtbar */
 .person-foto {
-  width: 200px; height: 200px; border-radius: 16px; overflow: hidden;
+  width: 260px; aspect-ratio: 3 / 2; border-radius: 14px; overflow: hidden;
   border: 1px solid var(--line); background: rgba(34, 211, 238, 0.05);
   display: grid; place-items: center; text-align: center;
 }
@@ -763,9 +1025,18 @@ html[lang="ar"] .p-badge { letter-spacing: 0; }
 .person p { color: var(--muted); margin: 0 0 12px; font-size: 0.98rem; }
 .person p:last-child { margin-bottom: 0; }
 .person p b { color: var(--text); font-weight: 600; }
+/* Der Dreiklang über dem persönlichen Text – die drei Wörter, auf die
+   sich alles Weitere stützt. Bewusst als Aussage gesetzt, nicht als
+   weitere Überschrift: es soll gelesen klingen wie gesprochen. */
+.person .person-claim {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(1.02rem, 1.6vw, 1.16rem); line-height: 1.45;
+  color: var(--text); margin: 0 0 14px; padding-bottom: 14px;
+  border-bottom: 1px solid var(--line-soft);
+}
 @media (max-width: 720px) {
-  .person { grid-template-columns: 1fr; gap: 20px; padding: 24px 20px; justify-items: center; text-align: center; }
-  .person-foto { width: 170px; height: 170px; }
+  .person { grid-template-columns: 1fr; gap: 18px; padding: 22px 18px; justify-items: center; text-align: center; }
+  .person-foto { width: min(280px, 100%); }
   .person .rolle { display: block; }
 }
 
@@ -795,7 +1066,8 @@ html[lang="ar"] .p-badge { letter-spacing: 0; }
    Laien-Erklärung vor den technischen Details. Viele Kunden hören zum
    ersten Mal von Wärmebilddiagnostik – hier ohne einen einzigen Fachbegriff. */
 .einfach-steps {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 26px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 18px; margin-bottom: 26px;
 }
 .einfach-steps > div {
   padding: 26px 24px; border-radius: var(--radius);
@@ -843,6 +1115,19 @@ html[lang="ar"] .p-badge { letter-spacing: 0; }
 }
 .liefer-list svg { width: 20px; height: 20px; flex: none; margin-top: 2px; }
 .liefer-list b { color: var(--text); font-weight: 600; }
+.liefer-mehr {
+  margin-top: 16px; padding: 8px 2px;
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-display); font-size: 0.9rem; font-weight: 600;
+  color: var(--cyan); transition: color 0.2s;
+}
+.liefer-mehr::after {
+  content: ""; width: 8px; height: 8px; flex: none;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px); transition: transform 0.25s var(--ease);
+}
+.liefer-mehr[aria-expanded="true"]::after { transform: rotate(-135deg) translate(-2px, -2px); }
+.liefer-mehr:hover { color: var(--text); }
 .liefer-note {
   margin: 26px 0 0; padding-top: 20px; border-top: 1px solid var(--line-soft);
   font-size: 0.9rem; color: var(--muted);
@@ -1317,11 +1602,27 @@ body.splash-page { display: flex; flex-direction: column; min-height: 100svh; }
   .mobile-nav { display: block; }
   .header-cta, .lang-dd { display: none; }
 }
+
+/* Kopfmenü hat jetzt 7 statt 6 Einträge. Bevor es umbricht, wird es
+   schrittweise schmaler – und erst wenn auch das nicht reicht, fällt FAQ
+   raus. FAQ steht ohnehin im Fußbereich und im Handy-Menü. */
+@media (max-width: 1300px) {
+  .nav-links a { padding: 9px 9px; font-size: 0.88rem; }
+}
+@media (max-width: 1160px) {
+  .nav-links a[href="#faq"], .nav-links a[href="#sss"] { display: none; }
+}
 @media (max-width: 860px) {
   .grid-3 { grid-template-columns: 1fr; }
+  /* Untereinander gestapelt trägt Skalierung nichts mehr – die Karten
+     liegen ja nicht mehr nebeneinander. Die Gewichtung übernehmen hier
+     Reihenfolge (Empfehlung zuerst), Deckkraft und Rahmen. */
   .price-grid { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; }
-  .price-card.featured { transform: none; }
+  .price-card.featured { transform: none; order: -1; }
   .price-card.featured:hover { transform: translateY(-5px); }
+  .price-card:not(.featured) { transform: none; }
+  .price-card:not(.featured):hover { transform: translateY(-4px); }
+  .price-card.featured .price { font-size: 2.8rem; }
   .contact-grid { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
   .stat:nth-child(3)::before { display: none; }
@@ -1357,16 +1658,23 @@ body.splash-page { display: flex; flex-direction: column; min-height: 100svh; }
     --bg2: #2D3B52;
     --text: #FAFCFF;
     --muted: #D4DEEC;           /* heller = besser lesbar, auch draußen */
-    --line: rgba(180, 200, 224, 0.40);
-    --line-soft: rgba(180, 200, 224, 0.22);
+    --line: rgba(190, 210, 234, 0.46);
+    --line-soft: rgba(190, 210, 234, 0.26);
     /* Farbverlauf für Zahlen, Eyebrows und Hervorhebungen: auf dem hellen
        Untergrund brauchen die Töne deutlich mehr Leuchtkraft, sonst wirken
        sie matt. Bewusst helle Pastelltöne – bei kurzen Wörtern wie „kaufen"
        sieht man ohnehin nur einen Ausschnitt des Verlaufs, der muss also
-       an JEDER Stelle hell genug sein. */
-    --grad: linear-gradient(120deg, #5DDFF5, #B49BFF 52%, #FFB877);
-    /* Gold für die großen Ziffern in den Bildrahmen */
-    --gold-grad: linear-gradient(120deg, #D9A857, #F8DDA7 38%, #FFF3D6 62%, #E8BE72);
+       an JEDER Stelle hell genug sein.
+       Kontrast gegen --bg (#243044), gerechnet nach WCAG:
+       #6FE6F8 8,8:1 · #C9B6FF 7,3:1 · #FFC48D 8,4:1 — alle über AA (4,5:1),
+       der Violett-Ton lag vorher bei 5,7:1 und wirkte deshalb stumpf. */
+    --grad: linear-gradient(120deg, #6FE6F8, #C9B6FF 52%, #FFC48D);
+    /* Gold für Logo, Preise und die großen Ziffern in den Bildrahmen.
+       Dunkelster Punkt jetzt #E9C176 = 7,8:1 statt vorher #D9A857 = 6,2:1. */
+    --gold-grad: linear-gradient(120deg, #E9C176, #FBE7B4 38%, #FFF6DE 62%, #F2CE8A);
+    --gold: #EFCB86;
+    --violet: #B49BFF;
+    --cyan: #63E3F7;
   }
 
   body { font-size: 16.5px; line-height: 1.7; }
@@ -1380,13 +1688,27 @@ body.splash-page { display: flex; flex-direction: column; min-height: 100svh; }
       var(--bg);
   }
 
-  /* Karten & Flächen heller absetzen */
+  /* Karten & Flächen heller absetzen.
+     Vorher #37485F auf #243044 = 1,43:1 Flächenkontrast — die Boxen
+     verschwammen mit dem Hintergrund. Jetzt 1,72:1 plus sichtbare Kante;
+     die Kante trägt bei Flächen mehr als der Füllton. */
   .card,
-  .faq-item { background: linear-gradient(165deg, #37485F, #2A374C); }
-  .about-points li { background: #33425AAA; }
-  .size-note { background: linear-gradient(165deg, #37485F, #2A374C); }
+  .faq-item { background: linear-gradient(165deg, #41546E, #33425A); }
+  .about-points li { background: #3D4F69; }
+  .size-note { background: linear-gradient(165deg, #41546E, #33425A); }
   .device-frame,
-  .scan-card { background: linear-gradient(160deg, #31425A, #232F42); }
+  .scan-card { background: linear-gradient(160deg, #3A4C67, #2A384D); }
+  .card, .faq-item, .size-note, .about-points li,
+  .einfach-steps > div, .device-frame, .liefer {
+    border: 1px solid rgba(196, 214, 238, 0.34);
+  }
+  .einfach-steps > div { background: #3A4B64; }
+  /* Die farbcodierten Karten behalten ihre Kante — daran erkennt man,
+     welcher Seitenbereich das ist. Nur kräftiger als auf dem Desktop. */
+  .b2b-card  { border-color: rgba(178, 152, 255, 0.62); }
+  .tech-card { border-color: rgba(99, 227, 247, 0.52); }
+  .wa-card   { border-color: rgba(74, 232, 137, 0.62); }
+  .price-card.featured { border-color: rgba(99, 227, 247, 0.75); }
   .site-header.scrolled { background: rgba(36, 48, 68, 0.95); }
   .mobile-nav { background: rgba(42, 56, 78, 0.99); }
   .lang-menu { background: rgba(45, 59, 82, 0.98); }

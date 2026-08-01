@@ -21,12 +21,41 @@
                   Anfrage stattdessen über WhatsApp – es geht also nie
                   etwas verloren.
    ========================================================= */
+/* musterbericht: Pfad zum anonymisierten Beispiel-PDF, sobald es existiert,
+   z. B. "../downloads/muster-bericht.pdf" (in ALLEN Sprachen derselbe Pfad,
+   relativ zum Sprachordner). Solange das Feld leer ist, wird aus dem Knopf
+   "Beispiel-Bericht ansehen" automatisch "Beispiel-Bericht anfordern" per
+   WhatsApp - so führt er nie ins Leere und bringt in der Zwischenzeit
+   sogar Anfragen. */
 var CPC_CONFIG = {
   whatsapp: "4917664834261",
   phoneDisplay: "+49 151 7452 0981",
   phoneTR: "+90 568 687 86 86",
   email: "info@fivepropscan.com",
-  web3formsKey: "6db0d6c8-1441-4b84-977a-54483c6b6f3d"
+  web3formsKey: "6db0d6c8-1441-4b84-977a-54483c6b6f3d",
+  musterbericht: ""
+};
+
+/* =========================================================
+   ECHTE FOTOS STATT ZEICHNUNGEN
+
+   Links steht die Zeichnung, die aktuell benutzt wird. Rechts trägst du
+   den Dateinamen deines echten Fotos ein, sobald du eins hast - die
+   Datei kommt in denselben Ordner images/. Fertig: Alle fünf Sprachen
+   ziehen automatisch nach, im HTML muss nichts angefasst werden.
+
+   Beispiel:  "equipment-thermal.svg": "thor-001.jpg"
+
+   Format: quer, mindestens 900 px breit, JPG. Auf dunklem Untergrund
+   aufgenommen wirkt es am besten - die Karten sind dunkel.
+   ========================================================= */
+var CPC_FOTOS = {
+  "equipment-scan.svg": "",       // 3DMakerPro Raven Max
+  "equipment-thermal.svg": "",    // Thermal Master Thor 001
+  "equipment-drone.svg": "",      // DJI Mini 4 Pro
+  "equipment-twin.svg": "",       // Insta360 X4
+  "service-baubegleitung.svg": "",
+  "hero-house.svg": ""            // z. B. ein echtes Wärmebild
 };
 
 (function () {
@@ -175,6 +204,187 @@ var CPC_CONFIG = {
   document.querySelectorAll("[data-phone-tr-line]").forEach(function (el) {
     if (!CPC_CONFIG.phoneTR) el.hidden = true;
   });
+
+  /* ---------- Zeichnungen gegen echte Fotos tauschen ----------
+     Laeuft vor dem Aufklapp-Umbau, damit auch das kleine Bild in der
+     Kopfzeile schon das Foto zeigt. Fehlt die Datei, bleibt die
+     Zeichnung stehen - lieber eine saubere Grafik als ein leerer Rahmen. */
+  Object.keys(window.CPC_FOTOS || {}).forEach(function (zeichnung) {
+    var foto = String(CPC_FOTOS[zeichnung] || "").trim();
+    if (!foto) return;
+    var treffer = document.querySelectorAll('img[src$="' + zeichnung + '"]');
+    if (!treffer.length) return;
+    var pruefung = new Image();
+    pruefung.onload = function () {
+      treffer.forEach(function (img) {
+        img.src = img.getAttribute("src").replace(zeichnung, foto);
+        img.classList.add("echtes-foto");
+        img.removeAttribute("width");
+        img.removeAttribute("height");
+      });
+    };
+    pruefung.src = "../images/" + foto;
+  });
+
+  /* ---------- Muster-Bericht: Datei oder Anfrage ----------
+     Ein Knopf, der auf eine noch nicht vorhandene Datei zeigt, ist
+     schlimmer als kein Knopf. Deshalb entscheidet die Konfiguration:
+     Datei da -> direkter Link. Datei nicht da -> Anfrage per WhatsApp. */
+  var berichtPfad = String(CPC_CONFIG.musterbericht || "").trim();
+  document.querySelectorAll("[data-bericht-link]").forEach(function (a) {
+    if (!berichtPfad) return;
+    a.href = berichtPfad;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.hidden = false;
+  });
+  document.querySelectorAll("[data-bericht-wa]").forEach(function (a) {
+    if (berichtPfad) a.hidden = true;
+  });
+
+  /* ---------- Leistungen zusammenklappen ----------
+     Fünf ausgeschriebene Leistungen ergaben knapp 5000 Pixel – gut die
+     Hälfte der ganzen Seite. Wer wissen will, was es gibt, will erst die
+     Liste sehen und dann entscheiden, was ihn interessiert.
+
+     Bewusst nachträglich per JavaScript und nicht im HTML gebaut: ohne
+     JavaScript bleibt alles offen und lesbar, statt dass der Inhalt
+     hinter einem toten Schalter verschwindet. Der Text steht in jedem
+     Fall vollständig im Quelltext – auch für Suchmaschinen.
+
+     Der erste Block ist offen. Ein Stapel aus lauter zugeklappten Zeilen
+     sieht aus wie ein Inhaltsverzeichnis, nicht wie ein Angebot. */
+  var leistungen = Array.prototype.slice.call(
+    document.querySelectorAll("#leistungen .service, #services .service, #hizmetler .service, #uslugi .service")
+  );
+
+  leistungen.forEach(function (block, nr) {
+    var visual = block.querySelector(".service-visual");
+    var titel  = block.querySelector("h3");
+    var tag    = block.querySelector(".service-tag");
+    if (!visual || !titel) return;
+
+    var id = "leistung-" + (nr + 1);
+
+    // Alles, was der Block bisher enthielt, wandert unveraendert in den
+    // Koerper. So kann an der Aufteilung nichts kaputtgehen.
+    var koerper = document.createElement("div");
+    koerper.className = "service-koerper";
+    koerper.id = id;
+    var innen = document.createElement("div");
+    innen.className = "service-innen";
+    while (block.firstChild) { innen.appendChild(block.firstChild); }
+    koerper.appendChild(innen);
+
+    // Kopfzeile: kleines Geraetebild, Etikett, Titel, Pfeil
+    var kopf = document.createElement("button");
+    kopf.type = "button";
+    kopf.className = "service-kopf";
+    kopf.setAttribute("aria-controls", id);
+
+    var bild = visual.querySelector("img");
+    if (bild) {
+      var mini = document.createElement("span");
+      mini.className = "kopf-bild";
+      var kopie = bild.cloneNode(true);
+      kopie.removeAttribute("width");
+      kopie.removeAttribute("height");
+      kopie.alt = "";
+      mini.appendChild(kopie);
+      kopf.appendChild(mini);
+    }
+
+    var text = document.createElement("span");
+    text.className = "kopf-text";
+    if (tag) {
+      var etikett = document.createElement("span");
+      etikett.className = "kopf-etikett";
+      etikett.textContent = tag.textContent;
+      text.appendChild(etikett);
+    }
+    var ueberschrift = document.createElement("span");
+    ueberschrift.className = "kopf-titel";
+    ueberschrift.textContent = titel.textContent;
+    text.appendChild(ueberschrift);
+    kopf.appendChild(text);
+
+    var pfeil = document.createElement("span");
+    pfeil.className = "kopf-pfeil";
+    pfeil.setAttribute("aria-hidden", "true");
+    kopf.appendChild(pfeil);
+
+    block.classList.add("klappbar");
+    block.appendChild(kopf);
+    block.appendChild(koerper);
+
+    var offen = (nr === 0);
+    block.classList.toggle("offen", offen);
+    kopf.setAttribute("aria-expanded", offen ? "true" : "false");
+
+    kopf.addEventListener("click", function () {
+      var jetztOffen = !block.classList.contains("offen");
+      block.classList.toggle("offen", jetztOffen);
+      kopf.setAttribute("aria-expanded", jetztOffen ? "true" : "false");
+      // Beim Zuklappen zur Kopfzeile zurueckspringen, sonst steht man
+      // ploetzlich mitten im naechsten Abschnitt.
+      if (!jetztOffen) {
+        var oben = kopf.getBoundingClientRect().top;
+        var grenze = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--header-h"), 10) || 86;
+        if (oben < grenze) { kopf.scrollIntoView({ block: "start", behavior: reduceMotion ? "auto" : "smooth" }); }
+      }
+    });
+  });
+
+  /* ---------- "Das bekommen Sie": lange Liste kuerzen ----------
+     Acht Punkte am Stueck liest niemand. Vier stehen offen, der Rest
+     kommt auf Wunsch. Auch das nachtraeglich per JavaScript, damit ohne
+     Skripte nichts verschwindet. */
+  var MEHR_TEXT = {
+    de: ["Alles anzeigen", "Weniger anzeigen"],
+    en: ["Show everything", "Show less"],
+    tr: ["Tümünü göster", "Daha az göster"],
+    ru: ["Показать всё", "Показать меньше"],
+    ar: ["عرض الكل", "عرض أقل"]
+  };
+  var mehrText = MEHR_TEXT[(document.documentElement.lang || "de").slice(0, 2)] || MEHR_TEXT.en;
+
+  document.querySelectorAll(".liefer-list").forEach(function (liste) {
+    var punkte = Array.prototype.slice.call(liste.children);
+    if (punkte.length <= 5) return;                 // kurz genug, nichts tun
+
+    var rest = punkte.slice(4);
+    rest.forEach(function (p) { p.hidden = true; });
+
+    var schalter = document.createElement("button");
+    schalter.type = "button";
+    schalter.className = "liefer-mehr";
+    schalter.setAttribute("aria-expanded", "false");
+    schalter.textContent = mehrText[0] + " (" + rest.length + ")";
+    liste.insertAdjacentElement("afterend", schalter);
+
+    schalter.addEventListener("click", function () {
+      var auf = rest[0].hidden;
+      rest.forEach(function (p) { p.hidden = !auf; });
+      schalter.setAttribute("aria-expanded", auf ? "true" : "false");
+      schalter.textContent = auf ? mehrText[1] : mehrText[0] + " (" + rest.length + ")";
+    });
+  });
+
+  /* Springt jemand aus dem Menue auf "Leistungen", soll er nicht auf einen
+     zugeklappten Stapel schauen - der erste Block ist ja offen. Zeigt aber
+     ein Link direkt auf eine Leistung, wird die aufgeklappt. */
+  function oeffneAusAnker() {
+    var ziel = location.hash ? document.querySelector(location.hash) : null;
+    if (!ziel) return;
+    var block = ziel.closest ? ziel.closest(".service.klappbar") : null;
+    if (block && !block.classList.contains("offen")) {
+      block.classList.add("offen");
+      var k = block.querySelector(".service-kopf");
+      if (k) k.setAttribute("aria-expanded", "true");
+    }
+  }
+  window.addEventListener("hashchange", oeffneAusAnker);
+  oeffneAusAnker();
 
   /* ---------- Sprach-Dropdown ---------- */
   var langDd = document.querySelector(".lang-dd");
