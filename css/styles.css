@@ -1200,7 +1200,14 @@ html[lang="ar"] .b2b-role { letter-spacing: 0.05em; }
   font-size: 0.86rem; color: var(--muted);
 }
 .b2b-out b { color: var(--text); font-weight: 600; }
-.b2b-cta { text-align: center; margin-top: 26px; }
+.b2b-cta { text-align: center; margin-top: 34px; }
+/* Statt einer Tabelle, in der dreimal „auf Anfrage" stand: ein Satz.
+   Gewerbekunden verhandeln Mengen – eine Zahl auf der Seite kappt die
+   Verhandlung nach oben, bevor sie beginnt. */
+.b2b-preis {
+  max-width: 660px; margin: 0 auto 22px;
+  font-size: 0.95rem; color: var(--muted);
+}
 
 /* ---------- FAQ ---------- */
 .faq-wrap { max-width: 820px; margin: 0 auto; }
