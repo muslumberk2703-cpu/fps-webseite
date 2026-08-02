@@ -22,6 +22,35 @@
   <link rel="preload" href="fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Sofort-Weiterleitung in die passende Sprache.
+       Steht bewusst hier oben und OHNE defer: So läuft es, bevor die Seite
+       gezeichnet wird – der Besucher sieht die Auswahl gar nicht erst
+       aufblitzen. Reihenfolge: zuletzt gewählte Sprache, sonst Browsersprache,
+       sonst Englisch. location.replace() statt href, damit der Zurück-Knopf
+       nicht in einer Schleife landet.
+       Auswahl trotzdem sehen:  /?choose=1
+       Ohne JavaScript bleibt die Auswahlseite stehen – das ist der Rückfall. -->
+  <script>
+    (function () {
+      var LANGS = ["de", "en", "tr", "ru", "ar"];
+      if (/[?&]choose/.test(location.search)) return;
+      var pick = null;
+      try {
+        var s = localStorage.getItem("cpc-lang");
+        if (s && LANGS.indexOf(s) !== -1) pick = s;
+      } catch (e) { /* Privatmodus: egal, dann Browsersprache */ }
+      if (!pick) {
+        var prefs = navigator.languages || [navigator.language || "en"];
+        for (var i = 0; i < prefs.length && !pick; i++) {
+          var c = String(prefs[i]).slice(0, 2).toLowerCase();
+          if (LANGS.indexOf(c) !== -1) pick = c;
+        }
+      }
+      location.replace((pick || "en") + "/");
+    })();
+  </script>
+
   <script defer src="js/main.js"></script>
 </head>
 <body class="splash-page" data-splash>
@@ -69,31 +98,11 @@
         <b>Independent technical property inspection</b> in Antalya, Alanya &amp; Türkiye — for buyers, owners, agents and developers.
       </p>
 
-      <!-- Leistungen sprachneutral: Icons plus international lesbare Begriffe -->
-      <ul class="splash-services" aria-label="Services">
-        <li>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6 20.5 7v10L12 21.4 3.5 17V7Z" stroke="url(#ig)" stroke-width="1.7" fill="none" stroke-linejoin="round"/><path d="M3.5 7 12 11.5 20.5 7M12 11.5v9.9" stroke="url(#ig)" stroke-width="1.7" fill="none" stroke-linejoin="round"/></svg>
-          <b>3D&nbsp;Scan</b><span>LiDAR · 100&nbsp;m</span>
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c3.5 3.8 5.5 6.7 5.5 9.3a5.5 5.5 0 1 1-11 0c0-2.6 2-5.5 5.5-9.3Z" stroke="url(#ig)" stroke-width="1.7" fill="none" stroke-linejoin="round"/><path d="M9.5 13.5a2.5 2.5 0 0 0 2.5 2.5" stroke="url(#ig)" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg>
-          <b>Thermal</b><span>&lt;&nbsp;0,035&nbsp;°C</span>
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="2.6" stroke="url(#ig)" stroke-width="1.7" fill="none"/><path d="M10 10 6.5 6.5M14 10l3.5-3.5M10 14l-3.5 3.5M14 14l3.5 3.5" stroke="url(#ig)" stroke-width="1.7" stroke-linecap="round"/><circle cx="5" cy="5" r="2.2" stroke="url(#ig)" stroke-width="1.7" fill="none"/><circle cx="19" cy="5" r="2.2" stroke="url(#ig)" stroke-width="1.7" fill="none"/><circle cx="5" cy="19" r="2.2" stroke="url(#ig)" stroke-width="1.7" fill="none"/><circle cx="19" cy="19" r="2.2" stroke="url(#ig)" stroke-width="1.7" fill="none"/></svg>
-          <b>Drone</b><span>4K · 48&nbsp;MP</span>
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6Z" stroke="url(#ig)" stroke-width="1.7" fill="none" stroke-linejoin="round"/><path d="M14 3v4h4M9 12h6M9 16h6" stroke="url(#ig)" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg>
-          <b>Report</b><span>PDF · 48&nbsp;h</span>
-        </li>
-      </ul>
-
-      <ul class="splash-trust" aria-label="Trust">
-        <li>100&nbsp;% independent</li>
-        <li>We never sell property</li>
-        <li>5 languages</li>
-      </ul>
+      <!-- Technikdaten und Vertrauens-Chips standen hier bis 02.08.2026.
+           Raus, weil sie auf jeder Sprachseite ohnehin stehen: Diese Seite
+           sieht nur noch, wer ohne JavaScript kommt oder /?choose=1 aufruft.
+           Sie hat genau eine Aufgabe – Sprache wählen – und soll dafür auf
+           einen Bildschirm passen. -->
 
       <p class="splash-sub">
         <span lang="tr">Dilinizi seçin</span>
@@ -111,7 +120,6 @@
           <span class="suggest-chip">Önerilen</span>
           <span class="lang-code">TR</span>
           <span class="lang-name">Türkçe</span>
-          <span class="lang-desc">Antalya, Alanya ve tüm Türkiye'de bağımsız emlak kontrolü – 3D ölçüm, termal kamera, drone.</span>
           <span class="lang-go">Devam et
             <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-arrow"/></svg>
           </span>
@@ -120,7 +128,6 @@
           <span class="suggest-chip">Suggested</span>
           <span class="lang-code">EN</span>
           <span class="lang-name">English</span>
-          <span class="lang-desc">Independent property inspections in Antalya &amp; Alanya – 3D survey, thermal imaging, drone.</span>
           <span class="lang-go">Continue
             <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-arrow"/></svg>
           </span>
@@ -129,7 +136,6 @@
           <span class="suggest-chip">Empfohlen</span>
           <span class="lang-code">DE</span>
           <span class="lang-name">Deutsch</span>
-          <span class="lang-desc">Unabhängige Immobilien-Checks in Antalya &amp; Alanya – 3D-Vermessung, Wärmebild, Drohne.</span>
           <span class="lang-go">Weiter
             <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-arrow"/></svg>
           </span>
@@ -138,7 +144,6 @@
           <span class="suggest-chip">Рекомендуем</span>
           <span class="lang-code">RU</span>
           <span class="lang-name">Русский</span>
-          <span class="lang-desc">Независимая проверка недвижимости в Анталии и Аланье – 3D-обмер, тепловизор, дрон.</span>
           <span class="lang-go">Продолжить
             <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-arrow"/></svg>
           </span>
@@ -147,7 +152,6 @@
           <span class="suggest-chip">موصى به</span>
           <span class="lang-code">AR</span>
           <span class="lang-name">العربية</span>
-          <span class="lang-desc">فحص مستقل للعقارات في أنطاليا وألانيا – مسح ثلاثي الأبعاد، تصوير حراري وطائرة درون.</span>
           <span class="lang-go">متابعة
             <svg viewBox="0 0 24 24" aria-hidden="true" style="transform:scaleX(-1)"><use href="#ic-arrow"/></svg>
           </span>
