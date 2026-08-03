@@ -919,6 +919,34 @@ html[lang="ar"] .p-badge { letter-spacing: 0; }
 .mehr .feature-grid, .mehr .b2b-list { margin-top: 12px; }
 @media (prefers-reduced-motion: reduce) { .mehr > summary::after { transition: none; } }
 
+/* ---------- „Weitere Leistungen" unter den Paketen ----------
+   Derselbe <details>-Mechanismus, aber als ganzer Kasten statt als Textlink:
+   Zugeklappt steht dort nur eine Zeile, damit der Preisbereich nicht länger
+   wird. Wer mehr braucht (Villa, Abnahme, Zusatzleistungen), klappt auf. */
+details.size-note { padding: 0; }
+details.size-note > summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  cursor: pointer; list-style: none;
+  font-family: var(--font-display); font-size: 1.05rem; font-weight: 600;
+  color: var(--text); padding: 22px 30px; transition: color 0.2s;
+}
+details.size-note > summary::-webkit-details-marker { display: none; }
+details.size-note > summary::after {
+  content: ""; width: 9px; height: 9px; flex: none; color: var(--cyan);
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-3px); transition: transform 0.25s var(--ease);
+}
+details.size-note[open] > summary::after { transform: rotate(-135deg) translateY(-1px); }
+details.size-note > summary:hover { color: var(--cyan); }
+details.size-note > summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: -3px; border-radius: var(--radius); }
+details.size-note > :not(summary) { padding-left: 30px; padding-right: 30px; }
+details.size-note > :last-child { padding-bottom: 26px; }
+@media (max-width: 700px) {
+  details.size-note > summary { padding: 18px 20px; font-size: 1rem; }
+  details.size-note > :not(summary) { padding-left: 20px; padding-right: 20px; }
+}
+@media (prefers-reduced-motion: reduce) { details.size-note > summary::after { transition: none; } }
+
 /* Rueckmeldung beim Kopieren von E-Mail/Telefon (Desktop) */
 .kopier-toast {
   position: fixed; left: 50%; bottom: 26px; transform: translate(-50%, 14px);
@@ -938,10 +966,19 @@ html[lang="ar"] .p-badge { letter-spacing: 0; }
    REIHENFOLGE DER ABSCHNITTE
    Die Seite folgt der Kundenreise, nicht der Reihenfolge im Quelltext:
      Problem → Bin ich gemeint? → Wie läuft das? → Was genau? → Was kostet es?
-     → Wer macht das? → Womit? → (Firmenkunden separat) → Fragen → Kontakt
+     → Wer macht das? → Womit? → Stimmen → Fragen → Kontakt → (Firmenkunden)
    Gelöst über flex/order statt über Umsortieren im HTML: Das ist gefahrlos
    umkehrbar und macht die Absicht an einer Stelle sichtbar.
    Die Sprachen benutzen unterschiedliche IDs, deshalb sind alle gelistet.
+
+   Geändert am 02.08.2026 – „Für Firmen" ist ans Ende gewandert:
+   Der Abschnitt stand zwischen Preisen und Kontaktformular und zeigte einem
+   Privatkäufer ausgerechnet kurz vor der Anfrage Bauträger-Konditionen, also
+   Inhalt für eine andere Zielgruppe. Zwischen Preis und Formular liegen jetzt
+   nur noch die Vertrauensbausteine: Wer macht das (Über uns), womit (Technik),
+   was sagen andere (Stimmen) und was ist noch offen (FAQ).
+   Der Weg vom Preis zum Formular ist damit rund 1,6 Bildschirme kürzer.
+   Firmenkunden verlieren nichts – sie kommen über den eigenen Menüpunkt.
    ========================================================================== */
 main { display: flex; flex-direction: column; }
 .hero                                                            { order: 0; }
@@ -950,13 +987,13 @@ main { display: flex; flex-direction: column; }
 #einfach                                                         { order: 3; }
 #leistungen, #services, #hizmetler, #uslugi                      { order: 4; }
 #pakete, #packages, #paketler, #pakety                           { order: 5; }
-#stimmen                                                         { order: 6; }
-#ueber, #about, #hakkimizda, #o-nas                              { order: 7; }
-#technik, #equipment, #ekipman, #oborudovanie                    { order: 8; }
-#firmen, #business, #kurumsal, #biznes                           { order: 9; }
-#faq, #sss                                                       { order: 10; }
-.brand-band                                                      { order: 11; }
-#kontakt, #contact, #iletisim                                    { order: 12; }
+#ueber, #about, #hakkimizda, #o-nas                              { order: 6; }
+#technik, #equipment, #ekipman, #oborudovanie                    { order: 7; }
+#stimmen                                                         { order: 8; }
+#faq, #sss                                                       { order: 9; }
+#kontakt, #contact, #iletisim                                    { order: 10; }
+#firmen, #business, #kurumsal, #biznes                           { order: 11; }
+.brand-band                                                      { order: 12; }
 
 /* ==========================================================================
    ABSCHNITTSTRENNER
@@ -1830,4 +1867,41 @@ body.splash-page { display: flex; flex-direction: column; min-height: 100svh; }
   }
   .reveal { opacity: 1; transform: none; }
   .scanline, .scroll-hint { display: none; }
+}
+
+/* ==========================================================================
+   TIPPFLÄCHEN AUF TOUCH-GERÄTEN
+   WCAG 2.5.5 und die Apple-Richtlinien nennen 44 × 44 px als Mindestmaß;
+   Lighthouse meldet kleinere Ziele als „Tap targets are not sized
+   appropriately". Gemessen am 02.08.2026 bei 390 px lagen darunter:
+   Sprachumschalter und WhatsApp im Kopf (38–39 px), die Aufklapp-Schalter
+   (38 px) und – am deutlichsten – Telefon- und E-Mail-Zeilen (27 px).
+
+   Bewusst nur für echte Touch-Geräte (hover:none + pointer:coarse), damit
+   die Maus-Ansicht ihre kompaktere Optik behält. Vergrößert wird über
+   min-height plus Innenabstand, nicht über Schriftgröße – das Layout
+   bleibt dadurch unverändert.
+   ========================================================================== */
+@media (hover: none) and (pointer: coarse) {
+  .lang-btn,
+  .lang-menu a,
+  .mn-langs a,
+  .btn-sm,
+  .mehr > summary,
+  details.size-note > summary,
+  .faq-q {
+    min-height: 44px;
+  }
+  .mehr > summary { padding-top: 11px; padding-bottom: 11px; }
+  .mn-langs a { display: inline-flex; align-items: center; justify-content: center; }
+
+  /* Telefon und E-Mail sind Inline-Links – min-height greift dort nur
+     mit einer Flex-Darstellung. */
+  a[data-phone], a[data-phone-tr], a[data-email] {
+    display: inline-flex; align-items: center;
+    min-height: 44px; padding: 2px 0;
+  }
+
+  /* Impressum/Datenschutz im Fuß sind <button>, nicht <a>. */
+  .footer-grid button { min-height: 44px; }
 }

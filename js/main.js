@@ -27,8 +27,17 @@
    "Beispiel-Bericht ansehen" automatisch "Beispiel-Bericht anfordern" per
    WhatsApp - so führt er nie ins Leere und bringt in der Zwischenzeit
    sogar Anfragen. */
+/* ⚠️ Telefonnummern und E-Mail stehen ZUSÄTZLICH als Text in den fünf
+   index.html (bei <a data-phone>, <a data-phone-tr>, <a data-email>).
+   Grund: Ein leeres <a href="#"></a> ist ein WCAG-Verstoß (4.1.2 – Links
+   brauchen erkennbaren Text) und wird von Lighthouse und axe angemeckert;
+   außerdem sah man ohne JavaScript nur ein Icon ohne Nummer.
+   Das Skript überschreibt den Text beim Laden mit den Werten von hier –
+   die Angaben unten bleiben also führend. Wer eine Nummer ändert, sollte
+   sie trotzdem in den fünf HTML-Dateien mitziehen, sonst steht dort
+   kurzzeitig (und ohne JS dauerhaft) die alte. */
 var CPC_CONFIG = {
-  whatsapp: "4917664834261",
+  whatsapp: "4915174520981",
   phoneDisplay: "+49 151 7452 0981",
   phoneTR: "+90 568 687 86 86",
   email: "info@fivepropscan.com",
