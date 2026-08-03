@@ -419,14 +419,24 @@ body.nav-open .mobile-nav { transform: translateY(0); }
   padding: 7px 15px; font-size: 0.84rem; font-weight: 500; color: var(--muted);
   margin-bottom: 24px;
 }
+/* Der Puls lief früher über `box-shadow`. Das lässt sich nicht auf dem
+   Compositor rechnen – jedes Bild kostet ein Neuzeichnen, dauerhaft.
+   Jetzt macht ein Pseudo-Element denselben Ring über transform+opacity.
+   scale(3.25) auf 8 px ergibt 26 px – exakt die alte Ringgröße
+   (8 px Punkt + 2 × 9 px Streuung). */
 .hero-badge .dot {
+  position: relative;
   width: 8px; height: 8px; border-radius: 50%; background: var(--cyan);
-  box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.5); animation: pulse-dot 2.2s infinite;
+}
+.hero-badge .dot::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: rgba(34, 211, 238, 0.5);
+  animation: pulse-dot 2.2s infinite;
 }
 @keyframes pulse-dot {
-  0% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.5); }
-  70% { box-shadow: 0 0 0 9px rgba(34, 211, 238, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0); }
+  0%   { transform: scale(1);    opacity: .5; }
+  70%  { transform: scale(3.25); opacity: 0; }
+  100% { transform: scale(3.25); opacity: 0; }
 }
 .hero h1 { font-size: clamp(2.4rem, 5.4vw, 4.2rem); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 22px; }
 html[lang="ar"] .hero h1 { letter-spacing: 0; }
@@ -453,19 +463,32 @@ html[lang="ar"] .hero h1 { letter-spacing: 0; }
     radial-gradient(340px 240px at 22% 76%, rgba(251, 146, 60, 0.13), transparent 65%),
     radial-gradient(360px 260px at 78% 26%, rgba(34, 211, 238, 0.13), transparent 65%);
 }
+/* Der Scanstreifen lief früher über `top` – das löst bei JEDEM Einzelbild
+   ein Layout aus, und zwar dauerhaft, weil die Animation endlos ist.
+   Jetzt über `transform`: das läuft auf dem Compositor, ohne Layout und
+   ohne Neuzeichnen. Damit die Prozentwerte stimmen, ist das Element so
+   hoch wie die Karte; der sichtbare 76-px-Streifen entsteht über
+   background-size und sitzt an seiner Oberkante. */
 .scanline {
-  position: absolute; left: 0; right: 0; height: 76px; top: -84px; z-index: 4;
+  position: absolute; left: 0; right: 0; top: 0; height: 100%; z-index: 4;
   background: linear-gradient(180deg, transparent, rgba(34, 211, 238, 0.16) 62%, rgba(34, 211, 238, 0.75) 98%, transparent);
+  background-size: 100% 76px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
   filter: drop-shadow(0 4px 14px rgba(34, 211, 238, 0.45));
-  animation: scan-sweep 5.4s var(--ease) infinite;
+  /* linear, NICHT var(--ease): Die Ease-out-Kurve ließ den Streifen in den
+     ersten 10 % der Zeit schon über die halbe Karte schießen und danach
+     kriechen – das sah aus wie ein Aufblitzen, nicht wie ein Abtasten.
+     Ein Scanner bewegt sich gleichmäßig; genau das sagt `linear`. */
+  animation: scan-sweep 5.4s linear infinite;
   pointer-events: none;
 }
 @keyframes scan-sweep {
-  0% { top: -84px; opacity: 0; }
-  8% { opacity: 1; }
-  46% { top: calc(100% + 10px); opacity: 1; }
-  54% { top: calc(100% + 10px); opacity: 0; }
-  100% { top: -84px; opacity: 0; }
+  0%   { transform: translateY(-84px); opacity: 0; }
+  8%   { opacity: 1; }
+  46%  { transform: translateY(100%);  opacity: 1; }
+  54%  { transform: translateY(100%);  opacity: 0; }
+  100% { transform: translateY(-84px); opacity: 0; }
 }
 .scan-corner { position: absolute; width: 28px; height: 28px; border: 2px solid rgba(34, 211, 238, 0.8); z-index: 5; }
 .scan-corner.tl { top: 14px; left: 14px; border-right: 0; border-bottom: 0; border-radius: 8px 0 0 0; }
@@ -554,12 +577,19 @@ html[lang="ar"] .hero h1 { letter-spacing: 0; }
   position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%);
   width: 24px; height: 40px; border: 1.5px solid var(--line); border-radius: 999px;
 }
+/* Auch hier lief die Bewegung über `top` – gleiche Geschichte wie beim
+   Scanstreifen, nur kleiner. Jetzt über translateY, das translateX(-50%)
+   für die Zentrierung bleibt dabei erhalten. */
 .scroll-hint::after {
   content: ""; position: absolute; left: 50%; top: 8px; width: 3px; height: 8px;
   transform: translateX(-50%); border-radius: 4px; background: var(--cyan);
   animation: wheel 1.9s ease-in-out infinite;
 }
-@keyframes wheel { 0% { top: 8px; opacity: 1; } 70% { top: 22px; opacity: 0; } 100% { top: 8px; opacity: 0; } }
+@keyframes wheel {
+  0%   { transform: translate(-50%, 0);    opacity: 1; }
+  70%  { transform: translate(-50%, 14px); opacity: 0; }
+  100% { transform: translate(-50%, 0);    opacity: 0; }
+}
 
 /* ---------- Karten & Grids ---------- */
 .card {
@@ -1469,28 +1499,43 @@ body.modal-open { overflow: hidden; }
 .hero h1,
 .hero .lead,
 .hero-cta,
-.trust-chips { animation: heroIn .8s var(--ease) both; }
-.hero-badge  { animation-delay: .05s; }
-.hero h1     { animation-delay: .16s; }
-.hero .lead  { animation-delay: .28s; }
-.hero-cta    { animation-delay: .40s; }
-.trust-chips { animation-delay: .52s; }
-.scan-card   { animation: heroCard 1s var(--ease) both .30s; }
-/* Chips im Scan-Display erscheinen zuletzt, nacheinander */
-.m-chip { animation: heroIn .7s var(--ease) both, float-y 5.6s ease-in-out infinite; }
-.m-chip.c1 { animation-delay: .95s, 1.7s; }
-.m-chip.c2 { animation-delay: 1.15s, 2.6s; }
-.m-chip.c3 { animation-delay: 1.35s, 3.4s; }
-.scroll-hint { animation: heroIn 1s var(--ease) both 1.5s; }
+/* Zeiten halbiert am 02.08.2026. Vorher war der Hero erst nach 2,5 s fertig
+   (letzter Chip 1,35 s + 0,7 s, Scroll-Hinweis 1,5 s + 1,0 s). Wer die Seite
+   öffnet, sah zwei Sekunden lang Dinge nachwandern – das wirkt langsam, nicht
+   edel. Die Reihenfolge der Einblendung ist unverändert, nur die Dauern und
+   Abstände sind gestrafft: fertig nach rund 1,45 s statt 2,5 s. */
+.trust-chips { animation: heroIn .5s var(--ease) both; }
+.hero-badge  { animation-delay: .04s; }
+.hero h1     { animation-delay: .10s; }
+.hero .lead  { animation-delay: .18s; }
+.hero-cta    { animation-delay: .26s; }
+.trust-chips { animation-delay: .34s; }
+.scan-card   { animation: heroCard .65s var(--ease) both .20s; }
+/* Chips im Scan-Display erscheinen zuletzt, nacheinander.
+   Der zweite Verzögerungswert gehört zum endlosen Schweben – bewusst
+   ungleich, damit die drei nicht im Gleichtakt wippen. */
+.m-chip { animation: heroIn .45s var(--ease) both, float-y 5.6s ease-in-out infinite; }
+.m-chip.c1 { animation-delay: .58s, 1.3s; }
+.m-chip.c2 { animation-delay: .70s, 2.0s; }
+.m-chip.c3 { animation-delay: .82s, 2.6s; }
+.scroll-hint { animation: heroIn .5s var(--ease) both .95s; }
 
 /* Sanftes Parallax – nur Desktop, wird per JS gesetzt */
 .scan-card { will-change: transform; }
 
-/* ---------- Reveal-Animationen ---------- */
-.reveal { opacity: 0; transform: translateY(28px); }
+/* ---------- Reveal-Animationen ----------
+   Vorher 0,85 s und 28 px Weg. Das ist der Grund, warum sich die Seite beim
+   Scrollen zäh anfühlte: Der Inhalt schwebt langsam hinterher, statt da zu
+   sein. Für Einblendungen sind 300–500 ms das übliche Fenster – darüber
+   wirkt es müde, darunter hektisch.
+   Kürzerer Weg (16 px) passt dazu: Bei 28 px muss das Auge sichtbar
+   nachführen, bei 16 px liest man den Text schon während er ankommt.
+   Die restlichen Übergänge auf der Seite liegen bei 0,2–0,3 s – 0,45 s hier
+   ist bewusst etwas länger, weil größere Flächen bewegt werden. */
+.reveal { opacity: 0; transform: translateY(16px); }
 .reveal.in {
   opacity: 1; transform: none;
-  transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
   transition-delay: var(--d, 0s);
 }
 

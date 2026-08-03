@@ -1,0 +1,422 @@
+/* ==========================================================================
+   FIVESTAR PROPERTY SCAN — HELLES DESIGN
+   --------------------------------------------------------------------------
+   Wird NACH styles.css geladen und legt sich darüber. Absicht: Das gesamte
+   Layout, die RTL-Regeln für Arabisch, die Mobiloptimierung, das Akkordeon,
+   die Abschnittsreihenfolge und die Tippflächen bleiben unangetastet –
+   getauscht wird ausschließlich die Optik.
+   Rückgängig machen = diese eine Zeile aus dem <head> nehmen.
+
+   HALTUNG
+   Ein technischer Prüfbericht verkauft sich über Nüchternheit, nicht über
+   Effekt. Deshalb: heller Grund, Marineblau statt Schwarz, EIN Akzent,
+   kleine Radien, flache Schatten. Die Neonverläufe des dunklen Entwurfs
+   sind ersatzlos weg – auf Weiß wirken sie billig.
+
+   TYPOGRAFIE
+   Überschriften laufen jetzt über Playfair Display (Gewicht 500, nicht fett).
+   Die Schrift ist bereits für die Wortmarke im Paket, kostet also keinen
+   zusätzlichen Ladevorgang, und ihre Serifen geben dem Ganzen den Ernst,
+   den ein Gutachten braucht. Fließtext bleibt Inter. Space Grotesk behält
+   die technischen Rollen: Etiketten, Kennzahlen, Preise.
+
+   EINE AUSNAHME
+   Die Scan-Karte im Hero bleibt dunkel. Sie stellt ein Messgerät-Display
+   dar – ein Bildschirm ist nun mal dunkel. Das ist kein Stilbruch, sondern
+   der einzige Ort, an dem Dunkelheit etwas bedeutet.
+   ========================================================================== */
+
+:root {
+  --bg: #FBFCFD;
+  --bg2: #F1F4F8;
+  --panel: #FFFFFF;
+  --line: #DCE3EB;
+  --line-soft: #EAEFF4;
+  --line-gold: rgba(156, 115, 40, 0.30);
+
+  --text: #0E2439;          /* tiefes Marineblau – nie reines Schwarz */
+  --muted: #5A7089;
+
+  --cyan: #0D6E88;          /* Petrol: technisch, seriös, EIN Akzent */
+  --violet: #0D6E88;        /* zusammengeführt – kein Dreiklang mehr */
+  --orange: #B4670F;        /* nur noch für Hinweise/Warnungen */
+  --gold: #9C7328;
+  --gold-light: #C79A45;
+  --gold-deep: #6E4F16;
+  --wa: #1EA855;
+
+  --grad: #0D6E88;          /* war ein Neonverlauf – jetzt Vollton */
+  --grad-soft: #0D6E88;
+  --gold-grad: #9C7328;
+
+  --radius: 8px;
+  --radius-sm: 6px;
+  --shadow: 0 1px 2px rgba(14, 36, 57, .05), 0 10px 28px -14px rgba(14, 36, 57, .18);
+  --shadow-lg: 0 2px 4px rgba(14, 36, 57, .06), 0 20px 44px -18px rgba(14, 36, 57, .22);
+}
+
+body { background: var(--bg); color: var(--text); }
+
+/* ---------- Typografie ---------- */
+h1, h2, h3, .p-name, .tech-name, .b2b-role {
+  font-family: var(--font-mark);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+h1 { letter-spacing: -0.015em; }
+.hero h1 { font-weight: 500; }
+h4, .eyebrow, .stat-num, .stat-label, .price, .p-from, .p-hint,
+.service-tag, .df-num, .nr, .lang-code { font-family: var(--font-display); }
+
+.eyebrow { color: var(--cyan); font-weight: 700; }
+.lead, .desc, p { color: var(--muted); }
+.grad-text, .stat-num { background: none; -webkit-text-fill-color: currentColor; color: var(--cyan); }
+.hero h1 .grad-text { color: var(--cyan); }
+strong, b { color: var(--text); }
+
+/* ---------- Hintergrund-Effekte raus ---------- */
+.bg-fx, .bg-grid { display: none; }
+
+/* ==========================================================================
+   LOGO AUF HELLEM GRUND
+   --------------------------------------------------------------------------
+   Die Bildmarke ist mit WEISSEN Linien gezeichnet (Gebäudekontur, Fadenkreuze,
+   Drohne) plus goldenem „P". Auf weißem Grund verschwindet alles Weiße – übrig
+   bleibt ein goldener Buchstabe ohne Zusammenhang.
+
+   Lösung ohne Eingriff ins Logo: eine dunkle Kachel darunter. Das erhält die
+   Marke exakt so, wie sie gestaltet wurde, und nimmt das Motiv der dunklen
+   Scan-Karte auf – dunkel steht auf dieser Seite für „Gerät/Anzeige".
+
+   SAUBERER wäre eine eigene Logofassung für helle Hintergründe (dunkle statt
+   weißer Linien). Wenn du die vom Gestalter bekommst, kann die Kachel weg.
+   ========================================================================== */
+.logo-icon {
+  background: linear-gradient(165deg, #16202D, #0C131C);
+  border-radius: 7px;
+  padding: 6px 8px;
+  box-sizing: border-box;
+}
+.footer-logo-big img, .brand-band img {
+  background: linear-gradient(165deg, #16202D, #0C131C);
+  border-radius: 8px;
+  padding: 14px 20px;
+}
+
+/* ---------- Kopfzeile ---------- */
+.site-header.scrolled {
+  background: rgba(251, 252, 253, 0.88);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border-bottom-color: var(--line);
+}
+.nav-links a:hover { color: var(--cyan); background: var(--bg2); }
+.lang-btn { background: #FFF; border-color: var(--line); color: var(--text); }
+.lang-btn:hover { background: var(--bg2); border-color: var(--cyan); }
+.lang-menu { background: #FFF; border-color: var(--line); box-shadow: var(--shadow); }
+.lang-menu a:hover { background: var(--bg2); }
+.lang-menu a.active { background: var(--bg2); color: var(--cyan); }
+.mobile-nav { background: #FFF; border-color: var(--line); }
+.mn-link { color: var(--text); }
+
+/* ---------- Flächen und Karten ---------- */
+.card, .tech-card, .b2b-card, .price-card, .contact-card,
+.faq-item, .stimme, .bericht, .liefer, .size-note, .wa-card,
+.einfach-steps > div, .device-frame, .modal-box, .person {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+.card::before, .b2b-card::before, .card-top::before, .device-frame::before,
+.brand-band::before, .splash-rule::before, .splash-rule::after { display: none; }
+.card:hover, .wa-card:hover { border-color: var(--cyan); box-shadow: var(--shadow-lg); }
+.card-icon, .b2b-card .card-icon, .wa-card .card-icon {
+  background: var(--bg2); border: 1px solid var(--line); color: var(--cyan);
+}
+
+/* Abschnittswechsel über einen minimal kühleren Grund */
+#fuer-wen, #for-whom, #kimler-icin, #dlya-kogo,
+#pakete, #packages, #paketler, #pakety,
+#technik, #equipment, #ekipman, #oborudovanie,
+#faq, #sss { background: var(--bg2); }
+
+/* ---------- Schaltflächen ---------- */
+.btn-primary {
+  background: var(--cyan); color: #FFF; border: 1px solid var(--cyan);
+  box-shadow: 0 1px 2px rgba(13, 110, 136, .2);
+}
+.btn-primary:hover { background: #0A5C73; border-color: #0A5C73; }
+.btn-ghost { background: #FFF; color: var(--text); border: 1px solid var(--line); }
+.btn-ghost:hover { background: var(--bg2); border-color: var(--cyan); color: var(--cyan); }
+/* WhatsApp-Grün abgedunkelt: Das Markengrün #25D366 bzw. #1EA855 ergibt mit
+   weißer Schrift nur 3,09 : 1 – für Fließtextgröße sind 4,5 : 1 nötig.
+   #157F41 kommt auf 5,1 : 1 und bleibt zusammen mit dem Symbol eindeutig als
+   WhatsApp erkennbar. Der runde Knopf unten behält das hellere Grün: dort
+   sitzt nur ein Symbol, und für Grafik genügen 3 : 1. */
+.btn-wa { background: #157F41; color: #FFF; border: 1px solid #157F41; }
+.btn-wa:hover { background: #0F6633; border-color: #0F6633; }
+
+/* ---------- Hero ---------- */
+.hero-badge { background: #FFF; border: 1px solid var(--line); color: var(--muted); }
+.trust-chips li { color: var(--muted); }
+
+/* Die Scan-Karte bleibt bewusst dunkel: sie zeigt ein Messgerät-Display. */
+.scan-card {
+  background: linear-gradient(165deg, #14202E, #0B131C);
+  border: 1px solid #223141;
+  box-shadow: 0 2px 6px rgba(14, 36, 57, .10), 0 26px 56px -22px rgba(14, 36, 57, .40);
+}
+.m-chip { background: rgba(8, 14, 22, .82); color: #DCE8F4; border: 1px solid rgba(120, 160, 195, .22); }
+.scan-corner { border-color: rgba(80, 200, 230, .75); }
+.scroll-hint { border-color: var(--line); }
+.scroll-hint::after { background: var(--cyan); }
+
+/* ---------- Kennzahlen ---------- */
+.stats-band { background: var(--panel); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.stat-num { color: var(--cyan); }
+.stat-label { color: var(--muted); }
+
+/* ---------- Ablauf ---------- */
+.einfach-steps .nr { background: var(--cyan); color: #FFF; border: 0; }
+.einfach-frage { background: var(--bg2); border: 1px solid var(--line); border-left: 3px solid var(--cyan); }
+.step::after { background: var(--line); }
+[dir="rtl"] .step::after { background: var(--line); }
+
+/* ---------- Leistungen ---------- */
+.service-tag { background: var(--bg2); color: var(--cyan); border: 1px solid var(--line); }
+.service-note { background: #FDF6EC; border: 1px solid #EBD9BC; border-left: 3px solid var(--orange); color: var(--text); }
+.service-visual { background: var(--bg2); border: 1px solid var(--line); }
+.feat { color: var(--muted); }
+.feat b { color: var(--text); }
+
+/* ---------- Technik ---------- */
+.device-frame { background: var(--bg2); }
+.device-frame .df-num { color: var(--line); }
+.tech-name { color: var(--text); }
+.tech-sub { color: var(--muted); }
+.spec-list li { border-color: var(--line-soft); }
+.spec-list li span:first-child { color: var(--muted); }
+.spec-list li span:last-child { color: var(--text); font-weight: 600; }
+
+/* ---------- Pakete ---------- */
+.price-card:not(.featured) { background: var(--panel); opacity: 1; }
+.price-card.featured {
+  background: var(--panel);
+  border: 2px solid var(--cyan);
+  box-shadow: 0 2px 6px rgba(13, 110, 136, .10), 0 22px 48px -20px rgba(13, 110, 136, .34);
+}
+.p-badge { background: var(--cyan); color: #FFF; border: 0; }
+.price { color: var(--text); }
+.price-card.featured .price { color: var(--cyan); }
+.p-from, .p-for { color: var(--muted); }
+.p-feats li { color: var(--muted); }
+.size-hint { background: #EEF6F9; border-left: 2px solid var(--cyan); color: var(--text); }
+.bericht-list li { color: var(--muted); }
+
+/* ---------- Für Firmen ---------- */
+.b2b-card { border-top: 3px solid var(--cyan); }
+.b2b-role { color: var(--text); }
+.b2b-out { color: var(--muted); }
+.b2b-preis { color: var(--muted); }
+
+/* ---------- FAQ ---------- */
+.faq-item { background: var(--panel); }
+.faq-item.open { border-color: var(--cyan); }
+.faq-q { color: var(--text); }
+.faq-a-inner p { color: var(--muted); }
+
+/* ---------- Über uns ---------- */
+.person, .person-foto, .kopf-bild { background: var(--bg2); border-color: var(--line); }
+/* Diese Kacheln behielten am Desktop ihren dunklen Grund aus dem alten
+   Entwurf – mit der neuen dunklen Schrift ergab das 1,11 : 1, also nichts
+   Lesbares. Am Handy war es bereits gerichtet, hier fehlte es. */
+.about-points li {
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-sm);
+  color: var(--muted);
+}
+.about-points li b { color: var(--text); }
+.about-points li span { color: var(--muted); }
+.zypern-hinweis { background: var(--bg2); border: 1px solid var(--line); color: var(--muted); }
+
+/* ---------- Kundenstimmen ---------- */
+.stimme-text { color: var(--text); }
+.stimme-quelle { color: var(--muted); }
+.stimmen-hinweis { background: var(--bg2); border: 1px solid var(--line); color: var(--muted); }
+
+/* ---------- Kontakt & Formular ---------- */
+#kontakt::before, #contact::before, #iletisim::before { display: none; }
+.contact-line { color: var(--muted); }
+.contact-line a { color: var(--text); }
+.tel-tag { background: var(--bg2); color: var(--muted); border: 1px solid var(--line); }
+.field label { color: var(--text); }
+.field input, .field textarea, .field select {
+  background: #FFF; border: 1px solid var(--line); color: var(--text);
+}
+.field input:focus, .field textarea:focus, .field select:focus {
+  border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(13, 110, 136, .14); outline: 0;
+}
+.field select.just-set { border-color: var(--cyan); }
+.field input::placeholder, .field textarea::placeholder { color: #90A2B5; }
+.form-status.is-ok  { background: #E7F4EC; color: #15613C; border: 1px solid #BFE0CC; }
+.form-status.is-err { background: #FBEBE7; color: #97301C; border: 1px solid #EFC9C0; }
+.wa-card { border-left: 3px solid var(--wa); }
+
+/* ---------- Fuß ---------- */
+.site-footer { background: var(--bg2); border-top: 1px solid var(--line); color: var(--muted); }
+.site-footer h4 { color: var(--text); }   /* lag bei 3,89 : 1 */
+.site-footer a { color: var(--muted); }
+.site-footer a:hover { color: var(--cyan); }
+.brand-band { background: var(--bg2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.brand-band img { opacity: 1; filter: none; }
+
+/* ---------- Dialoge ---------- */
+.modal-backdrop { background: rgba(14, 36, 57, .40); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+.modal-box { background: #FFF; border: 1px solid var(--line); box-shadow: var(--shadow-lg); color: var(--text); }
+.modal-box p, .modal-box li { color: var(--muted); }
+.modal-close { background: var(--bg2); border: 1px solid var(--line); color: var(--text); }
+
+/* ---------- WhatsApp-Knopf unten ---------- */
+.wa-float { background: var(--wa); box-shadow: 0 4px 14px rgba(30, 168, 85, .34); }
+.wa-float::before { background: rgba(30, 168, 85, .34); }
+.kopier-toast { background: var(--text); color: #FFF; }
+
+/* ---------- Sprachauswahl (Rückfallseite) ---------- */
+body.splash-page { background: var(--bg); }
+.splash-logo-img { filter: none; }
+.splash-claim, .splash-sub { color: var(--muted); }
+.splash-claim .sep, .splash-sub .sep { color: var(--line); }
+.splash-lead { color: var(--muted); }
+.lang-card { background: #FFF; border: 1px solid var(--line); box-shadow: var(--shadow); color: var(--text); }
+.lang-card:hover { border-color: var(--cyan); box-shadow: var(--shadow-lg); }
+.lang-card.suggested { border-color: var(--cyan); }
+.suggest-chip { background: var(--cyan); color: #FFF; }
+.lang-code { color: var(--cyan); }
+.lang-go { color: var(--cyan); }
+.splash-footer { color: var(--muted); }
+
+/* ---------- Trennlinien der Abschnitte ---------- */
+.eyebrow::before, [dir="rtl"] .eyebrow::before,
+.section-head.center .eyebrow::after,
+[dir="rtl"] .section-head.center .eyebrow::after { background: var(--gold); }
+
+/* ==========================================================================
+   ÜBERSEHENE HELLE SCHRIFTEN AUS DEM DUNKLEN ENTWURF
+   Diese drei Regeln setzen die Textfarbe fest auf #D5E0EE bzw. #C8D4E4 –
+   auf hellem Grund praktisch unsichtbar (gemessen 1,21 : 1).
+   ========================================================================== */
+.einfach-frage p { color: var(--muted); }
+.liefer-list > div { color: var(--muted); }
+.liefer-list > div b { color: var(--text); }
+.lang-note { background: #EEF6F9; border-color: var(--line); color: var(--text); }
+.service-note b { color: #8A4E0B; }
+.scan-tag { color: rgba(230, 240, 250, .9); }
+
+/* ==========================================================================
+   HANDY UND KLEINES TABLET
+   --------------------------------------------------------------------------
+   Der dunkle Entwurf hat unter 860 px einen eigenen Block: Dort wird der
+   Untergrund absichtlich aufgehellt (#243044) und Kästen bekommen ein
+   dunkles Blaugrau – #3A4B64, #3D4F69, #41546E. Diese Kästen blieben nach
+   dem Umbau dunkel, während meine helle Auflage die Schrift darin dunkel
+   gemacht hat. Ergebnis: dunkelgraue Felder mit dunkler Schrift, unlesbar.
+   Betroffen waren „Das bekommen Sie", „Was ist eigentlich eine Wärmebild-
+   kamera" und „Wer hinter Fivestar Property Scan steht".
+
+   Hier werden dieselben Regeln auf helle Werte zurückgeholt. Die Auswahl
+   folgt exakt der Liste im Mobil-Block von styles.css – wer dort etwas
+   ergänzt, muss es hier mitziehen.
+   ========================================================================== */
+@media (max-width: 860px) {
+  :root {
+    --bg: #FBFCFD; --bg2: #F1F4F8;
+    --text: #0E2439;
+    --muted: #526780;   /* etwas dunkler als am Desktop – draußen bei Sonne lesbarer */
+    --line: #D3DBE4; --line-soft: #E6EBF1;
+    --cyan: #0B6379; --violet: #0B6379; --orange: #A25C0D;
+    --gold: #8C6722; --gold-grad: #8C6722; --grad: #0B6379; --grad-soft: #0B6379;
+  }
+
+  .faq-item, .size-note, .modal-box { background: var(--panel); }
+  .about-points li { background: var(--bg2); color: var(--muted); }
+  .einfach-steps > div { background: var(--panel); }
+  .site-header.scrolled { background: rgba(251, 252, 253, .96); }
+  .mobile-nav { background: #FFF; }
+  .lang-menu  { background: #FFF; }
+  .site-footer { background: var(--bg2); }
+
+  .field input, .field textarea, .field select { background: #FFF; color: var(--text); }
+  .field select option { background: #FFF; color: var(--text); }
+
+  .feat { color: var(--muted); }
+  .stat-label { color: var(--muted); }
+  .spec-list li span:last-child { color: var(--text); }
+  .service-tag { background: var(--bg2); color: var(--cyan); border-color: var(--line); }
+  .tech-sub { color: var(--muted); }
+
+  .b2b-card { border-color: var(--line); border-top: 3px solid var(--cyan); }
+  .tech-card, .wa-card { border-color: var(--line); }
+  .price-card.featured { border-color: var(--cyan); }
+  .device-frame::before { display: none; }
+
+  /* Bleibt dunkel – es ist ein Gerätedisplay. */
+  .scan-card { background: linear-gradient(160deg, #16202D, #0C131C); }
+  .m-chip { color: #E4EDF8; }
+}
+
+/* ---------- Auswahlfarbe ---------- */
+::selection { background: rgba(13, 110, 136, .16); color: var(--text); }
+
+/* ==========================================================================
+   REIHENFOLGE NACH VORBILD CERTA
+   --------------------------------------------------------------------------
+   Gemessen auf certa-gutachten.de: Preise stehen dort an Position 3 bei rund
+   1.400 px, „wer wir sind" an Position 2. Hier standen die Preise an Position 6
+   bei 5.800 px und „Über uns" an Position 6. Das ist der Kern des Unterschieds.
+
+   Übernommen wird die Logik, nicht die Reihenfolge eins zu eins – und zwar aus
+   einem Grund: CERTA verkauft eine BEKANNTE Leistung. Wer „Immobilienbewertung"
+   googelt, weiß schon, was er will, dort darf der Preis sofort kommen.
+   Ein technischer Kaufcheck ist in der Türkei dagegen unbekannt. Fiele der
+   Problem-Abschnitt weg, stünde der Preis vor der Frage „wozu überhaupt?" –
+   und eine Zahl ohne Anlass vergleicht der Leser mit nichts.
+
+   Deshalb: Problem bleibt vorn (kurz), danach sofort Vertrauen und Preis.
+       Hero → Problem → Wer prüft → PREISE → Leistungen → Für wen
+       → Ablauf → Technik → Stimmen → Fragen → Kontakt → Firmen
+
+   PREISE STEHEN VOR DEN LEISTUNGEN – das ist der eigentliche Certa-Griff.
+   Dort heißt der Abschnitt „Unsere Leistungen und Preise" und ist EIN Block.
+   Hier geht das genauso auf, weil die Paketkarten den Umfang bereits
+   auflisten („Sichtprüfung, Wärmebild-Scan, Feuchtecheck, Bericht als PDF").
+   Wer nur die Karten liest, weiß genug zum Anfragen. Der Leistungsabschnitt
+   ist danach die Vertiefung für alle, die es genauer wissen wollen – und
+   nicht mehr die 2,8 Bildschirme hohe Hürde davor.
+
+   Preise wandern damit von Bildschirm 6,5 auf rund 3,5.
+   Umkehren: diesen Block löschen, dann gilt wieder styles.css.
+   ========================================================================== */
+#warum, #why, #neden, #pochemu                                   { order: 1; }
+#ueber, #about, #hakkimizda, #o-nas                              { order: 2; }
+#pakete, #packages, #paketler, #pakety                           { order: 3; }
+#leistungen, #services, #hizmetler, #uslugi                      { order: 4; }
+#fuer-wen, #for-whom, #kimler-icin, #dlya-kogo                   { order: 5; }
+#einfach                                                         { order: 6; }
+#technik, #equipment, #ekipman, #oborudovanie                    { order: 7; }
+#stimmen                                                         { order: 8; }
+#faq, #sss                                                       { order: 9; }
+#kontakt, #contact, #iletisim                                    { order: 10; }
+#firmen, #business, #kurumsal, #biznes                           { order: 11; }
+.brand-band                                                      { order: 12; }
+
+/* Abwechselnder Grund, der neuen Reihenfolge folgend – sonst stünden zwei
+   graue Abschnitte nebeneinander. */
+#warum, #why, #neden, #pochemu,
+#pakete, #packages, #paketler, #pakety,
+#fuer-wen, #for-whom, #kimler-icin, #dlya-kogo,
+#technik, #equipment, #ekipman, #oborudovanie,
+#kontakt, #contact, #iletisim { background: var(--bg); }
+
+#ueber, #about, #hakkimizda, #o-nas,
+#leistungen, #services, #hizmetler, #uslugi,
+#einfach,
+#stimmen,
+#faq, #sss { background: var(--bg2); }
