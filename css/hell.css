@@ -78,30 +78,49 @@ strong, b { color: var(--text); }
 .bg-fx, .bg-grid { display: none; }
 
 /* ==========================================================================
-   LOGO AUF HELLEM GRUND
+   LOGO
    --------------------------------------------------------------------------
-   Die Bildmarke ist mit WEISSEN Linien gezeichnet (Gebäudekontur, Fadenkreuze,
-   Drohne) plus goldenem „P". Auf weißem Grund verschwindet alles Weiße – übrig
-   bleibt ein goldener Buchstabe ohne Zusammenhang.
+   Am 02.08.2026 gegen die neue Fassung getauscht. Die alte Bildmarke war mit
+   WEISSEN Linien gezeichnet und verschwand auf hellem Grund – dafür lag hier
+   vorher eine dunkle Kachel als Notlösung. Die ist jetzt überflüssig: Das neue
+   Logo hat dunkle Linien und einen freigestellten Hintergrund, es steht direkt
+   auf Weiß.
 
-   Lösung ohne Eingriff ins Logo: eine dunkle Kachel darunter. Das erhält die
-   Marke exakt so, wie sie gestaltet wurde, und nimmt das Motiv der dunklen
-   Scan-Karte auf – dunkel steht auf dieser Seite für „Gerät/Anzeige".
+   Zwei Dateien, beide aus derselben Vorlage:
+     logo-fps-mark-neu.png   nur die Bildmarke (Drohne, FPS-Baukörper, Stativ)
+                             – für die Kopfzeile neben der Wortmarke in HTML
+     logo-fps-neu.png        vollständige Sperrung inkl. Schriftzug
+                             – für Fußzeile und Markenband
 
-   SAUBERER wäre eine eigene Logofassung für helle Hintergründe (dunkle statt
-   weißer Linien). Wenn du die vom Gestalter bekommst, kann die Kachel weg.
+   Hinweis: Der dunkle Entwurf in styles.css erwartet ein helles Logo. Wer auf
+   Dunkel zurückschaltet, muss auch die Logodateien zurücktauschen.
    ========================================================================== */
-.logo-icon {
-  background: linear-gradient(165deg, #16202D, #0C131C);
-  border-radius: 7px;
-  padding: 6px 8px;
-  box-sizing: border-box;
+.logo-icon { background: none; padding: 0; }
+
+/* Die Wortmarke daneben steht in HTML und lief noch über den Goldverlauf.
+   Neben dem marineblauen Logo wirkte das wie zwei verschiedene Marken –
+   jetzt in derselben Farbe wie der Schriftzug im Logo. */
+.logo-text b {
+  background: none; -webkit-text-fill-color: var(--text); color: var(--text);
 }
-.footer-logo-big img, .brand-band img {
-  background: linear-gradient(165deg, #16202D, #0C131C);
-  border-radius: 8px;
-  padding: 14px 20px;
+.logo-text span { color: var(--muted); }
+
+/* Das alte Logo war QUERformatig, deshalb steht in styles.css eine feste
+   Breite (250 px im Fuß, 420 px im Markenband). Das neue Logo ist HOCHformatig
+   – zusammen mit einer Höhenbegrenzung ergab das zwei widersprüchliche Zwänge
+   und ein gestauchtes Bild. Deshalb hier: Höhe vorgeben, Breite rechnen lassen.
+   Die Selektoren sind bewusst so spezifisch wie die in styles.css, sonst
+   gewinnt dort die Breitenangabe. */
+.footer-grid a.footer-logo-big img { width: auto; height: 128px; }
+@media (max-width: 860px) {
+  .footer-grid a.footer-logo-big img { height: 108px; }
 }
+
+/* Das Markenband über dem Fuß zeigte nur noch einmal das Logo. Zwischen
+   Logo in der Kopfzeile und Logo im Fuß war das die dritte Wiederholung
+   auf derselben Seite – ohne neue Information. Raus.
+   Wieder einblenden: diese Regel löschen. */
+.brand-band { display: none; }
 
 /* ---------- Kopfzeile ---------- */
 .site-header.scrolled {
@@ -211,6 +230,72 @@ strong, b { color: var(--text); }
 .p-feats li { color: var(--muted); }
 .size-hint { background: #EEF6F9; border-left: 2px solid var(--cyan); color: var(--text); }
 .bericht-list li { color: var(--muted); }
+
+/* ==========================================================================
+   PREISKARTEN KOMPAKT
+   --------------------------------------------------------------------------
+   Vorher: 729–811 px je Karte, der Preisbereich auf dem Handy über vier
+   Bildschirme. Zwei Hebel:
+   1. Die sechs Leistungspunkte (allein 356 px) wandern hinter einen
+      Aufklapper – gebaut in main.js, damit die fünf HTML-Dateien
+      unangetastet bleiben.
+   2. Polster, Preisgröße und Abstände zurückgenommen.
+
+   Sichtbar bleibt, was beim Vergleichen zählt: Name, Preis, Größenangabe,
+   Knopf. Alles andere holt sich, wer sich für ein Paket interessiert.
+   ========================================================================== */
+.price-card { padding: 20px 18px; gap: 0; }
+.price-card .p-name { font-size: 1.05rem; margin-bottom: 1px; }
+.price-card .p-for  { font-size: 0.8rem; margin-bottom: 12px; }
+.price-card .price  { font-size: 1.85rem; margin-bottom: 2px; line-height: 1.1; }
+.price-card .p-from { font-size: 0.72rem; }
+.price-card .p-hint { font-size: 0.78rem; margin-bottom: 14px; }
+.price-card .p-badge { font-size: 0.63rem; padding: 3px 10px; }
+
+/* Der Aufklapper sitzt zwischen Größenangabe und Knopf. */
+.p-mehr { margin: 0 0 14px; }
+.p-mehr > summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  cursor: pointer; list-style: none;
+  font-family: var(--font-display); font-size: 0.8rem; font-weight: 600;
+  color: var(--cyan); padding: 9px 0; border-top: 1px solid var(--line-soft);
+  transition: color .2s;
+}
+.p-mehr > summary::-webkit-details-marker { display: none; }
+.p-mehr > summary::after {
+  content: ""; width: 7px; height: 7px; flex: none;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-2px); transition: transform .25s var(--ease);
+}
+.p-mehr[open] > summary::after { transform: rotate(-135deg) translateY(-1px); }
+.p-mehr > summary:hover { color: var(--text); }
+.p-mehr > summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: 3px; }
+.p-mehr .p-feats { margin: 2px 0 6px; }
+.p-mehr .p-feats li { padding: 5px 0; font-size: 0.86rem; }
+@media (prefers-reduced-motion: reduce) { .p-mehr > summary::after { transition: none; } }
+
+/* Auf Touch-Geräten bleibt die Mindestgröße für Tippflächen erhalten. */
+@media (hover: none) and (pointer: coarse) {
+  .p-mehr > summary { min-height: 44px; }
+}
+
+/* --------------------------------------------------------------------------
+   MUSTER-BERICHT UND KLEINGEDRUCKTES
+   Nachdem die Karten geschrumpft sind, war der Muster-Bericht mit 1.333 px
+   der größte Posten im Preisbereich – größer als alle drei Karten zusammen.
+   Die Vorschaugrafik ist mit 300 × 380 px angegeben und wuchs auf schmalen
+   Displays auf volle Breite. Hier wird sie begrenzt und der Block gestrafft.
+   -------------------------------------------------------------------------- */
+.bericht { padding: 24px 22px 22px; gap: 22px; margin-top: 32px; }
+.bericht-vorschau { max-width: 150px; margin-inline: auto; }
+.bericht-text h3 { font-size: 1.15rem; margin-bottom: 6px; }
+.bericht-text > p { font-size: 0.9rem; margin-bottom: 14px; }
+.bericht-list { gap: 7px; margin-bottom: 16px; }
+.bericht-list li { font-size: 0.88rem; }
+
+/* Das Kleingedruckte unter den Preisen war 366 px hoch. Es ist wichtig,
+   aber niemand liest es beim Vergleichen – also zusammenklappen. */
+.price-note { font-size: 0.84rem; line-height: 1.6; }
 
 /* ---------- Für Firmen ---------- */
 .b2b-card { border-top: 3px solid var(--cyan); }

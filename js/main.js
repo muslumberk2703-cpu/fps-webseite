@@ -379,6 +379,39 @@ var CPC_FOTOS = {
     });
   });
 
+  /* ---------- Preiskarten: Leistungsliste einklappen ----------
+     Die sechs Punkte je Karte machten allein rund 356 px aus - bei drei
+     Karten untereinander war der Preisbereich auf dem Handy ueber vier
+     Bildschirme hoch. Wer Preise vergleicht, will erst die Zahl und die
+     Groessenangabe sehen; die Detailliste braucht nur, wer sich fuer ein
+     Paket entschieden hat.
+     Wieder nachtraeglich per JavaScript: Ohne Skripte bleibt die Liste
+     offen und vollstaendig lesbar, und Google sieht sie ohnehin immer. */
+  var PAKET_MEHR = {
+    de: "Leistungen ansehen",
+    en: "See what's included",
+    tr: "Neler dahil?",
+    ru: "Что входит",
+    ar: "ما الذي يشمله؟"
+  };
+  var paketMehr = PAKET_MEHR[(document.documentElement.lang || "de").slice(0, 2)] || PAKET_MEHR.en;
+
+  document.querySelectorAll(".price-card").forEach(function (karte) {
+    var liste = karte.querySelector(".p-feats");
+    if (!liste || liste.closest("details")) return;
+
+    var anzahl = liste.querySelectorAll("li").length;
+    var huelle = document.createElement("details");
+    huelle.className = "p-mehr";
+
+    var schalter = document.createElement("summary");
+    schalter.textContent = paketMehr + " (" + anzahl + ")";
+
+    liste.insertAdjacentElement("beforebegin", huelle);
+    huelle.appendChild(schalter);
+    huelle.appendChild(liste);
+  });
+
   /* Springt jemand aus dem Menue auf "Leistungen", soll er nicht auf einen
      zugeklappten Stapel schauen - der erste Block ist ja offen. Zeigt aber
      ein Link direkt auf eine Leistung, wird die aufgeklappt. */
