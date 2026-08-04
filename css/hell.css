@@ -111,9 +111,18 @@ strong, b { color: var(--text); }
    und ein gestauchtes Bild. Deshalb hier: Höhe vorgeben, Breite rechnen lassen.
    Die Selektoren sind bewusst so spezifisch wie die in styles.css, sonst
    gewinnt dort die Breitenangabe. */
-.footer-grid a.footer-logo-big img { width: auto; height: 128px; }
+   Nachtrag 04.08.2026: Das Logo ist wieder ein Querformat (Marke über
+   Wortmarke, 760×307). Eine feste Höhe macht es dadurch sehr breit – deshalb
+   jetzt die Breite begrenzen und die Höhe rechnen lassen. */
+.footer-grid a.footer-logo-big img { width: 260px; height: auto; max-width: 100%; }
 @media (max-width: 860px) {
-  .footer-grid a.footer-logo-big img { height: 108px; }
+  .footer-grid a.footer-logo-big img { width: 220px; }
+}
+/* Die Bildmarke im Kopf ist jetzt hochformatig (240×291). Ohne Begrenzung
+   zieht sie die Kopfzeile auseinander. */
+.logo .logo-icon { height: 40px; width: auto; }
+@media (max-width: 860px) {
+  .logo .logo-icon { height: 34px; }
 }
 
 /* Das Markenband über dem Fuß zeigte nur noch einmal das Logo. Zwischen
@@ -209,9 +218,23 @@ strong, b { color: var(--text); }
 
 /* ---------- Technik ---------- */
 .device-frame { background: var(--bg2); }
-.device-frame .df-num { color: var(--line); }
+/* Die Ziffern standen auf --line: 1,3:1. Als 48px-Zeichen sind 3:1 gefordert.
+   Aus dem alten Entwurf hängen an .df-num noch ein Gold-Hintergrund mit
+   background-clip:text und opacity .9 – beides zieht den Wert wieder nach
+   unten. Deshalb hier Hintergrund weg, volle Deckkraft, klare Farbe: 3,1:1. */
+.device-frame .df-num {
+  color: #7A8CA0;
+  -webkit-text-fill-color: #7A8CA0;
+  background: none;
+  opacity: 1;
+}
 .tech-name { color: var(--text); }
 .tech-sub { color: var(--muted); }
+/* Gerätedaten sitzen jetzt in der Leistungskarte, nicht mehr in einem
+   eigenen Abschnitt. */
+.geraet { background: var(--panel); border-color: var(--line); box-shadow: var(--shadow); }
+.geraet-name { color: var(--text); }
+.geraet-sub { color: var(--muted); }
 .spec-list li { border-color: var(--line-soft); }
 .spec-list li span:first-child { color: var(--muted); }
 .spec-list li span:last-child { color: var(--text); font-weight: 600; }
@@ -341,6 +364,10 @@ strong, b { color: var(--text); }
 }
 .field select.just-set { border-color: var(--cyan); }
 .field input::placeholder, .field textarea::placeholder { color: #90A2B5; }
+/* styles.css faerbt die Auswahleintraege dunkel (#111A26) – das galt fuer
+   ALLE Breiten, meine Korrektur stand zuerst nur im Handy-Block. Aufgeklappt
+   war die Liste am Desktop dunkel auf dunkel. */
+.field select option { background: #FFF; color: var(--text); }
 .form-status.is-ok  { background: #E7F4EC; color: #15613C; border: 1px solid #BFE0CC; }
 .form-status.is-err { background: #FBEBE7; color: #97301C; border: 1px solid #EFC9C0; }
 .wa-card { border-left: 3px solid var(--wa); }
@@ -447,6 +474,66 @@ body.splash-page { background: var(--bg); }
   .m-chip { color: #E4EDF8; }
 }
 
+/* ==========================================================================
+   INTERAKTION — Feinschliff
+   --------------------------------------------------------------------------
+   Drei Dinge, die im Entwurf fehlten und die man einzeln kaum bemerkt,
+   in der Summe aber den Unterschied machen zwischen „funktioniert" und
+   „fühlt sich richtig an".
+   ========================================================================== */
+
+/* 1 · DRUCKZUSTAND
+   Es gab auf der ganzen Seite keinen einzigen :active-Zustand. Ein Knopf
+   ohne Druckreaktion fühlt sich an, als hätte die Seite den Klick nicht
+   gehört – besonders auf dem Handy, wo es keinen Hover als Vorstufe gibt.
+   Bewusst dezent (0,97) und schnell (140 ms): Rückmeldung, keine Show. */
+.btn, .lang-btn, .faq-q, .p-mehr > summary, .mehr > summary,
+details.size-note > summary, .wa-float, .modal-close, .lang-card {
+  transition: transform 140ms var(--ease), background 200ms var(--ease),
+              border-color 200ms var(--ease), color 200ms var(--ease),
+              box-shadow 200ms var(--ease);
+}
+.btn:active, .lang-btn:active, .faq-q:active, .lang-card:active,
+.p-mehr > summary:active, .mehr > summary:active,
+details.size-note > summary:active { transform: scale(.97); }
+.wa-float:active { transform: scale(.94); }
+
+/* 2 · HOVER NUR MIT ZEIGEGERÄT
+   Elf Hover-Regeln bewegen Elemente (translateY, scale, rotate). Auf einem
+   Touchscreen löst das Antippen den Hover aus – und er bleibt hängen, bis
+   woanders getippt wird. Die Karte steht dann dauerhaft angehoben da.
+   Farbwechsel dürfen bleiben, Bewegung nicht. */
+@media (hover: none) {
+  .btn-primary:hover, .btn-ghost:hover, .btn-wa:hover,
+  .card:hover, .lang-card:hover, .wa-float:hover { transform: none; }
+  .price-card.featured:hover { transform: none; }
+  .price-card:not(.featured):hover { transform: none; }
+  .modal-close:hover { transform: none; }
+  .lang-card:hover .lang-go svg { transform: none; }
+}
+
+/* 3 · AUSKLAPPER ÖFFNEN VOM AUSLÖSER
+   Das Sprachmenü skalierte aus seiner Mitte auf – es gehört aber an den
+   Knopf darüber. Nach rechts oben verankert wirkt es, als käme es aus dem
+   Schalter heraus, statt aus dem Nichts. */
+.lang-menu { transform-origin: top right; }
+[dir="rtl"] .lang-menu { transform-origin: top left; }
+
+/* 4 · DAUERN
+   Ein- und Ausklappen lag bei 400–450 ms. Für ein Bedienelement ist das zu
+   träge; 150–250 ms ist der Bereich, in dem es noch als unmittelbar gilt.
+   Der Schubladen-Übergang im Handymenü darf länger bleiben – Schubladen
+   dürfen 200–500 ms brauchen. */
+.faq-a { transition: grid-template-rows 240ms var(--ease); }
+
+/* 5 · WENIGER BEWEGUNG
+   Reduzierte Bewegung heißt weniger und sanfter, nicht gar nichts:
+   Farbe und Deckkraft bleiben, Verschiebung und Skalierung fallen weg. */
+@media (prefers-reduced-motion: reduce) {
+  .btn:active, .lang-btn:active, .faq-q:active, .lang-card:active,
+  .wa-float:active, .p-mehr > summary:active { transform: none; }
+}
+
 /* ---------- Auswahlfarbe ---------- */
 ::selection { background: rgba(13, 110, 136, .16); color: var(--text); }
 
@@ -479,29 +566,113 @@ body.splash-page { background: var(--bg); }
    Preise wandern damit von Bildschirm 6,5 auf rund 3,5.
    Umkehren: diesen Block löschen, dann gilt wieder styles.css.
    ========================================================================== */
+/* Neu sortiert am 02.08.2026 – die Seite erzählt jetzt eine Geschichte
+   von oben nach unten, statt Abschnitte nach Wichtigkeit zu stapeln:
+
+     1 Warum      Worum geht es überhaupt? (Problem)
+     2 Für wen    Bin ich gemeint?
+     3 Über mich  Wer macht das – und warum unabhängig?
+     4 Leistungen Was genau wird geprüft?
+     5 Pakete     Was kostet es?
+     6 Ablauf     Wie läuft es ab?
+     7 Technik    Womit wird gearbeitet?
+     8 Für Firmen andere Zielgruppe, deshalb spät
+     9 Kontakt    die Anfrage
+    10 FAQ        Nachschlagewerk ganz unten, direkt über dem Fuß
+
+   Die Fragen stehen bewusst ZULETZT: Wer bis dorthin liest, sucht gezielt
+   eine Antwort – das ist ein Nachschlagewerk, kein Teil der Erzählung. */
 #warum, #why, #neden, #pochemu                                   { order: 1; }
-#ueber, #about, #hakkimizda, #o-nas                              { order: 2; }
-#pakete, #packages, #paketler, #pakety                           { order: 3; }
+#fuer-wen, #for-whom, #kimler-icin, #dlya-kogo                   { order: 2; }
+#ueber, #about, #hakkimizda, #o-nas                              { order: 3; }
 #leistungen, #services, #hizmetler, #uslugi                      { order: 4; }
-#fuer-wen, #for-whom, #kimler-icin, #dlya-kogo                   { order: 5; }
+#pakete, #packages, #paketler, #pakety                           { order: 5; }
 #einfach                                                         { order: 6; }
-#technik, #equipment, #ekipman, #oborudovanie                    { order: 7; }
+/* Der eigene Technik-Abschnitt (order 7) ist entfallen – die Gerätedaten
+   stehen jetzt in den Leistungskarten. Die Nummer bleibt frei. */
 #stimmen                                                         { order: 8; }
-#faq, #sss                                                       { order: 9; }
+#firmen, #business, #kurumsal, #biznes                           { order: 9; }
 #kontakt, #contact, #iletisim                                    { order: 10; }
-#firmen, #business, #kurumsal, #biznes                           { order: 11; }
+#faq, #sss                                                       { order: 11; }
 .brand-band                                                      { order: 12; }
 
 /* Abwechselnder Grund, der neuen Reihenfolge folgend – sonst stünden zwei
    graue Abschnitte nebeneinander. */
+/* Abwechselnd, der neuen Reihenfolge folgend:
+   warum(hell) · für-wen(grau) · über(hell) · leistungen(grau) · pakete(hell)
+   · ablauf(grau) · firmen(petrol) · kontakt(hell) · faq(grau) */
 #warum, #why, #neden, #pochemu,
+#ueber, #about, #hakkimizda, #o-nas,
 #pakete, #packages, #paketler, #pakety,
-#fuer-wen, #for-whom, #kimler-icin, #dlya-kogo,
-#technik, #equipment, #ekipman, #oborudovanie,
 #kontakt, #contact, #iletisim { background: var(--bg); }
 
-#ueber, #about, #hakkimizda, #o-nas,
+#fuer-wen, #for-whom, #kimler-icin, #dlya-kogo,
 #leistungen, #services, #hizmetler, #uslugi,
 #einfach,
 #stimmen,
 #faq, #sss { background: var(--bg2); }
+
+/* ⚠️ #firmen war der einzige Abschnitt, der beim Umbau durchgerutscht ist.
+   Er hatte KEINE background-color, sondern einen dunklen VERLAUF aus dem
+   alten Entwurf: linear-gradient(rgba(16,24,39,.85), …) mit violettem
+   Schleier. Darauf stand nach dem Umbau dunkle Schrift – unlesbar.
+
+   Warum es die Kontrollmessung nicht gefunden hat: Sie las nur
+   `background-color`. Die war transparent, also lief die Suche weiter nach
+   oben und fand den hellen Seitenhintergrund – rechnerisch alles in Ordnung,
+   sichtbar nicht. Wer hier nachmisst, muss `background-image` mitlesen.
+
+   Der Firmen-Bereich behält bewusst einen eigenen Ton: andere Zielgruppe,
+   also darf er sich absetzen – nur eben hell.
+
+   Nachtrag: Das Grau (--bg2) war rechnerisch in Ordnung, wurde aber weiter
+   als grauer, schwer lesbarer Kasten wahrgenommen. Deshalb jetzt ein heller
+   Petrol-Ton statt Grau – erkennbar eine eigene Farbe – und die Fließtexte
+   im Abschnitt eine Stufe dunkler als das übliche --muted. */
+#firmen, #business, #kurumsal, #biznes {
+  background: #E7F0F3;
+  background-image: none;
+  border-top: 1px solid #CBDDE3;
+  border-bottom: 1px solid #CBDDE3;
+}
+#firmen::before, #business::before, #kurumsal::before, #biznes::before { display: none; }
+
+/* Die sechs goldenen Sterne im Fuß (und im ausgeblendeten Marken-Band) sind
+   raus. Sie waren als Zierde gemeint, lesen sich neben dem Firmennamen aber
+   wie eine Fünf-Sterne-Bewertung – eine Behauptung, die es nicht gibt. */
+.footer-stars, .bb-stars { display: none; }
+
+/* Fließtext im Firmen-Abschnitt: --muted (#526780) käme auf 5,0:1 und wäre
+   formal AA, wirkt auf der Fläche aber blass. #33475E ergibt 8,2:1. */
+#firmen, #business, #kurumsal, #biznes { color: var(--text); }
+#firmen .lead, #business .lead, #kurumsal .lead, #biznes .lead,
+#firmen p, #business p, #kurumsal p, #biznes p,
+#firmen .feat, #business .feat, #kurumsal .feat, #biznes .feat,
+#firmen .b2b-out, #business .b2b-out, #kurumsal .b2b-out, #biznes .b2b-out,
+#firmen .b2b-preis, #business .b2b-preis, #kurumsal .b2b-preis, #biznes .b2b-preis {
+  color: #33475E;
+}
+#firmen h2, #business h2, #kurumsal h2, #biznes h2,
+#firmen h3, #business h3, #kurumsal h3, #biznes h3,
+#firmen b, #business b, #kurumsal b, #biznes b,
+#firmen .b2b-role, #business .b2b-role, #kurumsal .b2b-role, #biznes .b2b-role {
+  color: var(--text);
+}
+/* Die weißen Karten heben sich auf dem Petrol-Ton flacher ab als auf Grau –
+   deshalb eine etwas deutlichere Kante. */
+#firmen .b2b-card, #business .b2b-card, #kurumsal .b2b-card, #biznes .b2b-card {
+  border-color: #CBDDE3;
+  border-top: 3px solid var(--cyan);
+}
+#firmen .card-icon, #business .card-icon, #kurumsal .card-icon, #biznes .card-icon {
+  background: #F2F8FA; border-color: #CBDDE3;
+}
+
+/* styles.css setzt beim aktiven Sprach-Chip der Mobil-Navigation fast
+   schwarze Schrift. Das passte zum hellen Cyan des Dunkeldesigns; auf dem
+   Petrol der hellen Variante sind es nur 2,8:1. */
+.mn-langs a.active { color: #FFF; }
+
+/* Die Gerätenummern standen auf --line: 1,3:1. Als 48px-Ziffer sind 3:1
+   gefordert – #7A8CA0 liefert 3,1:1 und bleibt dezent. */
+.device-frame .df-num { color: #7A8CA0; }

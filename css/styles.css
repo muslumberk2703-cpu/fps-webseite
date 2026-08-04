@@ -785,6 +785,23 @@ html[lang="ar"] .service-tag { letter-spacing: 0.04em; }
 .spec-list li span:last-child { font-weight: 600; text-align: right; color: var(--text); }
 [dir="rtl"] .spec-list li span:last-child { text-align: left; }
 
+/* ---------- Geraetedaten in der Leistungskarte ----------
+   Frueher stand die Technik in einem eigenen Abschnitt weiter unten. Die
+   Zahlen erklaeren sich aber nur dort, wo auch die Leistung beschrieben ist –
+   deshalb stehen sie jetzt direkt unter der jeweiligen Illustration. Der
+   separate Technik-Abschnitt ist dafuer entfallen. */
+.geraet {
+  margin-top: 14px; padding: 15px 18px 13px;
+  border: 1px solid var(--line); border-radius: 14px;
+}
+.geraet-name {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.95rem; line-height: 1.25;
+}
+.geraet-sub { color: var(--muted); font-size: 0.78rem; margin-top: 2px; line-height: 1.35; }
+.geraet .spec-list { margin-top: 9px; }
+.geraet .spec-list li:first-child { border-top: none; padding-top: 2px; }
+
 /* ---------- Ablauf ---------- */
 .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; position: relative; }
 .step { position: relative; padding: 28px 24px; }
