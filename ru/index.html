@@ -23,13 +23,13 @@
   <link rel="preload" href="../fonts/playfair-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/styles.css?v=20260805-192908">
   <!-- Helles Design. Liegt bewusst NACH styles.css und überschreibt nur die
        Optik – Layout, RTL, Mobil und Akkordeon bleiben dort. Zum Zurückschalten
        auf Dunkel genügt es, diese eine Zeile zu entfernen. -->
-  <link rel="stylesheet" href="../css/hell.css">
+  <link rel="stylesheet" href="../css/hell.css?v=20260805-192908">
   <link rel="preload" href="../fonts/playfair-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <script defer src="../js/main.js"></script>
+  <script defer src="../js/main.js?v=20260805-192908"></script>
 </head>
 <body data-wa-text="Здравствуйте, Fivestar Property Scan! Меня интересует проверка недвижимости в Анталии/Аланье. Можете прислать предложение?" data-mail-subject="Заявка на проверку недвижимости – Fivestar Property Scan">
 
@@ -120,9 +120,9 @@
       <div class="container">
         <div class="hero-grid">
           <div>
-            <span class="hero-badge"><span class="dot"></span> Техническая проверка недвижимости перед покупкой</span>
+            <span class="hero-badge"><span class="dot"></span> Анталия · Аланья · Техническая проверка перед покупкой</span>
             <h1>Знайте, что вы <span class="grad-text">покупаете</span>.</h1>
-            <p class="lead">Прежде чем вы купите недвижимость в Анталии, Аланье или окрестностях, мы внимательно её осматриваем – независимо, с 3D-обмером, тепловизором и дроном. Вы получаете отчёт, понятный без технических знаний: фотографии, результаты замеров и ясную оценку. Так вы знаете, что покупаете, ещё до подписания.</p>
+            <p class="lead">Мы проверяем интересующий вас объект в Анталии и Аланье – по вашему поручению, до того как вы подпишете.</p>
             <div class="hero-cta">
               <a class="btn btn-wa btn-lg" data-wa href="#kontakt">
                 <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><use href="#ic-wa"/></svg>
@@ -131,10 +131,11 @@
               <a class="btn btn-ghost btn-lg" href="#uslugi">Смотреть услуги</a>
             </div>
             <ul class="trust-chips">
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Цифровой отчёт за 48 часов</li>
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Сайт на 5 языках</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> 3D-обмер</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Тепловизор</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Дрон</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Отчёт за 48 часов</li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> 100 % независимость</li>
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Анталия, Аланья и окрестности</li>
             </ul>
           </div>
           <div class="scan-card" aria-hidden="true">
@@ -219,11 +220,6 @@
             <p>Через 48 часов отчёт у вас на вашем языке: что в порядке, где вас ждут расходы и что стоит выяснить до подписания.</p>
           </div>
         </div>
-        <div class="einfach-frage reveal">
-          <h3>Что такое тепловизор на самом деле?</h3>
-          <p>Он делает видимыми различия температур на поверхности. Участок, который холоднее окружения, выглядит на снимке темнее – даже там, где стена свежевыкрашена и на вид ничем не выделяется.</p>
-          <p>Такое место может указывать на влагу, на протекающую трубу, на отсутствие утепления – или просто на то, что там уходит тепло. Работает и наоборот: если розетка или щиток <b>теплее</b> окружения, на снимке это видно сразу. <b>Само по себе это ещё не доказательство.</b> Что стоит за этим на самом деле, мы оцениваем вместе с типом конструкции, погодой и характером эксплуатации и пишем в отчёт. Где нужно, рекомендуем более точное измерение или профильную организацию.</p>
-        </div>
       </div>
     </section>
 
@@ -238,10 +234,27 @@
 
         <article class="service">
           <div class="service-visual reveal">
-            <div class="device-frame">
-              <span class="df-num">01</span>
-              <img src="../images/equipment-scan.svg" alt="Иллюстрация нашей системы 3D-сканирования">
-            </div>
+            <figure class="wb-video sc-video">
+              <video autoplay muted loop playsinline preload="none">
+                <source src="../images/3d-scan.mp4" type="video/mp4">
+                
+Ваш браузер не может воспроизвести это видео.
+              </video>
+              <figcaption>
+                <b>
+3D-обмер: так создаётся цифровая копия
+</b>
+                <em>
+Пример съёмки
+</em>
+                <span>
+Сканер снимает стены, полы и потолки точка за точкой. По этим данным мы рассчитываем площадь, размеры помещений и высоту потолков – а также план в масштабе, который вы можете сверить с объявлением и договором.
+</span>
+                <small>
+Все размеры есть в отчёте, и их можно перепроверить.
+</small>
+              </figcaption>
+            </figure>
             <div class="geraet">
               <div class="geraet-name">3DMakerPro Raven</div>
               <div class="geraet-sub">Обмер LiDAR – внутри и снаружи</div>
@@ -281,10 +294,26 @@
 
         <article class="service flip">
           <div class="service-visual reveal">
-            <div class="device-frame">
-              <span class="df-num">02</span>
-              <img src="../images/equipment-thermal.svg" alt="Иллюстрация нашего тепловизора">
-            </div>
+            <figure class="wb-video">
+              <video autoplay muted loop playsinline preload="none"
+                     poster="../images/wb-video-vorschau.jpg">
+                <source src="../images/waermebild.mp4" type="video/mp4">
+                
+Ваш браузер не может воспроизвести это видео.
+              </video>
+              <figcaption>
+                <em>Пример съёмки объекта в Германии</em>
+                <b>
+Тепловизионная съёмка: отсутствие утепления в потолке
+</b>
+                <span>
+Тёмные участки – это места, где утепление отсутствует или заканчивается. На кухне отчётливо видно, где оно обрывается: вся северная сторона без утепления. Над жилой зоной чердачного пространства нет вовсе. Такие помещения сильно нагреваются летом и быстро остывают зимой, а кондиционер работает против этого постоянно.
+</span>
+                <small>
+Тепловой снимок сам по себе не доказательство – каждую находку мы оцениваем в отчёте в контексте.
+</small>
+              </figcaption>
+            </figure>
             <div class="geraet">
               <div class="geraet-name">Thermal Master Thor 002</div>
               <div class="geraet-sub">Профессиональная ИК-диагностика</div>
@@ -325,10 +354,27 @@
 
         <article class="service">
           <div class="service-visual reveal">
-            <div class="device-frame">
-              <span class="df-num">03</span>
-              <img src="../images/equipment-drone.svg" alt="Иллюстрация нашего дрона">
-            </div>
+            <figure class="wb-video dr-video">
+              <video autoplay muted loop playsinline preload="none">
+                <source src="../images/drohnenflug.mp4" type="video/mp4">
+                
+Ваш браузер не может воспроизвести это видео.
+              </video>
+              <figcaption>
+                <b>
+Полёт дрона: крыша и фасад сверху
+</b>
+                <em>
+Пример съёмки
+</em>
+                <span>
+То, чего не увидеть при обычном осмотре: покрытие, видимые трещины, зоны гидроизоляции, водостоки. Мы облетаем внешнюю оболочку и снимаем всё в 4K – снимки вы получаете в отчёте.
+</span>
+                <small>
+Возможен ли полёт и в каком объёме, зависит от места и действующих правил. Это мы уточняем перед каждым выездом.
+</small>
+              </figcaption>
+            </figure>
             <div class="geraet">
               <div class="geraet-name">DJI Mini 4 Pro</div>
               <div class="geraet-sub">Съёмка крыши и фасада с воздуха</div>
@@ -368,10 +414,27 @@
         <!-- 360-градусный тур -->
         <article class="service flip">
           <div class="service-visual reveal">
-            <div class="device-frame">
-              <span class="df-num">04</span>
-              <img src="../images/equipment-twin.svg" alt="Иллюстрация 360-градусного тура: торговое помещение с точками съёмки">
-            </div>
+            <figure class="wb-video rg-video">
+              <video autoplay muted loop playsinline preload="none">
+                <source src="../images/rundgang-360.mp4" type="video/mp4">
+                
+Ваш браузер не может воспроизвести это видео.
+              </video>
+              <figcaption>
+                <b>
+360°-тур: пройти по объекту, не приезжая
+</b>
+                <em>
+Пример съёмки
+</em>
+                <span>
+Мы снимаем объект в 360° и делаем из этого виртуальный тур. Вы получаете ссылку – тот, кто её откроет, переходит из комнаты в комнату и осматривается, будто стоит там сам.
+</span>
+                <small>
+Одна ссылка для сайта, Instagram, WhatsApp и порталов недвижимости.
+</small>
+              </figcaption>
+            </figure>
             <div class="geraet">
               <div class="geraet-name">Insta360 X4</div>
               <div class="geraet-sub">360°-тур по вашему объекту</div>

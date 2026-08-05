@@ -506,6 +506,38 @@ var CPC_FOTOS = {
     klapp.parentNode.removeChild(klapp);
   });
 
+  /* ---------- Nur auf dem Handy: Zusatzinfos zuklappen ----------
+     Auf dem Desktop bleibt alles offen. Auf dem Handy waere jede Leistung
+     sonst ueber 2000 Pixel hoch - man scrollt ewig, bevor die naechste
+     kommt. Sichtbar bleiben Ueberschrift, Beschreibung, Video und die
+     Bildunterschrift. Haken, Hinweis und Geraetedaten liegen hinter
+     "Weitere Informationen". */
+  var MEHR_INFO = {
+    de: "Weitere Informationen", en: "More information",
+    tr: "Daha fazla bilgi", ru: "Подробнее", ar: "مزيد من المعلومات"
+  };
+  var mehrInfo = MEHR_INFO[(document.documentElement.lang || "de").slice(0, 2)] || MEHR_INFO.en;
+
+  if (window.matchMedia && window.matchMedia("(max-width: 860px)").matches) {
+    document.querySelectorAll("article.service").forEach(function (block) {
+      if (block.querySelector(".mobil-mehr")) return;
+      /* Sammeln, was zugeklappt werden soll - in der Reihenfolge der Seite */
+      var rein = [];
+      block.querySelectorAll(".feature-grid, .service-note, .geraet").forEach(function (el) {
+        if (!el.closest(".mobil-mehr")) rein.push(el);
+      });
+      if (!rein.length) return;
+
+      var huelle = document.createElement("details");
+      huelle.className = "mobil-mehr";
+      var schalter = document.createElement("summary");
+      schalter.textContent = mehrInfo;
+      huelle.appendChild(schalter);
+      rein[0].parentNode.insertBefore(huelle, rein[0]);
+      rein.forEach(function (el) { huelle.appendChild(el); });
+    });
+  }
+
   /* Aus dem Ursprungsentwurf stammt zusaetzlich eine Ziehharmonika um die
      ganze Leistung (.service.klappbar mit .service-kopf): Nur der erste
      Block stand offen, die anderen vier waren auf eine Kopfzeile

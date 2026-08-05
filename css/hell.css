@@ -794,6 +794,32 @@ details.size-note > summary:active { transform: scale(.97); }
   .person-klapp > summary, .person-klapp > summary::after { transition: none; }
 }
 
+/* ---------- Nur Handy: "Weitere Informationen" ----------
+   Auf dem Desktop steht alles offen; diese Hülle baut main.js nur, wenn
+   der Bildschirm schmal ist. Sichtbar bleiben Überschrift, Beschreibung,
+   Video und Bildunterschrift – der Rest liegt hinter einem Klick. */
+.mobil-mehr > summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  cursor: pointer; list-style: none;
+  margin-top: 14px; padding: 13px 16px;
+  border: 1px solid #CBDDE3; border-radius: 999px; background: #F2F8FA;
+  font-family: var(--font-display); font-size: 0.92rem; font-weight: 600;
+  color: var(--cyan); min-height: 44px;
+}
+.mobil-mehr > summary::-webkit-details-marker { display: none; }
+.mobil-mehr > summary::after {
+  content: ""; width: 8px; height: 8px; flex: none;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 250ms var(--ease);
+}
+.mobil-mehr[open] > summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+.mobil-mehr[open] > summary { margin-bottom: 14px; }
+.mobil-mehr > summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  .mobil-mehr > summary::after { transition: none; }
+}
+
 /* ---------- Firmen-Abschnitt als Aufklapper ----------
    Der Bereich richtet sich an einen Bruchteil der Besucher. Zugeklappt steht
    dort nur noch eine anklickbare Zeile; der private Käufer scrollt vorbei

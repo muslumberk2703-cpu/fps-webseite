@@ -24,13 +24,13 @@
   <link rel="preload" href="../fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/inter-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/styles.css?v=20260805-192908">
   <!-- Helles Design. Liegt bewusst NACH styles.css und überschreibt nur die
        Optik – Layout, RTL, Mobil und Akkordeon bleiben dort. Zum Zurückschalten
        auf Dunkel genügt es, diese eine Zeile zu entfernen. -->
-  <link rel="stylesheet" href="../css/hell.css">
+  <link rel="stylesheet" href="../css/hell.css?v=20260805-192908">
   <link rel="preload" href="../fonts/playfair-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <script defer src="../js/main.js"></script>
+  <script defer src="../js/main.js?v=20260805-192908"></script>
 </head>
 <body data-wa-text="Merhaba Fivestar Property Scan! Antalya/Alanya'da bir emlak kontrolü yaptırmak istiyorum. Fiyat teklifi alabilir miyim?" data-mail-subject="Emlak Kontrolü Talebi – Fivestar Property Scan">
 
@@ -121,9 +121,9 @@
       <div class="container">
         <div class="hero-grid">
           <div>
-            <span class="hero-badge"><span class="dot"></span> Satın almadan önce teknik emlak kontrolü</span>
+            <span class="hero-badge"><span class="dot"></span> Antalya · Alanya · Satın almadan önce teknik emlak kontrolü</span>
             <h1>Almadan önce <span class="grad-text">bilin</span>.</h1>
-            <p class="lead">Antalya, Alanya veya çevresinde bir gayrimenkul almadan önce onu yakından inceliyoruz – bağımsız olarak, 3D ölçüm, termal kamera ve drone ile. Teknik bilgi gerektirmeden anlayacağınız bir rapor alıyorsunuz: fotoğraflar, ölçüm değerleri ve net bir değerlendirme. Böylece imzalamadan önce ne satın aldığınızı biliyorsunuz.</p>
+            <p class="lead">Almak istediğiniz gayrimenkulü Antalya ve Alanya'da kontrol ediyoruz – sizin adınıza, siz imzalamadan önce.</p>
             <div class="hero-cta">
               <a class="btn btn-wa btn-lg" data-wa href="#iletisim">
                 <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><use href="#ic-wa"/></svg>
@@ -132,10 +132,11 @@
               <a class="btn btn-ghost btn-lg" href="#hizmetler">Hizmetleri incele</a>
             </div>
             <ul class="trust-chips">
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> 48 saat içinde dijital rapor</li>
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Web sitesi 5 dilde</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> 3D ölçüm</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Termal görüntüleme</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Drone</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> 48 saat içinde rapor</li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> %100 bağımsız</li>
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Antalya, Alanya ve çevresi</li>
             </ul>
           </div>
           <div class="scan-card" aria-hidden="true">
@@ -220,11 +221,6 @@
             <p>48 saat sonra raporunuz kendi dilinizde elinizde olur: neyin yolunda olduğu, hangi masrafların sizi beklediği ve imzadan önce netleştirmeniz gerekenler.</p>
           </div>
         </div>
-        <div class="einfach-frage reveal">
-          <h3>Termal kamera aslında nedir?</h3>
-          <p>Yüzeydeki sıcaklık farklarını görünür kılar. Çevresinden daha serin olan bir nokta görüntüde daha koyu görünür – duvar yeni boyanmış ve göze sıradan görünse bile.</p>
-          <p>Böyle bir nokta neme, sızdıran bir boruya, eksik yalıtıma – ya da sadece oradan ısı kaçtığına işaret edebilir. Tersi de geçerlidir: bir priz veya sigorta kutusu çevresinden <b>daha sıcaksa</b>, bu görüntüde hemen fark edilir. <b>Tek başına bu henüz bir kanıt değildir.</b> Arkasında gerçekte ne olduğunu yapı türü, hava koşulları ve kullanım ile birlikte değerlendirir ve raporda belirtiriz. Gerektiği yerde daha ayrıntılı bir ölçüm veya uzman bir firma öneriyoruz.</p>
-        </div>
       </div>
     </section>
 
@@ -239,10 +235,27 @@
 
         <article class="service">
           <div class="service-visual reveal">
-            <div class="device-frame">
-              <span class="df-num">01</span>
-              <img src="../images/equipment-scan.svg" alt="3D tarama sistemimizin çizimi">
-            </div>
+            <figure class="wb-video sc-video">
+              <video autoplay muted loop playsinline preload="none">
+                <source src="../images/3d-scan.mp4" type="video/mp4">
+                
+Tarayıcınız bu videoyu oynatamıyor.
+              </video>
+              <figcaption>
+                <b>
+3D ölçüm: dijital kopya böyle oluşuyor
+</b>
+                <em>
+Örnek kayıt
+</em>
+                <span>
+Tarayıcı duvarları, zeminleri ve tavanları nokta nokta tarıyor. Bundan kullanım alanını, oda ölçülerini ve tavan yüksekliklerini hesaplıyoruz – ayrıca ilan ve sözleşmeyle karşılaştırabileceğiniz, ölçeğine uygun bir kat planı.
+</span>
+                <small>
+Tüm ölçüler raporda yer alır ve doğrulanabilir.
+</small>
+              </figcaption>
+            </figure>
             <div class="geraet">
               <div class="geraet-name">3DMakerPro Raven</div>
               <div class="geraet-sub">LiDAR ölçüm – içeride ve dışarıda</div>
@@ -282,10 +295,26 @@
 
         <article class="service flip">
           <div class="service-visual reveal">
-            <div class="device-frame">
-              <span class="df-num">02</span>
-              <img src="../images/equipment-thermal.svg" alt="Termal kameramızın çizimi">
-            </div>
+            <figure class="wb-video">
+              <video autoplay muted loop playsinline preload="none"
+                     poster="../images/wb-video-vorschau.jpg">
+                <source src="../images/waermebild.mp4" type="video/mp4">
+                
+Tarayıcınız bu videoyu oynatamıyor.
+              </video>
+              <figcaption>
+                <em>Almanya'daki bir objeden örnek kayıt</em>
+                <b>
+Termal kayıt: tavanda eksik yalıtım
+</b>
+                <span>
+Koyu alanlar, yalıtımın eksik olduğu veya bittiği yerlerdir. Mutfakta nerede sona erdiği net görülüyor – tüm kuzey cephesi yalıtımsız. Oturma bölümünün üzerinde ise hiç çatı boşluğu yok. Böyle mekânlar yazın çok ısınır, kışın hızla soğur; klima sürekli buna karşı çalışır.
+</span>
+                <small>
+Termal görüntü tek başına kanıt değildir – her bulguyu raporda bağlamıyla açıklıyoruz.
+</small>
+              </figcaption>
+            </figure>
             <div class="geraet">
               <div class="geraet-name">Thermal Master Thor 002</div>
               <div class="geraet-sub">Profesyonel kızılötesi teşhis</div>
@@ -326,10 +355,27 @@
 
         <article class="service">
           <div class="service-visual reveal">
-            <div class="device-frame">
-              <span class="df-num">03</span>
-              <img src="../images/equipment-drone.svg" alt="Denetim dronumuzun çizimi">
-            </div>
+            <figure class="wb-video dr-video">
+              <video autoplay muted loop playsinline preload="none">
+                <source src="../images/drohnenflug.mp4" type="video/mp4">
+                
+Tarayıcınız bu videoyu oynatamıyor.
+              </video>
+              <figcaption>
+                <b>
+Drone uçuşu: çatı ve cephe yukarıdan
+</b>
+                <em>
+Örnek kayıt
+</em>
+                <span>
+Normal bir gezmede görünmeyenler: kaplama, görünür çatlaklar, yalıtım bölgeleri, yağmur olukları. Dış kabuğu uçarak tarıyor ve hepsini 4K kaydediyoruz – görüntüler raporda size ulaşıyor.
+</span>
+                <small>
+Uçuşun mümkün olup olmadığı ve kapsamı, konuma ve mevzuata bağlıdır. Bunu her randevudan önce netleştiriyoruz.
+</small>
+              </figcaption>
+            </figure>
             <div class="geraet">
               <div class="geraet-name">DJI Mini 4 Pro</div>
               <div class="geraet-sub">Çatı &amp; cephe için havadan çekim</div>
@@ -369,10 +415,27 @@
         <!-- 360 derece tur -->
         <article class="service flip">
           <div class="service-visual reveal">
-            <div class="device-frame">
-              <span class="df-num">04</span>
-              <img src="../images/equipment-twin.svg" alt="360 derece tur çizimi: duraklarıyla bir dükkân">
-            </div>
+            <figure class="wb-video rg-video">
+              <video autoplay muted loop playsinline preload="none">
+                <source src="../images/rundgang-360.mp4" type="video/mp4">
+                
+Tarayıcınız bu videoyu oynatamıyor.
+              </video>
+              <figcaption>
+                <b>
+360° tur: orada olmadan mülkü gezin
+</b>
+                <em>
+Örnek kayıt
+</em>
+                <span>
+Mülkü 360° olarak kaydediyor ve bundan sanal bir tur hazırlıyoruz. Size bir bağlantı veriyoruz – onu açan kişi odadan odaya geçiyor ve sanki oradaymış gibi etrafa bakıyor.
+</span>
+                <small>
+Web siteniz, Instagram, WhatsApp ve emlak portalları için tek bağlantı.
+</small>
+              </figcaption>
+            </figure>
             <div class="geraet">
               <div class="geraet-name">Insta360 X4</div>
               <div class="geraet-sub">Mülkünüzde 360° sanal tur</div>
