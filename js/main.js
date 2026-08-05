@@ -412,6 +412,224 @@ var CPC_FOTOS = {
     huelle.appendChild(liste);
   });
 
+  /* ---------- Firmen-Bereich zuklappen ----------
+     Der Abschnitt richtet sich an Makler, Bauträger, Planer und Gewerbe -
+     also an einen Bruchteil der Besucher. Aufgeklappt schob er den privaten
+     Kaeufer ueber mehrere Bildschirme hinweg vom Kontakt weg.
+     Jetzt: eine Zeile zum Anklicken. Wer keine Firma ist, scrollt vorbei.
+     Darin klappt zusaetzlich jede der drei Zielgruppen einzeln auf.
+     Wieder nachtraeglich per JavaScript - ohne Skripte bleibt alles offen
+     und vollstaendig lesbar, und Google sieht den Inhalt immer. */
+  var B2B_AUF = {
+    de: { block: "Leistungen für Firmen ansehen", karte: "Details ansehen" },
+    en: { block: "See services for businesses",   karte: "See details" },
+    tr: { block: "Kurumsal hizmetleri görüntüle", karte: "Ayrıntıları gör" },
+    ru: { block: "Показать услуги для бизнеса",   karte: "Подробнее" },
+    ar: { block: "عرض خدمات الشركات",             karte: "عرض التفاصيل" }
+  };
+  var b2bText = B2B_AUF[(document.documentElement.lang || "de").slice(0, 2)] || B2B_AUF.en;
+
+  var b2bAbschnitt = document.querySelector("#firmen, #business, #kurumsal, #biznes");
+  if (b2bAbschnitt) {
+    /* a) jede der drei Karten einzeln */
+    b2bAbschnitt.querySelectorAll(".b2b-card").forEach(function (karte) {
+      var titel = karte.querySelector("h3");
+      if (!titel || karte.querySelector(".b2b-klapp")) return;
+
+      var huelle = document.createElement("details");
+      huelle.className = "b2b-klapp";
+      var schalter = document.createElement("summary");
+      schalter.textContent = b2bText.karte;
+      huelle.appendChild(schalter);
+
+      /* alles unterhalb der Ueberschrift wandert hinein */
+      var naechstes = titel.nextElementSibling;
+      titel.insertAdjacentElement("afterend", huelle);
+      while (naechstes) {
+        var danach = naechstes.nextElementSibling;
+        if (naechstes !== huelle) huelle.appendChild(naechstes);
+        naechstes = danach;
+      }
+    });
+
+    /* b) der ganze Abschnitt */
+    var kopf = b2bAbschnitt.querySelector(".section-head");
+    var raster = b2bAbschnitt.querySelector(".grid-3");
+    if (kopf && raster && !b2bAbschnitt.querySelector(".firmen-klapp")) {
+      var aussen = document.createElement("details");
+      aussen.className = "firmen-klapp";
+      var aussenSchalter = document.createElement("summary");
+      aussenSchalter.textContent = b2bText.block;
+      aussen.appendChild(aussenSchalter);
+
+      var lauf = kopf.nextElementSibling;
+      kopf.insertAdjacentElement("afterend", aussen);
+      while (lauf) {
+        var weiter = lauf.nextElementSibling;
+        if (lauf !== aussen) aussen.appendChild(lauf);
+        lauf = weiter;
+      }
+    }
+  }
+
+  /* ---------- Leistungen auf das Wesentliche eindampfen ----------
+     Jede Leistung war ein kleiner Aufsatz: Ueberschrift, Absatz, drei Haken,
+     vier Geraetedaten, Hinweiskasten - rund 200 Woerter, bevor man ueberhaupt
+     etwas anklickt. Ein Kaeufer liest das nicht, er scrollt daran vorbei.
+     Sichtbar bleibt jetzt Etikett, Ueberschrift und der erklaerende Absatz.
+     Alles Weitere - Haken, Geraetedaten, Hinweis - liegt hinter einem Klick.
+     Ohne JavaScript bleibt alles offen und vollstaendig lesbar. */
+  /* ZURUECKGENOMMEN am 05.08.2026: Die Leistungen selbst stehen wieder
+     offen da - Video, Ueberschrift, Beschreibung und die drei Haken sind
+     ohne Klick sichtbar. Zugeklappt bleiben nur die Zusatzinformationen:
+     die vollstaendige Leistungsliste ("Alle Leistungen anzeigen") und die
+     Geraetedaten. Nicht wieder einen Aufklapper um den ganzen Block legen. */
+
+  /* ---------- Geraetedaten aufklappbar ----------
+     Der Geraetename bleibt sichtbar - er zeigt, womit gearbeitet wird.
+     Die vier Messwerte dahinter interessieren nur, wer nachfragt; sie
+     stehen deshalb hinter einem Klick, bleiben aber an Ort und Stelle
+     (in der Bildspalte der jeweiligen Leistung, nicht im Textblock).
+     Ohne JavaScript steht alles offen. */
+  /* ZURUECKGENOMMEN am 05.08.2026: In den Leistungen wird nichts mehr
+     zugeklappt. Video, Ueberschrift, Beschreibung, saemtliche Haken und die
+     Geraetedaten stehen offen da. Der Auftraggeber will die Bereiche genau
+     so sehen, wie sie sind - kein Klick dazwischen.
+     Deshalb werden auch die aus dem Entwurf stammenden "Alle Leistungen
+     anzeigen"-Aufklapper aufgeloest: Inhalt raus, Huelle weg. */
+  document.querySelectorAll("article.service details.mehr").forEach(function (klapp) {
+    while (klapp.firstElementChild) {
+      var kind = klapp.firstElementChild;
+      if (kind.tagName === "SUMMARY") { klapp.removeChild(kind); continue; }
+      klapp.parentNode.insertBefore(kind, klapp);
+    }
+    klapp.parentNode.removeChild(klapp);
+  });
+
+  /* Aus dem Ursprungsentwurf stammt zusaetzlich eine Ziehharmonika um die
+     ganze Leistung (.service.klappbar mit .service-kopf): Nur der erste
+     Block stand offen, die anderen vier waren auf eine Kopfzeile
+     zusammengeschoben. Auch die wird aufgemacht und der Schalter
+     stillgelegt - die Leistungen stehen dauerhaft offen. */
+  document.querySelectorAll(".service.klappbar").forEach(function (block) {
+    block.classList.add("offen");
+    var kopf = block.querySelector(".service-kopf");
+    if (kopf) {
+      kopf.setAttribute("aria-expanded", "true");
+      /* Klon ohne Ereignis-Empfaenger: der Kopf bleibt sichtbar,
+         laesst sich aber nicht mehr zuklappen. */
+      var starr = kopf.cloneNode(true);
+      starr.removeAttribute("aria-controls");
+      if (starr.tagName === "BUTTON") starr.disabled = true;
+      kopf.parentNode.replaceChild(starr, kopf);
+    }
+  });
+
+  /* ---------- Waermebild-Video ----------
+     Es laeuft stumm in Schleife wie ein bewegtes Bild. Wer im Betriebssystem
+     weniger Bewegung angefordert hat, bekommt es angehalten und mit
+     Bedienleiste - dann entscheidet er selbst, ob er es startet. */
+  var wenigerBewegung = window.matchMedia &&
+                        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var videos = document.querySelectorAll(".wb-video video");
+
+  /* Hoch- oder Querformat erkennen und am Rahmen vermerken. Die Aufnahmen
+     koennen jederzeit gegen andere getauscht werden - das Layout richtet
+     sich dann von allein danach, ohne dass jemand HTML anfassen muss.
+     Hochkant: Erklaerung steht daneben. Quer: Erklaerung steht darunter. */
+  videos.forEach(function (v) {
+    /* Manche Aufnahmen sind querformatig, stecken aber in einer hochkanten
+       Datei - oben und unten schwarze Balken. Die wollen wir nicht sehen.
+       Deshalb wird ein Einzelbild ausgelesen, die Balken werden vermessen
+       und nur das echte Bild bekommt Platz; der Rest wird beschnitten.
+       Das funktioniert fuer jede Datei, auch fuer spaeter ausgetauschte. */
+    function festlegen(breite, hoehe) {
+      var rahmen = v.closest(".wb-video");
+      rahmen.classList.toggle("quer", breite > hoehe);
+      rahmen.classList.toggle("hochkant", breite <= hoehe);
+      v.style.aspectRatio = breite + " / " + hoehe;
+    }
+
+    function balkenMessen() {
+      if (!v.videoWidth) return;
+      festlegen(v.videoWidth, v.videoHeight);          // erst einmal wie die Datei
+      try {
+        var c = document.createElement("canvas");
+        c.width = v.videoWidth; c.height = v.videoHeight;
+        var g = c.getContext("2d");
+        g.drawImage(v, 0, 0);
+        var d = g.getImageData(0, 0, c.width, c.height).data;
+        var dunkel = function (y) {
+          var s = 0, n = 0;
+          for (var x = 0; x < c.width; x += 8) {
+            var i = (y * c.width + x) * 4;
+            s += (d[i] + d[i + 1] + d[i + 2]) / 3; n++;
+          }
+          return s / n;
+        };
+        var oben = 0, unten = 0;
+        while (oben < c.height / 2 && dunkel(oben) < 18) oben++;
+        while (unten < c.height / 2 && dunkel(c.height - 1 - unten) < 18) unten++;
+        var echt = c.height - oben - unten;
+        /* nur eingreifen, wenn wirklich nennenswerte Balken da sind */
+        if (echt > 40 && (oben + unten) > c.height * 0.08) festlegen(c.width, echt);
+      } catch (e) { /* Einzelbild nicht lesbar - dann eben wie die Datei */ }
+    }
+
+    if (v.readyState >= 2) balkenMessen();
+    v.addEventListener("loadeddata", balkenMessen, { once: true });
+  });
+
+  if (wenigerBewegung) {
+    videos.forEach(function (v) {
+      v.removeAttribute("autoplay");
+      v.loop = false; v.controls = true; v.preload = "none";
+      v.pause();
+    });
+  } else if ("IntersectionObserver" in window) {
+    /* Zwei Aufnahmen von zusammen ueber 50 MB duerfen nicht beide beim
+       Seitenaufruf loslegen - der Browser bremst das ohnehin aus, und auf
+       dem Handy kostet es Datenvolumen fuer nichts.
+       Deshalb: Geladen und abgespielt wird erst, was gerade im Bild ist;
+       verlaesst es den Bildschirm, haelt es an. */
+    var beobachter = new IntersectionObserver(function (eintraege) {
+      eintraege.forEach(function (e) {
+        var v = e.target;
+        if (e.isIntersecting) {
+          if (v.preload === "none") v.preload = "auto";
+          var p = v.play();
+          if (p && p.catch) p.catch(function () { v.controls = true; });
+        } else if (!v.paused) {
+          v.pause();
+        }
+      });
+    }, { threshold: 0.25 });
+    videos.forEach(function (v) { beobachter.observe(v); });
+  }
+
+  /* ---------- Persoenliche Vorstellung kuerzen ----------
+     Drei Absaetze sind viel fuer eine Stelle, an der die meisten nur wissen
+     wollen, wer da kommt. Der erste Absatz bleibt, der Rest klappt auf. */
+  var PERSON_MEHR = {
+    de: "Mehr über mich", en: "More about me", tr: "Hakkımda daha fazlası",
+    ru: "Подробнее обо мне", ar: "المزيد عني"
+  };
+  var personMehr = PERSON_MEHR[(document.documentElement.lang || "de").slice(0, 2)] || PERSON_MEHR.en;
+
+  var personText = document.querySelector(".person > div:last-child");
+  if (personText && !personText.querySelector(".person-klapp")) {
+    var absaetze = personText.querySelectorAll("p:not(.person-claim)");
+    if (absaetze.length > 1) {
+      var pHuelle = document.createElement("details");
+      pHuelle.className = "person-klapp";
+      var pSchalter = document.createElement("summary");
+      pSchalter.textContent = personMehr;
+      pHuelle.appendChild(pSchalter);
+      absaetze[0].insertAdjacentElement("afterend", pHuelle);
+      for (var i = 1; i < absaetze.length; i++) pHuelle.appendChild(absaetze[i]);
+    }
+  }
+
   /* Springt jemand aus dem Menue auf "Leistungen", soll er nicht auf einen
      zugeklappten Stapel schauen - der erste Block ist ja offen. Zeigt aber
      ein Link direkt auf eine Leistung, wird die aufgeklappt. */
