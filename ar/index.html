@@ -22,13 +22,13 @@
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="preload" href="../fonts/vazirmatn-arabic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/vazirmatn-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/styles.css?v=20260804-2331">
   <!-- Helles Design. Liegt bewusst NACH styles.css und überschreibt nur die
        Optik – Layout, RTL, Mobil und Akkordeon bleiben dort. Zum Zurückschalten
        auf Dunkel genügt es, diese eine Zeile zu entfernen. -->
-  <link rel="stylesheet" href="../css/hell.css">
+  <link rel="stylesheet" href="../css/hell.css?v=20260804-2331">
   <link rel="preload" href="../fonts/playfair-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <script defer src="../js/main.js"></script>
+  <script defer src="../js/main.js?v=20260804-2331"></script>
 </head>
 <body data-wa-text="مرحباً Fivestar Property Scan! أرغب في إجراء فحص لعقار في أنطاليا/ألانيا. هل يمكنكم إرسال عرض سعر؟" data-mail-subject="طلب فحص عقار – Fivestar Property Scan">
 
@@ -119,9 +119,9 @@
       <div class="container">
         <div class="hero-grid">
           <div>
-            <span class="hero-badge"><span class="dot"></span> فحص فني للعقار قبل الشراء</span>
+            <span class="hero-badge"><span class="dot"></span> أنطاليا · ألانيا · فحص فني للعقار قبل الشراء</span>
             <h1>اعرف قبل أن <span class="grad-text">تشتري</span>.</h1>
-            <p class="lead">قبل أن تشتري عقاراً في أنطاليا أو ألانيا أو ما حولهما، نفحصه لك عن قرب – بشكل مستقل، بالمسح ثلاثي الأبعاد والكاميرا الحرارية والدرون. تحصل على تقرير تفهمه دون أي خلفية تقنية: صور وقيم قياس وتقييم واضح. فتعرف ما الذي تشتريه قبل أن توقّع.</p>
+            <p class="lead">نفحص العقار الذي تنوي شراءه في أنطاليا وألانيا – نيابةً عنك، قبل أن توقّع.</p>
             <div class="hero-cta">
               <a class="btn btn-wa btn-lg" data-wa href="#contact">
                 <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><use href="#ic-wa"/></svg>
@@ -130,10 +130,11 @@
               <a class="btn btn-ghost btn-lg" href="#services">تصفح الخدمات</a>
             </div>
             <ul class="trust-chips">
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> تقرير رقمي خلال <span class="ltr">48</span> ساعة</li>
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> الموقع بخمس لغات</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> مسح ثلاثي الأبعاد</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> تصوير حراري</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> درون</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> تقرير خلال <span class="ltr">48</span> ساعة</li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> استقلالية تامة <span class="ltr">100 %</span></li>
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> أنطاليا وألانيا والمناطق المحيطة</li>
             </ul>
           </div>
           <div class="scan-card" aria-hidden="true">
@@ -218,11 +219,6 @@
             <p>بعد 48 ساعة يصلك التقرير بلغتك: ما هو سليم، وأين تنتظرك تكاليف، وما ينبغي توضيحه قبل التوقيع.</p>
           </div>
         </div>
-        <div class="einfach-frage reveal">
-          <h3>ما هي الكاميرا الحرارية فعلياً؟</h3>
-          <p>تُظهر فروق الحرارة على السطح. الموضع الأبرد من محيطه يبدو في الصورة أغمق – حتى حيث يكون الجدار مطلياً حديثاً ويبدو للعين عادياً.</p>
-          <p>قد يشير مثل هذا الموضع إلى رطوبة، أو إلى أنبوب مسرّب، أو إلى نقص في العزل – أو ببساطة إلى أن الحرارة تتسرّب من هناك. والعكس صحيح أيضاً: إذا كان مقبس أو لوحة الكهرباء <b>أدفأ</b> من محيطه، ظهر ذلك في الصورة فوراً. <b>وهذا وحده ليس دليلاً بعد.</b> أما ما يقف خلفه فعلياً فنقيّمه مع نوع البناء والطقس وطريقة الاستخدام، ونثبته في التقرير. وعند اللزوم نوصي بقياس أدق أو بجهة مختصة.</p>
-        </div>
       </div>
     </section>
 
@@ -238,10 +234,27 @@
         <!-- المسح ثلاثي الأبعاد -->
         <article class="service">
           <div class="service-visual reveal">
-            <div class="device-frame">
-              <span class="df-num">01</span>
-              <img src="../images/equipment-scan.svg" alt="رسم توضيحي لنظام المسح ثلاثي الأبعاد لدينا">
-            </div>
+            <figure class="wb-video sc-video">
+              <video autoplay muted loop playsinline preload="none">
+                <source src="../images/3d-scan.mp4" type="video/mp4">
+                
+متصفحك لا يستطيع تشغيل هذا الفيديو.
+              </video>
+              <figcaption>
+                <b>
+المسح ثلاثي الأبعاد: هكذا تنشأ النسخة الرقمية
+</b>
+                <em>
+تسجيل نموذجي
+</em>
+                <span>
+يمسح الجهاز الجدران والأرضيات والأسقف نقطةً نقطة. ومن ذلك نحسب المساحة وأبعاد الغرف وارتفاع الأسقف – إضافة إلى مخطط مطابق للمقياس يمكنك مقارنته بالإعلان وبالعقد.
+</span>
+                <small>
+كل المقاسات مثبتة في التقرير وقابلة للتحقق.
+</small>
+              </figcaption>
+            </figure>
             <div class="geraet">
               <div class="geraet-name ltr">3DMakerPro Raven</div>
               <div class="geraet-sub">مسح ليزري <span class="ltr">LiDAR</span> – داخلاً وخارجاً</div>
@@ -282,10 +295,26 @@
         <!-- التصوير الحراري -->
         <article class="service flip">
           <div class="service-visual reveal">
-            <div class="device-frame">
-              <span class="df-num">02</span>
-              <img src="../images/equipment-thermal.svg" alt="رسم توضيحي لكاميرا التصوير الحراري لدينا">
-            </div>
+            <figure class="wb-video">
+              <video autoplay muted loop playsinline preload="none"
+                     poster="../images/wb-video-vorschau.jpg">
+                <source src="../images/waermebild.mp4" type="video/mp4">
+                
+متصفحك لا يستطيع تشغيل هذا الفيديو.
+              </video>
+              <figcaption>
+                <em>تسجيل نموذجي من عقار في ألمانيا</em>
+                <b>
+تصوير حراري: نقص العزل في السقف
+</b>
+                <span>
+المساحات الداكنة هي المواضع التي يغيب فيها العزل أو ينتهي. في المطبخ يظهر بوضوح أين ينتهي – الجهة الشمالية كلها بلا عزل. وفوق منطقة الجلوس لا يوجد فراغ سقفي أصلاً. مثل هذه الغرف تسخن كثيراً صيفاً وتبرد سريعاً شتاءً، ويعمل المكيّف ضد ذلك باستمرار.
+</span>
+                <small>
+الصورة الحرارية وحدها ليست دليلاً – نضع كل ملاحظة في سياقها داخل التقرير.
+</small>
+              </figcaption>
+            </figure>
             <div class="geraet">
               <div class="geraet-name ltr">Thermal Master Thor 002</div>
               <div class="geraet-sub">تشخيص احترافي بالأشعة تحت الحمراء</div>
@@ -327,10 +356,27 @@
         <!-- الدرون -->
         <article class="service">
           <div class="service-visual reveal">
-            <div class="device-frame">
-              <span class="df-num">03</span>
-              <img src="../images/equipment-drone.svg" alt="رسم توضيحي لطائرة الدرون الخاصة بالفحص">
-            </div>
+            <figure class="wb-video dr-video">
+              <video autoplay muted loop playsinline preload="none">
+                <source src="../images/drohnenflug.mp4" type="video/mp4">
+                
+متصفحك لا يستطيع تشغيل هذا الفيديو.
+              </video>
+              <figcaption>
+                <b>
+طيران بالدرون: السطح والواجهة من الأعلى
+</b>
+                <em>
+تسجيل نموذجي
+</em>
+                <span>
+ما لا تُظهره المعاينة العادية: التغطية، والشقوق الظاهرة، ومناطق العزل، والمزاريب. نطير حول الغلاف الخارجي ونوثّق كل شيء بدقة 4K – وتصلك الصور داخل التقرير.
+</span>
+                <small>
+إمكانية الطيران ونطاقه يعتمدان على الموقع وعلى الأنظمة السارية. ونوضّح ذلك قبل كل موعد.
+</small>
+              </figcaption>
+            </figure>
             <div class="geraet">
               <div class="geraet-name ltr">DJI Mini 4 Pro</div>
               <div class="geraet-sub">تصوير جوي للسطح والواجهة</div>
@@ -370,10 +416,27 @@
         <!-- جولة 360 درجة -->
         <article class="service flip">
           <div class="service-visual reveal">
-            <div class="device-frame">
-              <span class="df-num">04</span>
-              <img src="../images/equipment-twin.svg" alt="رسم توضيحي لجولة 360 درجة: محل تجاري مع نقاط التصوير">
-            </div>
+            <figure class="wb-video rg-video">
+              <video autoplay muted loop playsinline preload="none">
+                <source src="../images/rundgang-360.mp4" type="video/mp4">
+                
+متصفحك لا يستطيع تشغيل هذا الفيديو.
+              </video>
+              <figcaption>
+                <b>
+جولة 360°: تجوّل في العقار دون أن تكون فيه
+</b>
+                <em>
+تسجيل نموذجي
+</em>
+                <span>
+نصوّر العقار بزاوية 360° ونحوّله إلى جولة افتراضية. تحصل على رابط – ومن يفتحه ينتقل من غرفة إلى أخرى ويتفقّد المكان كأنه واقف فيه.
+</span>
+                <small>
+رابط واحد لموقعك وإنستغرام وواتساب ومنصات العقارات.
+</small>
+              </figcaption>
+            </figure>
             <div class="geraet">
               <div class="geraet-name ltr">Insta360 X4</div>
               <div class="geraet-sub">جولة 360 درجة داخل عقارك</div>

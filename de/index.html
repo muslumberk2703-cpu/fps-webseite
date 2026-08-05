@@ -23,13 +23,13 @@
   <link rel="preload" href="../fonts/playfair-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/styles.css?v=20260804-2331">
   <!-- Helles Design. Liegt bewusst NACH styles.css und überschreibt nur die
        Optik – Layout, RTL, Mobil und Akkordeon bleiben dort. Zum Zurückschalten
        auf Dunkel genügt es, diese eine Zeile zu entfernen. -->
-  <link rel="stylesheet" href="../css/hell.css">
+  <link rel="stylesheet" href="../css/hell.css?v=20260804-2331">
   <link rel="preload" href="../fonts/playfair-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <script defer src="../js/main.js"></script>
+  <script defer src="../js/main.js?v=20260804-2331"></script>
 </head>
 <body data-wa-text="Hallo Fivestar Property Scan! Ich interessiere mich für einen Immobilien-Check in Antalya/Alanya. Können Sie mir ein Angebot machen?" data-mail-subject="Anfrage Immobilien-Check – Fivestar Property Scan">
 
@@ -120,9 +120,9 @@
       <div class="container">
         <div class="hero-grid">
           <div>
-            <span class="hero-badge"><span class="dot"></span> Technische Immobilienprüfung vor dem Kauf</span>
+            <span class="hero-badge"><span class="dot"></span> Antalya · Alanya · Technische Immobilienprüfung vor dem Kauf</span>
             <h1>Wissen, was Sie <span class="grad-text">kaufen</span>.</h1>
-            <p class="lead">Bevor Sie in Antalya, Alanya oder Umgebung eine Immobilie kaufen, sehen wir sie uns genau an – unabhängig, mit 3D-Aufmaß, Wärmebildkamera und Drohne. Sie bekommen einen Bericht, den Sie ohne Fachwissen verstehen: Fotos, Messwerte und eine klare Einschätzung. Damit wissen Sie, was Sie kaufen, bevor Sie unterschreiben.</p>
+            <p class="lead">Wir prüfen Ihre Wunschimmobilie in Antalya und Alanya – in Ihrem Auftrag, bevor Sie unterschreiben.</p>
             <div class="hero-cta">
               <a class="btn btn-wa btn-lg" data-wa href="#kontakt">
                 <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><use href="#ic-wa"/></svg>
@@ -131,10 +131,11 @@
               <a class="btn btn-ghost btn-lg" href="#leistungen">Leistungen ansehen</a>
             </div>
             <ul class="trust-chips">
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Digitaler Bericht in 48 h</li>
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Website in 5 Sprachen</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> 3D-Aufmaß</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Wärmebild</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Drohne</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Bericht in 48 Stunden</li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> 100 % unabhängig</li>
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-check"/></svg> Antalya, Alanya & Umgebung</li>
             </ul>
           </div>
           <div class="scan-card" aria-hidden="true">
@@ -219,12 +220,6 @@
             <p>Nach 48 Stunden haben Sie den Bericht in Ihrer Sprache: was in Ordnung ist, wo Kosten auf Sie zukommen und was Sie vor der Unterschrift klären sollten.</p>
           </div>
         </div>
-        <div class="einfach-frage reveal">
-          <h3>Was ist eigentlich eine Wärmebildkamera?</h3>
-          <p>Sie macht Temperaturunterschiede an der Oberfläche sichtbar. Eine Stelle, die kühler ist als ihre Umgebung, erscheint im Bild als dunklerer Bereich – und das auch dort, wo die Wand frisch gestrichen ist und für das Auge unauffällig wirkt.</p>
-          <p>So eine Stelle kann auf Feuchtigkeit hindeuten, auf eine undichte Leitung, auf fehlende Dämmung – oder schlicht darauf, dass dort Wärme entweicht. Das gilt auch andersherum: Wird eine Steckdose oder der Sicherungskasten <b>wärmer</b> als die Umgebung, sieht man das im Bild sofort. <b>Für sich genommen ist das noch kein Beweis.</b> Was wirklich dahintersteckt, beurteilen wir zusammen mit Bauart, Wetter und Nutzung und schreiben es in den Bericht. Wo es nötig ist, empfehlen wir eine genauere Messung oder eine Fachfirma.</p>
-          <p><b>Der Vorteil bleibt:</b> Wir schauen hin, ohne ein einziges Loch zu bohren.</p>
-        </div>
       </div>
     </section>
 
@@ -240,10 +235,27 @@
         <!-- 3D-Vermessung -->
         <article class="service">
           <div class="service-visual reveal">
-            <div class="device-frame">
-              <span class="df-num">01</span>
-              <img src="../images/equipment-scan.svg" alt="Illustration unseres 3D-Scansystems">
-            </div>
+            <figure class="wb-video sc-video">
+              <video autoplay muted loop playsinline preload="none">
+                <source src="../images/3d-scan.mp4" type="video/mp4">
+                
+Ihr Browser kann dieses Video nicht abspielen.
+              </video>
+              <figcaption>
+                <b>
+3D-Aufmaß: so entsteht das digitale Abbild
+</b>
+                <em>
+Beispielaufnahme
+</em>
+                <span>
+Der Scanner tastet Wände, Böden und Decken Punkt für Punkt ab. Daraus rechnen wir Wohnfläche, Raummaße und Raumhöhen – und einen maßstabsgetreuen Grundriss, den Sie gegen Exposé und Kaufvertrag halten können.
+</span>
+                <small>
+Alle Maße stehen im Bericht und sind nachprüfbar.
+</small>
+              </figcaption>
+            </figure>
             <div class="geraet">
               <div class="geraet-name">3DMakerPro Raven</div>
               <div class="geraet-sub">LiDAR-Aufmaß – innen wie außen</div>
@@ -284,10 +296,26 @@
         <!-- Wärmebild -->
         <article class="service flip">
           <div class="service-visual reveal">
-            <div class="device-frame">
-              <span class="df-num">02</span>
-              <img src="../images/equipment-thermal.svg" alt="Illustration unserer Wärmebildkamera">
-            </div>
+            <figure class="wb-video">
+              <video autoplay muted loop playsinline preload="none"
+                     poster="../images/wb-video-vorschau.jpg">
+                <source src="../images/waermebild.mp4" type="video/mp4">
+                
+Ihr Browser kann dieses Video nicht abspielen.
+              </video>
+              <figcaption>
+                <em>Beispielaufnahme aus einem Objekt in Deutschland</em>
+                <b>
+Wärmebild-Aufnahme: fehlende Dämmung an der Decke
+</b>
+                <span>
+Die dunklen Flächen sind Stellen, an denen die Dämmung fehlt oder aufhört. In der Küche sieht man genau, wo sie endet – die gesamte Nordseite ist ungedämmt. Über dem Wohnbereich gibt es gar keinen Dachraum. Solche Räume heizen sich im Sommer stark auf und kühlen im Winter schnell aus; die Klimaanlage arbeitet dauerhaft dagegen an.
+</span>
+                <small>
+Ein Wärmebild allein ist kein Beweis – wir ordnen jede Auffälligkeit im Bericht ein.
+</small>
+              </figcaption>
+            </figure>
             <div class="geraet">
               <div class="geraet-name">Thermal Master Thor 002</div>
               <div class="geraet-sub">Professionelle Infrarot-Diagnostik</div>
@@ -329,10 +357,27 @@
         <!-- Drohne -->
         <article class="service">
           <div class="service-visual reveal">
-            <div class="device-frame">
-              <span class="df-num">03</span>
-              <img src="../images/equipment-drone.svg" alt="Illustration unserer Inspektionsdrohne">
-            </div>
+            <figure class="wb-video dr-video">
+              <video autoplay muted loop playsinline preload="none">
+                <source src="../images/drohnenflug.mp4" type="video/mp4">
+                
+Ihr Browser kann dieses Video nicht abspielen.
+              </video>
+              <figcaption>
+                <b>
+Drohnenflug: Dach und Fassade von oben
+</b>
+                <em>
+Beispielaufnahme
+</em>
+                <span>
+Was bei einer normalen Besichtigung nicht zu sehen ist: Eindeckung, sichtbare Risse, Abdichtungen, Dachrinnen. Wir fliegen die Außenhülle ab und halten alles in 4K fest – Sie bekommen die Bilder im Bericht.
+</span>
+                <small>
+Ob und wie weit geflogen werden darf, hängt vom Ort und von den Vorschriften ab. Das klären wir vor jedem Termin.
+</small>
+              </figcaption>
+            </figure>
             <div class="geraet">
               <div class="geraet-name">DJI Mini 4 Pro</div>
               <div class="geraet-sub">Luftaufnahmen für Dach &amp; Fassade</div>
@@ -372,10 +417,27 @@
         <!-- 360-Grad-Rundgang -->
         <article class="service flip">
           <div class="service-visual reveal">
-            <div class="device-frame">
-              <span class="df-num">04</span>
-              <img src="../images/equipment-twin.svg" alt="Illustration eines 360°-Rundgangs: Ladenlokal mit Standpunkten">
-            </div>
+            <figure class="wb-video rg-video">
+              <video autoplay muted loop playsinline preload="none">
+                <source src="../images/rundgang-360.mp4" type="video/mp4">
+                
+Ihr Browser kann dieses Video nicht abspielen.
+              </video>
+              <figcaption>
+                <b>
+360°-Rundgang: durch das Objekt gehen, ohne da zu sein
+</b>
+                <em>
+Beispielaufnahme
+</em>
+                <span>
+Wir nehmen das Objekt in 360° auf und machen daraus einen virtuellen Rundgang. Sie bekommen einen Link – wer ihn öffnet, geht von Raum zu Raum und schaut sich um, als stünde er selbst darin.
+</span>
+                <small>
+Ein Link für Website, Instagram, WhatsApp und Immobilienportale.
+</small>
+              </figcaption>
+            </figure>
             <div class="geraet">
               <div class="geraet-name">Insta360 X4</div>
               <div class="geraet-sub">360°-Rundgang durch Ihr Objekt</div>

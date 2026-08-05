@@ -235,6 +235,30 @@ strong, b { color: var(--text); }
 .geraet { background: var(--panel); border-color: var(--line); box-shadow: var(--shadow); }
 .geraet-name { color: var(--text); }
 .geraet-sub { color: var(--muted); }
+/* Der Gerätename ist die anklickbare Zeile, die vier Messwerte liegen
+   dahinter. main.js baut die Hülle; ohne JavaScript steht alles offen. */
+.geraet-klapp > summary {
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer; list-style: none; padding: 2px 0;
+}
+.geraet-klapp > summary::-webkit-details-marker { display: none; }
+.geraet-klapp > summary > div { flex: 1 1 auto; min-width: 0; }
+.geraet-klapp > summary::after {
+  content: ""; width: 8px; height: 8px; flex: none; margin-inline-start: auto;
+  border-right: 2px solid var(--cyan); border-bottom: 2px solid var(--cyan);
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 250ms var(--ease);
+}
+.geraet-klapp[open] > summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+.geraet-klapp > summary:hover .geraet-name { color: var(--cyan); }
+.geraet-klapp > summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; border-radius: 6px; }
+.geraet-klapp .spec-list { margin-top: 10px; }
+@media (hover: none) and (pointer: coarse) {
+  .geraet-klapp > summary { min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .geraet-klapp > summary::after { transition: none; }
+}
 .spec-list li { border-color: var(--line-soft); }
 .spec-list li span:first-child { color: var(--muted); }
 .spec-list li span:last-child { color: var(--text); font-weight: 600; }
@@ -582,10 +606,13 @@ details.size-note > summary:active { transform: scale(.97); }
 
    Die Fragen stehen bewusst ZULETZT: Wer bis dorthin liest, sucht gezielt
    eine Antwort – das ist ein Nachschlagewerk, kein Teil der Erzählung. */
-#warum, #why, #neden, #pochemu                                   { order: 1; }
-#fuer-wen, #for-whom, #kimler-icin, #dlya-kogo                   { order: 2; }
-#ueber, #about, #hakkimizda, #o-nas                              { order: 3; }
-#leistungen, #services, #hizmetler, #uslugi                      { order: 4; }
+/* Neue Reihenfolge ab 05.08.2026: Direkt nach dem Hero kommt, was wir
+   tatsächlich machen – mit den Videos. Danach, wer dahintersteht. Erst
+   dann die Einordnung (warum, für wen) und die Preise. */
+#leistungen, #services, #hizmetler, #uslugi                      { order: 1; }
+#ueber, #about, #hakkimizda, #o-nas                              { order: 2; }
+#warum, #why, #neden, #pochemu                                   { order: 3; }
+#fuer-wen, #for-whom, #kimler-icin, #dlya-kogo                   { order: 4; }
 #pakete, #packages, #paketler, #pakety                           { order: 5; }
 #einfach                                                         { order: 6; }
 /* Der eigene Technik-Abschnitt (order 7) ist entfallen – die Gerätedaten
@@ -599,16 +626,16 @@ details.size-note > summary:active { transform: scale(.97); }
 /* Abwechselnder Grund, der neuen Reihenfolge folgend – sonst stünden zwei
    graue Abschnitte nebeneinander. */
 /* Abwechselnd, der neuen Reihenfolge folgend:
-   warum(hell) · für-wen(grau) · über(hell) · leistungen(grau) · pakete(hell)
-   · ablauf(grau) · firmen(petrol) · kontakt(hell) · faq(grau) */
-#warum, #why, #neden, #pochemu,
+   leistungen(grau) · über(hell) · warum(grau) · für-wen(hell) · pakete(grau)
+   · ablauf(hell) · firmen(petrol) · kontakt(hell) · faq(grau) */
 #ueber, #about, #hakkimizda, #o-nas,
-#pakete, #packages, #paketler, #pakety,
+#fuer-wen, #for-whom, #kimler-icin, #dlya-kogo,
+#einfach,
 #kontakt, #contact, #iletisim { background: var(--bg); }
 
-#fuer-wen, #for-whom, #kimler-icin, #dlya-kogo,
 #leistungen, #services, #hizmetler, #uslugi,
-#einfach,
+#warum, #why, #neden, #pochemu,
+#pakete, #packages, #paketler, #pakety,
 #stimmen,
 #faq, #sss { background: var(--bg2); }
 
@@ -641,6 +668,184 @@ details.size-note > summary:active { transform: scale(.97); }
    raus. Sie waren als Zierde gemeint, lesen sich neben dem Firmennamen aber
    wie eine Fünf-Sterne-Bewertung – eine Behauptung, die es nicht gibt. */
 .footer-stars, .bb-stars { display: none; }
+
+/* Auf sehr schmalen Geräten (320 px, iPhone SE) standen zwei Kacheln der
+   Zahlenleiste 2 px über den Rand. Kein Scrollbalken, aber angeschnitten. */
+@media (max-width: 360px) {
+  .stats-grid { gap: 10px; }
+  .stat { min-width: 0; }
+  .stat-label { overflow-wrap: anywhere; }
+}
+
+/* Das Badge nennt wieder Ort und Leistung ("Antalya · Alanya · Technische
+   Immobilienprüfung vor dem Kauf"). Das ist auf dem Handy zu lang und brach
+   auf drei Zeilen. Etwas kleiner gesetzt passt es auf zwei. */
+@media (max-width: 620px) {
+  .hero-badge {
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    line-height: 1.45;
+    padding-top: 7px; padding-bottom: 7px;
+  }
+}
+
+/* ---------- Wärmebild-Video in der Leistung ----------
+   Steht unter der Illustration und erklärt sich über die Bildunterschrift
+   selbst – ein Wärmebild braucht keine Tonspur, um zu wirken.
+   preload="none" im HTML sorgt dafür, dass die Datei erst geladen wird,
+   wenn jemand auf Abspielen drückt. */
+/* Das Video steht jetzt anstelle der Illustration und läuft von selbst –
+   stumm und in Schleife, wie ein bewegtes Bild. Deshalb kein Rand oben. */
+.wb-video { margin: 0; }
+/* Die Aufnahme ist hochkant (720×1280, mit dem Telefon gefilmt). Ohne
+   Begrenzung würde sie über 600 px hoch und schöbe alles andere weg –
+   deshalb über die Höhe begrenzen und mittig setzen. */
+/* Kein dunkler Kasten mehr hinter dem Video: Wenn eine Aufnahme schwarze
+   Balken mitbringt, misst main.js sie aus und setzt das Seitenverhältnis
+   auf das echte Bild – object-fit schneidet den Rest weg. Damit bleibt
+   nichts Schwarzes übrig, das noch hinterlegt werden müsste. */
+.wb-video video {
+  display: block; margin: 0 auto;
+  max-height: 560px; width: auto; max-width: 100%; height: auto;
+  object-fit: cover;
+  border-radius: 14px; border: 1px solid var(--line);
+  background: transparent; box-shadow: var(--shadow);
+}
+@media (max-width: 860px) {
+  .wb-video video { max-height: 420px; }
+}
+/* Hochkant-Aufnahmen lassen in einer breiten Spalte viel Luft. Ab Tablet
+   steht die Erklärung deshalb NEBEN dem Video statt darunter – dann füllt
+   das Paar die Spalte und wirkt nicht verloren.
+   Bei Querformat gilt das Gegenteil: Das Video nimmt die volle Breite, die
+   Erklärung steht darunter. Welcher Fall vorliegt, trägt main.js nach dem
+   Laden als Klasse ein – die Dateien lassen sich also jederzeit gegen
+   andere Formate tauschen, ohne dass hier etwas anzupassen wäre. */
+@media (min-width: 861px) {
+  .wb-video.hochkant {
+    display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+    gap: 20px; align-items: start;
+  }
+  .wb-video.hochkant video { max-height: 520px; margin: 0; }
+  .wb-video.hochkant figcaption { margin-top: 0; }
+}
+.wb-video.quer video { max-height: none; width: 100%; }
+/* Wer in den Systemeinstellungen weniger Bewegung angefordert hat, bekommt
+   das Video nicht automatisch abgespielt, sondern mit Bedienleiste. Das
+   schaltet main.js um; hier nur der Fall ohne JavaScript. */
+@media (prefers-reduced-motion: reduce) {
+  .wb-video video { animation: none; }
+}
+.wb-video figcaption {
+  display: block; margin-top: 12px;
+  padding: 14px 16px; border-radius: 12px;
+  background: var(--panel); border: 1px solid var(--line);
+  font-size: 0.88rem; line-height: 1.6;
+}
+.wb-video figcaption b { display: block; color: var(--text); font-weight: 700; }
+.wb-video figcaption em {
+  display: block; margin-top: 2px; font-style: normal;
+  font-size: 0.78rem; color: var(--muted);
+}
+.wb-video figcaption span { display: block; margin-top: 8px; color: #33475E; }
+.wb-video figcaption small {
+  display: block; margin-top: 10px; padding-top: 9px;
+  border-top: 1px solid var(--line-soft);
+  font-size: 0.79rem; color: var(--muted);
+}
+
+/* ---------- Leistungen und Vorstellung eindampfen ----------
+   Sichtbar bleibt Überschrift und erklärender Absatz. Häkchen, Gerätedaten
+   und Hinweiskasten liegen hinter einem Klick – derselbe Mechanismus wie
+   beim Firmen-Bereich, nur als schlichter Textschalter. main.js baut die
+   Hüllen nachträglich; ohne JavaScript steht alles offen da. */
+.svc-klapp > summary,
+.person-klapp > summary {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  list-style: none; margin-top: 6px; padding: 9px 2px;
+  font-family: var(--font-display); font-size: 0.92rem; font-weight: 600;
+  color: var(--cyan);
+  transition: color 200ms var(--ease);
+}
+.svc-klapp > summary::-webkit-details-marker,
+.person-klapp > summary::-webkit-details-marker { display: none; }
+.svc-klapp > summary::after,
+.person-klapp > summary::after {
+  content: ""; width: 8px; height: 8px; flex: none;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 250ms var(--ease);
+}
+.svc-klapp[open] > summary::after,
+.person-klapp[open] > summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+.svc-klapp > summary:hover,
+.person-klapp > summary:hover { color: var(--text); }
+.svc-klapp > summary:focus-visible,
+.person-klapp > summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 4px; }
+.svc-klapp[open] > summary,
+.person-klapp[open] > summary { margin-bottom: 6px; }
+/* Der innere "Alle Leistungen"-Schalter säße sonst direkt unter dem äußeren. */
+.svc-klapp .mehr { margin-top: 4px; }
+@media (hover: none) and (pointer: coarse) {
+  .svc-klapp > summary, .person-klapp > summary { min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .svc-klapp > summary, .svc-klapp > summary::after,
+  .person-klapp > summary, .person-klapp > summary::after { transition: none; }
+}
+
+/* ---------- Firmen-Abschnitt als Aufklapper ----------
+   Der Bereich richtet sich an einen Bruchteil der Besucher. Zugeklappt steht
+   dort nur noch eine anklickbare Zeile; der private Käufer scrollt vorbei
+   statt an drei Karten für Makler und Architekten. Die Hülle baut main.js
+   nachträglich – ohne JavaScript bleibt alles offen und lesbar. */
+.firmen-klapp > summary {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  cursor: pointer; list-style: none;
+  margin: 4px auto 0; max-width: 460px;
+  padding: 15px 26px; border-radius: 999px;
+  border: 1px solid #BBD3DB; background: #FFF;
+  font-family: var(--font-display); font-size: 1rem; font-weight: 600;
+  color: var(--cyan); text-align: center;
+  transition: transform 140ms var(--ease), border-color 200ms var(--ease), background 200ms var(--ease);
+}
+.firmen-klapp > summary::-webkit-details-marker { display: none; }
+.firmen-klapp > summary::after {
+  content: ""; width: 9px; height: 9px; flex: none;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 250ms var(--ease);
+}
+.firmen-klapp[open] > summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+.firmen-klapp > summary:hover { border-color: var(--cyan); background: #F2F8FA; }
+.firmen-klapp > summary:active { transform: scale(.98); }
+.firmen-klapp > summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.firmen-klapp[open] > summary { margin-bottom: 30px; }
+
+/* Innerhalb: jede Zielgruppe einzeln, dezenter als der Hauptschalter. */
+.b2b-klapp > summary {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  list-style: none; padding: 9px 2px; margin-top: 4px;
+  font-family: var(--font-display); font-size: 0.9rem; font-weight: 600;
+  color: var(--cyan);
+}
+.b2b-klapp > summary::-webkit-details-marker { display: none; }
+.b2b-klapp > summary::after {
+  content: ""; width: 8px; height: 8px; flex: none;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform 250ms var(--ease);
+}
+.b2b-klapp[open] > summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+.b2b-klapp > summary:hover { color: var(--text); }
+.b2b-klapp > summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 4px; }
+@media (hover: none) and (pointer: coarse) {
+  .firmen-klapp > summary, .b2b-klapp > summary { min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .firmen-klapp > summary, .firmen-klapp > summary::after,
+  .b2b-klapp > summary::after { transition: none; }
+}
 
 /* Fließtext im Firmen-Abschnitt: --muted (#526780) käme auf 5,0:1 und wäre
    formal AA, wirkt auf der Fläche aber blass. #33475E ergibt 8,2:1. */
