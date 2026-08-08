@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://www.fivepropscan.com/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.fivepropscan.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.fivepropscan.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://www.fivepropscan.com/tr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.fivepropscan.com/ru/"/>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://www.fivepropscan.com/fa/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.fivepropscan.com/ar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.fivepropscan.com/"/>
+  </url>
+  <url>
+    <loc>https://www.fivepropscan.com/tr/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.fivepropscan.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.fivepropscan.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://www.fivepropscan.com/tr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.fivepropscan.com/ru/"/>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://www.fivepropscan.com/fa/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.fivepropscan.com/ar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.fivepropscan.com/"/>
+  </url>
+  <url>
+    <loc>https://www.fivepropscan.com/en/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.fivepropscan.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.fivepropscan.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://www.fivepropscan.com/tr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.fivepropscan.com/ru/"/>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://www.fivepropscan.com/fa/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.fivepropscan.com/ar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.fivepropscan.com/"/>
+  </url>
+  <url>
+    <loc>https://www.fivepropscan.com/de/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.fivepropscan.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.fivepropscan.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://www.fivepropscan.com/tr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.fivepropscan.com/ru/"/>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://www.fivepropscan.com/fa/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.fivepropscan.com/ar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.fivepropscan.com/"/>
+  </url>
+  <url>
+    <loc>https://www.fivepropscan.com/ru/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.fivepropscan.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.fivepropscan.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://www.fivepropscan.com/tr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.fivepropscan.com/ru/"/>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://www.fivepropscan.com/fa/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.fivepropscan.com/ar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.fivepropscan.com/"/>
+  </url>
+  <url>
+    <loc>https://www.fivepropscan.com/fa/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.fivepropscan.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.fivepropscan.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://www.fivepropscan.com/tr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.fivepropscan.com/ru/"/>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://www.fivepropscan.com/fa/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.fivepropscan.com/ar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.fivepropscan.com/"/>
+  </url>
+  <url>
+    <loc>https://www.fivepropscan.com/ar/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.fivepropscan.com/de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.fivepropscan.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://www.fivepropscan.com/tr/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://www.fivepropscan.com/ru/"/>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://www.fivepropscan.com/fa/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.fivepropscan.com/ar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.fivepropscan.com/"/>
+  </url>
+</urlset>

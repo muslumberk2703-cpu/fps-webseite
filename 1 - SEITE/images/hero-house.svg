@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 470" fill="none">
+  <defs>
+    <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22D3EE"/>
+      <stop offset=".5" stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#FB923C"/>
+    </linearGradient>
+    <radialGradient id="warm" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#FB923C" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#FB923C" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cold" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#22D3EE" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="13"/>
+    </filter>
+    <style><![CDATA[
+      /* Sehr dezent: Wärmezonen atmen, Fadenkreuz misst nach.
+         Über dem Haus läuft ohnehin die Scanlinie der Seite. */
+      @keyframes breathe { 0%,100% { opacity: .85; } 50% { opacity: .35; } }
+      @keyframes lock    { 0%,100% { transform: scale(1); opacity: .9; }
+                           50% { transform: scale(1.09); opacity: .55; } }
+      @keyframes dashes  { to { stroke-dashoffset: -26; } }
+      .warmspot { animation: breathe 4.6s ease-in-out infinite; }
+      .coldspot { animation: breathe 5.4s ease-in-out infinite 1.2s; }
+      .lock { transform-box: fill-box; transform-origin: center; animation: lock 3.4s ease-in-out infinite; }
+      .meas { animation: dashes 3s linear infinite; }
+      @media (prefers-reduced-motion: reduce) {
+        .warmspot, .coldspot, .lock, .meas { animation: none; }
+      }
+    ]]></style>
+  </defs>
+
+  <!-- Thermal-Auffälligkeiten (atmen leicht) -->
+  <ellipse class="warmspot" cx="176" cy="352" rx="46" ry="34" fill="url(#warm)" filter="url(#blur)"/>
+  <ellipse class="coldspot" cx="452" cy="406" rx="52" ry="24" fill="url(#cold)" filter="url(#blur)"/>
+  <ellipse class="warmspot" cx="364" cy="212" rx="34" ry="26" fill="url(#warm)" filter="url(#blur)" opacity=".7" style="animation-delay:2.1s"/>
+
+  <!-- Boden -->
+  <line x1="28" y1="422" x2="612" y2="422" stroke="#93A7C4" stroke-width="2.5" stroke-linecap="round" opacity=".75"/>
+
+  <!-- Hauptgebäude (Flachdach-Villa) -->
+  <rect x="110" y="160" width="300" height="262" rx="3" fill="rgba(148,163,184,.05)" stroke="#93A7C4" stroke-width="2.5"/>
+  <rect x="103" y="146" width="314" height="15" rx="4" fill="rgba(148,163,184,.07)" stroke="#93A7C4" stroke-width="2.5"/>
+  <!-- Anbau rechts -->
+  <rect x="410" y="272" width="150" height="150" rx="3" fill="rgba(148,163,184,.04)" stroke="#93A7C4" stroke-width="2.5"/>
+  <rect x="404" y="259" width="162" height="14" rx="4" fill="rgba(148,163,184,.07)" stroke="#93A7C4" stroke-width="2.5"/>
+
+  <!-- Solaranlage + Boiler (typisch Zypern) -->
+  <line x1="160" y1="146" x2="160" y2="136" stroke="#93A7C4" stroke-width="2.5"/>
+  <line x1="232" y1="146" x2="232" y2="116" stroke="#93A7C4" stroke-width="2.5"/>
+  <line x1="152" y1="138" x2="240" y2="112" stroke="#93A7C4" stroke-width="3"/>
+  <line x1="158" y1="133" x2="234" y2="111" stroke="url(#hg)" stroke-width="2" opacity=".8"/>
+  <rect x="252" y="112" width="76" height="26" rx="13" fill="rgba(148,163,184,.07)" stroke="#93A7C4" stroke-width="2.5"/>
+  <line x1="262" y1="138" x2="262" y2="146" stroke="#93A7C4" stroke-width="2.5"/>
+  <line x1="318" y1="138" x2="318" y2="146" stroke="#93A7C4" stroke-width="2.5"/>
+
+  <!-- Fenster Obergeschoss -->
+  <g stroke="#93A7C4" stroke-width="2.2">
+    <rect x="138" y="190" width="64" height="50" rx="2" fill="rgba(34,211,238,.06)"/>
+    <line x1="170" y1="190" x2="170" y2="240"/>
+    <rect x="228" y="190" width="64" height="50" rx="2" fill="rgba(34,211,238,.06)"/>
+    <line x1="260" y1="190" x2="260" y2="240"/>
+    <rect x="332" y="190" width="64" height="50" rx="2" fill="rgba(251,146,60,.1)"/>
+    <line x1="364" y1="190" x2="364" y2="240"/>
+  </g>
+
+  <!-- Erdgeschoss: Fenster + Tür -->
+  <g stroke="#93A7C4" stroke-width="2.2">
+    <rect x="138" y="318" width="72" height="62" rx="2" fill="rgba(251,146,60,.08)"/>
+    <line x1="174" y1="318" x2="174" y2="380"/>
+    <rect x="330" y="318" width="66" height="62" rx="2" fill="rgba(34,211,238,.06)"/>
+    <rect x="246" y="320" width="56" height="102" rx="2" fill="rgba(148,163,184,.06)"/>
+    <circle cx="290" cy="374" r="2.6" fill="#93A7C4"/>
+  </g>
+
+  <!-- Anbau: breites Schiebefenster -->
+  <rect x="436" y="302" width="98" height="66" rx="2" fill="rgba(34,211,238,.05)" stroke="#93A7C4" stroke-width="2.2"/>
+  <line x1="485" y1="302" x2="485" y2="368" stroke="#93A7C4" stroke-width="2.2"/>
+
+  <!-- Zypresse -->
+  <path d="M592 422v-64" stroke="#93A7C4" stroke-width="2.5" stroke-linecap="round" opacity=".8"/>
+  <path d="M592 370c-14-8-16-40-2-66 2-4 4-4 6 0 12 26 10 58-4 66Z" stroke="#93A7C4" stroke-width="2.5" fill="rgba(148,163,184,.05)" opacity=".8"/>
+
+  <!-- Messlinien (Striche wandern langsam = wird gemessen) -->
+  <g stroke="#7C8DA9" stroke-width="1.8" opacity=".85">
+    <line class="meas" x1="110" y1="442" x2="410" y2="442" stroke-dasharray="7 6"/>
+    <line x1="110" y1="435" x2="110" y2="449"/>
+    <line x1="410" y1="435" x2="410" y2="449"/>
+    <line class="meas" x1="86" y1="160" x2="86" y2="422" stroke-dasharray="7 6"/>
+    <line x1="79" y1="160" x2="93" y2="160"/>
+    <line x1="79" y1="422" x2="93" y2="422"/>
+  </g>
+
+  <!-- Scan-Fadenkreuz (rastet ein) -->
+  <g class="lock">
+    <g stroke="url(#hg)" stroke-width="2.4" stroke-linecap="round">
+      <circle cx="364" cy="215" r="17" fill="none"/>
+      <line x1="364" y1="190" x2="364" y2="200"/>
+      <line x1="364" y1="230" x2="364" y2="240"/>
+      <line x1="339" y1="215" x2="349" y2="215"/>
+      <line x1="379" y1="215" x2="389" y2="215"/>
+    </g>
+    <circle cx="364" cy="215" r="3.4" fill="url(#hg)"/>
+  </g>
+</svg>

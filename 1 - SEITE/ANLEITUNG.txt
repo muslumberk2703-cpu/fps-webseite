@@ -1,0 +1,19 @@
+SCHRITT 1 VON 5 - DIE SEITE            (etwa 1,5 MB)
+====================================================
+
+WOHIN
+  Den INHALT dieses Ordners in das Web-Verzeichnis auf dem Server.
+  Das sind die Ordner  de  en  tr  ru  ar  css  js  fonts  images
+  und die Dateien      index.html  robots.txt  sitemap.xml  favicon.svg
+  NICHT den Ordner "1 - SEITE" selbst - nur was darin liegt.
+  Vorhandene Dateien ueberschreiben.
+
+DANACH PRUEFEN
+  Seite aufrufen, einmal Strg+F5 druecken.
+  Stehen unter "Was wir pruefen" alle fuenf Leistungen offen da?
+     JA   -> weiter mit Schritt 2
+     NEIN -> nur die eine Datei  js/main.js  (41 KB) noch einmal
+             einzeln hochladen. Genau die hat beim letzten Mal gefehlt.
+
+  Dass an vier Stellen leere Kaesten statt Videos stehen, ist jetzt
+  richtig so. Die Videos kommen in Schritt 2 bis 5.

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fivestar Property Scan – Independent Property Inspection in Antalya & Alanya</title>
+  <meta name="description" content="Fivestar Property Scan: independent technical property inspections in Antalya, Alanya and across Turkey. 3D survey, thermal imaging, drone inspection and construction monitoring. Available in 5 languages.">
+  <meta name="theme-color" content="#0b1119">
+  <link rel="canonical" href="https://www.fivepropscan.com/">
+  <link rel="alternate" hreflang="tr" href="https://www.fivepropscan.com/tr/">
+  <link rel="alternate" hreflang="en" href="https://www.fivepropscan.com/en/">
+  <link rel="alternate" hreflang="de" href="https://www.fivepropscan.com/de/">
+  <link rel="alternate" hreflang="ru" href="https://www.fivepropscan.com/ru/">
+  <link rel="alternate" hreflang="ar" href="https://www.fivepropscan.com/ar/">
+  <link rel="alternate" hreflang="x-default" href="https://www.fivepropscan.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Fivestar Property Scan">
+  <meta property="og:title" content="Fivestar Property Scan – Know before you buy.">
+  <meta property="og:description" content="Independent property inspections in Antalya, Alanya and across Turkey – 3D survey, thermal imaging, drone & construction monitoring.">
+  <meta property="og:url" content="https://www.fivepropscan.com/">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preload" href="fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/styles.css?v=20260808-120628">
+
+  <!-- Sofort-Weiterleitung in die passende Sprache.
+       Steht bewusst hier oben und OHNE defer: So läuft es, bevor die Seite
+       gezeichnet wird – der Besucher sieht die Auswahl gar nicht erst
+       aufblitzen. Reihenfolge: zuletzt gewählte Sprache, sonst Browsersprache,
+       sonst Englisch. location.replace() statt href, damit der Zurück-Knopf
+       nicht in einer Schleife landet.
+       Auswahl trotzdem sehen:  /?choose=1
+       Ohne JavaScript bleibt die Auswahlseite stehen – das ist der Rückfall. -->
+  <script>
+    (function () {
+      var LANGS = ["de", "en", "tr", "ru", "ar"];
+      if (/[?&]choose/.test(location.search)) return;
+      var pick = null;
+      try {
+        var s = localStorage.getItem("cpc-lang");
+        if (s && LANGS.indexOf(s) !== -1) pick = s;
+      } catch (e) { /* Privatmodus: egal, dann Browsersprache */ }
+      if (!pick) {
+        var prefs = navigator.languages || [navigator.language || "en"];
+        for (var i = 0; i < prefs.length && !pick; i++) {
+          var c = String(prefs[i]).slice(0, 2).toLowerCase();
+          if (LANGS.indexOf(c) !== -1) pick = c;
+        }
+      }
+      location.replace((pick || "en") + "/");
+    })();
+  </script>
+
+  <script defer src="js/main.js?v=20260808-120628"></script>
+</head>
+<body class="splash-page" data-splash>
+
+  <svg aria-hidden="true" style="position:absolute;width:0;height:0" focusable="false">
+    <defs>
+      <linearGradient id="ig" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#22D3EE"/>
+        <stop offset=".55" stop-color="#8B5CF6"/>
+        <stop offset="1" stop-color="#FB923C"/>
+      </linearGradient>
+      <linearGradient id="goldg" x1="0" y1="1" x2="1" y2="0">
+        <stop offset="0" stop-color="#8A6428"/>
+        <stop offset=".36" stop-color="#D6A952"/>
+        <stop offset=".62" stop-color="#F8DDA7"/>
+        <stop offset="1" stop-color="#C08A3E"/>
+      </linearGradient>
+      <path id="ic-arrow" d="M4 12h15m-6-7 7 7-7 7" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </defs>
+  </svg>
+
+  <div class="bg-fx" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <main class="splash-main">
+    <div class="splash-wrap">
+      <img class="splash-logo-img" src="images/logo-fps.png" alt="Fivestar Property Scan">
+
+      <!-- Kernaussage in allen fünf Sprachen. Bewusst VOR der Sprachauswahl:
+           Wer hier landet, soll sofort sehen, worum es geht – nicht erst
+           nach einem Klick. -->
+      <p class="splash-claim">
+        <span lang="en">Know what you are buying.</span>
+        <span class="sep" aria-hidden="true">·</span>
+        <span lang="tr">Ne satın aldığınızı bilin.</span>
+        <span class="sep" aria-hidden="true">·</span>
+        <span lang="de">Wissen, was Sie kaufen.</span>
+        <span class="sep" aria-hidden="true">·</span>
+        <span lang="ru">Знайте, что покупаете.</span>
+        <span class="sep" aria-hidden="true">·</span>
+        <span lang="ar" dir="rtl">اعرف ما تشتريه.</span>
+      </p>
+
+      <p class="splash-lead">
+        <b>Independent technical property inspection</b> in Antalya, Alanya &amp; Türkiye — for buyers, owners, agents and developers.
+      </p>
+
+      <!-- Technikdaten und Vertrauens-Chips standen hier bis 02.08.2026.
+           Raus, weil sie auf jeder Sprachseite ohnehin stehen: Diese Seite
+           sieht nur noch, wer ohne JavaScript kommt oder /?choose=1 aufruft.
+           Sie hat genau eine Aufgabe – Sprache wählen – und soll dafür auf
+           einen Bildschirm passen. -->
+
+      <p class="splash-sub">
+        <span lang="tr">Dilinizi seçin</span>
+        <span class="sep">·</span>
+        <span>Choose your language</span>
+        <span class="sep">·</span>
+        <span lang="de">Sprache wählen</span>
+        <span class="sep">·</span>
+        <span lang="ru">Выберите язык</span>
+        <span class="sep">·</span>
+        <span lang="ar" dir="rtl">اختر لغتك</span>
+      </p>
+      <div class="lang-cards">
+        <a class="lang-card" href="tr/" data-lang="tr" hreflang="tr" lang="tr">
+          <span class="suggest-chip">Önerilen</span>
+          <span class="lang-code">TR</span>
+          <span class="lang-name">Türkçe</span>
+          <span class="lang-go">Devam et
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-arrow"/></svg>
+          </span>
+        </a>
+        <a class="lang-card" href="en/" data-lang="en" hreflang="en">
+          <span class="suggest-chip">Suggested</span>
+          <span class="lang-code">EN</span>
+          <span class="lang-name">English</span>
+          <span class="lang-go">Continue
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-arrow"/></svg>
+          </span>
+        </a>
+        <a class="lang-card" href="de/" data-lang="de" hreflang="de" lang="de">
+          <span class="suggest-chip">Empfohlen</span>
+          <span class="lang-code">DE</span>
+          <span class="lang-name">Deutsch</span>
+          <span class="lang-go">Weiter
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-arrow"/></svg>
+          </span>
+        </a>
+        <a class="lang-card" href="ru/" data-lang="ru" hreflang="ru" lang="ru">
+          <span class="suggest-chip">Рекомендуем</span>
+          <span class="lang-code">RU</span>
+          <span class="lang-name">Русский</span>
+          <span class="lang-go">Продолжить
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ic-arrow"/></svg>
+          </span>
+        </a>
+        <a class="lang-card" href="ar/" data-lang="ar" hreflang="ar" lang="ar" dir="rtl">
+          <span class="suggest-chip">موصى به</span>
+          <span class="lang-code">AR</span>
+          <span class="lang-name">العربية</span>
+          <span class="lang-go">متابعة
+            <svg viewBox="0 0 24 24" aria-hidden="true" style="transform:scaleX(-1)"><use href="#ic-arrow"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </main>
+  <footer class="splash-footer">
+    © <span data-year>2026</span> Fivestar Property Scan · Antalya · Alanya · Türkiye
+  </footer>
+
+</body>
+</html>

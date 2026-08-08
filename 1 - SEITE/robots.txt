@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Internes Kalkulationswerkzeug – nicht für Suchmaschinen
+Disallow: /kalkulation.html
+
+Sitemap: https://www.fivepropscan.com/sitemap.xml

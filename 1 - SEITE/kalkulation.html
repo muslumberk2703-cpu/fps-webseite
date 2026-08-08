@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>FPS – Kalkulation (intern)</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  @font-face { font-family:"Space Grotesk"; font-weight:300 700; font-display:swap; src:url("fonts/space-grotesk-latin.woff2") format("woff2"); }
+  @font-face { font-family:"Inter"; font-weight:100 900; font-display:swap; src:url("fonts/inter-latin.woff2") format("woff2"); }
+
+  :root{
+    --bg:#0F1724; --bg2:#18222F; --panel:#1E2A3A;
+    --line:rgba(160,180,205,.22); --line-soft:rgba(160,180,205,.12);
+    --text:#EEF4FB; --muted:#A9B8CC;
+    --cyan:#22D3EE; --gold:#D6A952; --green:#25D366; --red:#FB7185; --orange:#FB923C;
+    --r:12px;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:"Inter",system-ui,sans-serif;font-size:15.5px;line-height:1.6}
+  h1,h2,h3{font-family:"Space Grotesk",system-ui,sans-serif;margin:0 0 .4em;line-height:1.2}
+  a{color:var(--cyan)}
+  .wrap{max-width:1240px;margin:0 auto;padding:20px 18px 80px}
+
+  /* Zugangs-Overlay */
+  #gate{position:fixed;inset:0;z-index:999;background:var(--bg);
+        display:flex;align-items:center;justify-content:center;padding:24px}
+  .gate-box{width:100%;max-width:380px;text-align:center;
+            background:var(--panel);border:1px solid var(--line);
+            border-radius:16px;padding:34px 28px}
+  .gate-box img{height:64px;width:auto;margin-bottom:14px}
+  .gate-box h2{font-size:1.25rem;margin-bottom:6px}
+  .gate-box p{color:var(--muted);font-size:.9rem;margin:0 0 20px}
+  .gate-box input{width:100%;padding:13px 14px;font-size:1rem;text-align:center;
+                  background:var(--bg2);color:var(--text);
+                  border:1px solid var(--line);border-radius:10px;letter-spacing:.08em}
+  .gate-box input:focus{outline:none;border-color:var(--cyan)}
+  .gate-box button{width:100%;margin-top:12px;padding:13px 14px;font-size:1rem;font-weight:600;
+                   background:var(--cyan);color:#08131C;border:0;border-radius:10px;cursor:pointer}
+  .gate-box button:hover{filter:brightness(1.08)}
+  .gate-err{margin-top:12px;color:var(--red);font-size:.88rem}
+
+  /* Kopf */
+  header{display:flex;align-items:center;gap:14px;padding:12px 0 22px;border-bottom:1px solid var(--line-soft);margin-bottom:24px;flex-wrap:wrap}
+  header img{height:46px;width:auto}
+  header .t b{font-family:"Space Grotesk";font-size:1.15rem;letter-spacing:.12em;color:var(--gold);display:block}
+  header .t span{font-size:.78rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+  .intern{margin-left:auto;font-size:.8rem;color:var(--orange);border:1px solid rgba(251,146,60,.4);background:rgba(251,146,60,.1);padding:6px 12px;border-radius:999px;white-space:nowrap}
+
+  .grid{display:grid;grid-template-columns:1fr 372px;gap:22px;align-items:start}
+  .card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+  .card h2{font-size:1.05rem;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line-soft)}
+  .card + .card{margin-top:18px}
+
+  /* Eingaben */
+  .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+  label.f{display:flex;flex-direction:column;gap:5px;font-size:.82rem;color:var(--muted)}
+  input[type=text],input[type=number],select,textarea{
+    font:inherit;color:var(--text);background:#121B27;border:1px solid var(--line);border-radius:9px;padding:10px 12px;min-width:0;width:100%}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(34,211,238,.15)}
+  select option{background:#18222F}
+
+  /* Paket-Schnellwahl */
+  .pkgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:6px}
+  .pkg{border:1px solid var(--line);background:#16202D;border-radius:10px;padding:12px;cursor:pointer;text-align:left;transition:.18s}
+  .pkg:hover{border-color:var(--cyan)}
+  .pkg.on{border-color:var(--gold);background:rgba(214,169,82,.12)}
+  .pkg b{display:block;font-family:"Space Grotesk";font-size:.95rem}
+  .pkg span{font-size:.78rem;color:var(--muted)}
+
+  /* Leistungen */
+  .group-title{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:18px 0 8px}
+  .item{display:grid;grid-template-columns:22px 1fr auto auto;gap:10px;align-items:center;
+        padding:9px 10px;border-radius:9px;border:1px solid transparent}
+  .item:hover{background:#16202D}
+  .item.on{background:rgba(34,211,238,.08);border-color:rgba(34,211,238,.28)}
+  .item input[type=checkbox]{width:19px;height:19px;accent-color:var(--cyan);cursor:pointer}
+  .item .nm{font-size:.93rem}
+  .item .nm small{display:block;color:var(--muted);font-size:.78rem}
+  .item .pr{font-family:"Space Grotesk";font-weight:600;color:var(--gold);white-space:nowrap;font-size:.92rem}
+  .item .tm{color:var(--muted);font-size:.78rem;white-space:nowrap;min-width:64px;text-align:right}
+
+  /* Ergebnis */
+  .sticky{position:sticky;top:16px}
+  .sum{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid var(--line-soft);font-size:.92rem}
+  .sum:first-of-type{border-top:0}
+  .sum b{font-family:"Space Grotesk"}
+  .total{margin-top:12px;padding:16px;border-radius:10px;background:linear-gradient(150deg,rgba(214,169,82,.16),rgba(34,211,238,.1));border:1px solid var(--line)}
+  .total .big{font-family:"Space Grotesk";font-size:2.3rem;font-weight:700;color:var(--gold);line-height:1}
+  .total .sub{font-size:.82rem;color:var(--muted);margin-top:4px}
+  .hint{font-size:.8rem;color:var(--muted);margin-top:10px}
+  .warn{margin-top:12px;padding:11px 13px;border-radius:9px;font-size:.85rem;border:1px solid}
+  .warn.ok{border-color:rgba(37,211,102,.45);background:rgba(37,211,102,.1);color:#CFF5DF}
+  .warn.low{border-color:rgba(251,113,133,.5);background:rgba(251,113,133,.1);color:#FFD9DF}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;
+       padding:11px 18px;font-family:"Space Grotesk";font-weight:600;font-size:.9rem;cursor:pointer;border:1px solid transparent;transition:.18s;width:100%}
+  .btn-p{background:linear-gradient(120deg,var(--cyan),#8B5CF6 55%,var(--orange));color:#08111A}
+  .btn-p:hover{filter:brightness(1.08)}
+  .btn-g{background:transparent;border-color:var(--line);color:var(--text)}
+  .btn-g:hover{border-color:var(--cyan)}
+  .btn-wa{background:var(--green);color:#04240f}
+  .btns{display:grid;gap:9px;margin-top:14px}
+
+  textarea.out{min-height:190px;font-size:.86rem;line-height:1.55;font-family:ui-monospace,monospace}
+
+  /* Nachkalkulation */
+  table{width:100%;border-collapse:collapse;font-size:.86rem}
+  th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line-soft)}
+  th{color:var(--muted);font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
+  td.num{text-align:right;font-family:"Space Grotesk"}
+  .del{color:var(--red);cursor:pointer;background:none;border:0;font-size:1rem;padding:0 4px}
+  .empty{color:var(--muted);font-size:.86rem;padding:14px 0}
+  .avg{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--line-soft)}
+  .avg div{font-size:.84rem;color:var(--muted)}
+  .avg b{display:block;font-family:"Space Grotesk";font-size:1.35rem;color:var(--text)}
+
+  @media(max-width:980px){ .grid{grid-template-columns:1fr} .sticky{position:static} }
+  @media(max-width:520px){
+    .item{grid-template-columns:22px 1fr auto;row-gap:2px}
+    .item .tm{grid-column:2/4;text-align:left}
+    header img{height:40px}
+  }
+  @media print{ body{background:#fff;color:#000} .btns,.intern,.card.noprint{display:none} }
+</style>
+</head>
+<body>
+
+<!-- ================= Zugangsschutz =================
+     ACHTUNG, ehrlich gesagt: Das hier ist KEIN echter Passwortschutz.
+     Auf einer statischen Website gibt es keinen Server, der ein Passwort
+     pruefen koennte - der gesamte Code steht im Browser des Besuchers.
+     Wer sich auskennt, kommt daran vorbei.
+
+     Was es leistet:  haelt zufaellige Besucher und Suchmaschinen fern.
+     Was es NICHT ist: Schutz gegen jemanden, der es gezielt versucht.
+
+     Echten Schutz gibt es nur ueber den Hoster (Passwortabfrage vor der
+     Auslieferung der Datei) - siehe README, Abschnitt "Kalkulation schuetzen".
+
+     CODE AENDERN: unten bei ZUGANG_HASH steht der SHA-256 deines Codes.
+     Neuen Hash erzeugen: Seite oeffnen, F12 druecken, in die Konsole tippen:
+        hashFuer("deinNeuerCode")
+     Den ausgegebenen Wert hier eintragen.
+================================================== -->
+<div id="gate" hidden>
+  <div class="gate-box">
+    <img src="images/logo-fps-mark.png" alt="">
+    <h2>Interner Bereich</h2>
+    <p>Dieses Werkzeug ist nur für den internen Gebrauch.</p>
+    <input id="gate-code" type="password" placeholder="Zugangscode" autocomplete="current-password">
+    <button id="gate-go" type="button">Öffnen</button>
+    <div id="gate-err" class="gate-err" hidden>Code stimmt nicht.</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header>
+    <img src="images/logo-fps-mark.png" alt="">
+    <div class="t"><b>FIVESTAR</b><span>Kalkulation &amp; Angebot</span></div>
+    <div class="intern">Nur für dich – nicht öffentlich</div>
+  </header>
+
+  <div class="grid">
+
+    <!-- ================= LINKS: Eingaben ================= -->
+    <div>
+      <div class="card">
+        <h2>1 · Objekt</h2>
+        <div class="row">
+          <label class="f">Objektart
+            <select id="art">
+              <option>Wohnung</option>
+              <option>Penthouse</option>
+              <option>Reihenhaus</option>
+              <option>Villa / Einzelhaus</option>
+              <option>Neubau (im Bau)</option>
+              <option>Mehrfamilienhaus</option>
+            </select>
+          </label>
+          <label class="f">Wohnfläche m²
+            <input type="number" id="qm" value="95" min="10" max="2000" step="5">
+          </label>
+          <label class="f">Zimmer
+            <input type="number" id="zi" value="3" min="1" max="30">
+          </label>
+          <label class="f">Etagen
+            <input type="number" id="et" value="1" min="1" max="6">
+          </label>
+          <label class="f">Ort
+            <input type="text" id="ort" placeholder="z. B. Mahmutlar">
+          </label>
+          <label class="f">Anfahrt km (einfach)
+            <input type="number" id="km" value="15" min="0" max="600" step="5">
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>2 · Paket wählen (setzt die Häkchen unten)</h2>
+        <div class="pkgs">
+          <button class="pkg" data-pkg="basis"><b>Basis-Check</b><span>ab 179 € · Sicht + Wärmebild</span></button>
+          <button class="pkg" data-pkg="komplett"><b>Komplett-Check</b><span>ab 299 € · + 3D &amp; Maße</span></button>
+          <button class="pkg" data-pkg="premium"><b>Premium 360°</b><span>ab 429 € · + Drohne &amp; Rundgang</span></button>
+          <button class="pkg" data-pkg="makler"><b>Makler-Paket</b><span>ab 249 € · Rundgang + Grundriss</span></button>
+          <button class="pkg" data-pkg="planer"><b>Planer-Paket</b><span>ab 299 € · + CAD &amp; Punktwolke</span></button>
+          <button class="pkg" data-pkg="frei"><b>Frei zusammenstellen</b><span>nur Einzelleistungen</span></button>
+        </div>
+        <div class="hint">Paketpreis gilt bis zur jeweiligen Fläche; darüber greift automatisch die Staffel. „Frei" rechnet die Einzelpreise zusammen.</div>
+      </div>
+
+      <div class="card">
+        <h2>3 · Leistungen</h2>
+        <div id="leistungen"></div>
+      </div>
+
+      <div class="card noprint">
+        <h2>5 · Nachkalkulation – was hat es wirklich gedauert?</h2>
+        <div class="hint" style="margin:0 0 12px">
+          Nach jedem Auftrag hier die echten Zeiten eintragen. Nach ein paar Aufträgen siehst du unten deinen
+          <b>tatsächlichen Stundensatz</b> – und weißt, ob die Preise passen.
+        </div>
+        <div class="row">
+          <label class="f">Objekt / Kunde<input type="text" id="nk_name" placeholder="z. B. Villa Kargicak"></label>
+          <label class="f">Berechnet €<input type="number" id="nk_preis" step="10" placeholder="299"></label>
+          <label class="f">Anfahrt Std.<input type="number" id="nk_fahrt" step="0.25" placeholder="1"></label>
+          <label class="f">Vor Ort Std.<input type="number" id="nk_ort" step="0.25" placeholder="3"></label>
+          <label class="f">Bericht Std.<input type="number" id="nk_ber" step="0.25" placeholder="2.5"></label>
+        </div>
+        <div class="btns" style="grid-template-columns:1fr auto">
+          <button class="btn btn-g" id="nk_add">Auftrag speichern</button>
+        </div>
+        <table style="margin-top:16px">
+          <thead><tr><th>Objekt</th><th class="num">€</th><th class="num">Std.</th><th class="num">€/Std.</th><th></th></tr></thead>
+          <tbody id="nk_body"></tbody>
+        </table>
+        <div class="avg" id="nk_avg"></div>
+      </div>
+    </div>
+
+    <!-- ================= RECHTS: Ergebnis ================= -->
+    <div class="sticky">
+      <div class="card">
+        <h2>4 · Ergebnis</h2>
+        <div class="sum"><span>Leistungen</span><b id="r_basis">0 €</b></div>
+        <div class="sum"><span>Flächenstaffel <small id="r_stufe" style="color:var(--muted)"></small></span><b id="r_zuschlag">+0 €</b></div>
+        <div class="sum"><span>Anfahrt</span><b id="r_fahrt">0 €</b></div>
+
+        <div class="total">
+          <div class="big" id="r_total">0 €</div>
+          <div class="sub" id="r_zeit">Zeitaufwand: –</div>
+        </div>
+
+        <div class="warn ok" id="r_stunde">Stundensatz: –</div>
+        <div class="hint">Die Zeiten sind <b>Schätzwerte</b>. Trag unten nach jedem Auftrag die echten Stunden ein – nach 3–5 Aufträgen weißt du, ob die Preise passen, und kannst die Werte oben im Quelltext anpassen.</div>
+
+        <div class="btns">
+          <button class="btn btn-p" id="gen">Angebotstext erzeugen</button>
+          <button class="btn btn-wa" id="wa">Per WhatsApp senden</button>
+          <button class="btn btn-g" id="copy">Text kopieren</button>
+        </div>
+
+        <label class="f" style="margin-top:14px">Angebotstext
+          <textarea class="out" id="out" placeholder="Klick auf „Angebotstext erzeugen“ …"></textarea>
+        </label>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ==========================================================================
+   ZUGANGSSCHUTZ
+   Der Vergleich passiert im Browser - das ist kein echter Schutz, sondern
+   eine Bremse gegen zufaellige Besucher. Bewusst ein einfacher Hash statt
+   SHA-256: der Sicherheitsgewinn waere null (der Code steht ja daneben),
+   aber SHA-256 braucht HTTPS und faellt sonst ganz aus.
+
+   CODE AENDERN:  F12 druecken, in die Konsole tippen:  hashFuer("neuerCode")
+                  Den ausgegebenen Wert unten bei ZUGANG_HASH eintragen.
+   ========================================================================== */
+var ZUGANG_HASH = "4bfd8033";     // Startcode: fivestar2026  -  BITTE AENDERN
+var ZUGANG_TAGE = 30;             // so lange bleibt das Geraet freigeschaltet
+
+function hashFuer(s) {
+  var h = 5381;
+  for (var i = 0; i < s.length; i++) { h = ((h << 5) + h + s.charCodeAt(i)) >>> 0; }
+  return h.toString(16);
+}
+
+(function () {
+  var gate = document.getElementById("gate");
+  var bis = 0;
+  try { bis = +localStorage.getItem("fps_gate") || 0; } catch (e) {}
+  if (Date.now() < bis) { return; }
+  gate.hidden = false;
+  var feld = document.getElementById("gate-code");
+  var fehler = document.getElementById("gate-err");
+  setTimeout(function () { feld.focus(); }, 60);
+  function pruefe() {
+    if (hashFuer(feld.value) === ZUGANG_HASH) {
+      try { localStorage.setItem("fps_gate", Date.now() + ZUGANG_TAGE * 864e5); } catch (e) {}
+      gate.hidden = true;
+    } else {
+      fehler.hidden = false;
+      feld.value = "";
+      feld.focus();
+    }
+  }
+  document.getElementById("gate-go").addEventListener("click", pruefe);
+  feld.addEventListener("keydown", function (e) { if (e.key === "Enter") { pruefe(); } });
+})();
+
+/* ==========================================================================
+   Preise & Zeiten – HIER ANPASSEN, wenn du deine echten Werte kennst.
+   min_ort = Minuten vor Ort, min_ber = Minuten Nachbearbeitung/Bericht
+   ========================================================================== */
+var STUNDENZIEL = 65;      // € pro Stunde, die du mindestens verdienen willst
+var KM_PREIS    = 0.40;    // € pro km
+var KM_FREI     = 20;      // erste x km inklusive (einfache Strecke)
+
+var LEISTUNGEN = [
+  { gr:"3D-Scan & Aufmaß", items:[
+    { id:"l3d",   nm:"LiDAR-Scan komplettes Objekt", sub:"alle Räume, innen + außen", eur:149, min_ort:45, min_ber:30 },
+    { id:"lplan", nm:"Maßhaltiger Grundriss aus dem Scan", sub:"Raummaße & Fläche je Zimmer", eur:59, min_ort:0, min_ber:35 },
+    { id:"ltour", nm:"360, sub:"Link zum Einbetten, 12 Monate online", eur:49, min_ort:0, min_ber:20 },
+    { id:"lqm",   nm:"m²-Abgleich mit Kaufvertrag/Exposé", sub:"schriftliche Gegenüberstellung", eur:39, min_ort:10, min_ber:25 },
+    { id:"leben", nm:"Ebenheit & Lot (Laser-Stichproben)", sub:"Estrich, Flucht, Winkel", eur:49, min_ort:20, min_ber:20 },
+    { id:"lgef",  nm:"Gefälle Bad / Terrasse / Balkon", sub:"Neigungsmessung, Entwässerung", eur:39, min_ort:20, min_ber:15 },
+    { id:"laus",  nm:"Außenmaße Grundstück & Pool", sub:"Laser + Drohnenbild, grobe Flächen", eur:59, min_ort:30, min_ber:25 }
+  ]},
+  { gr:"Wärmebild & Technik", items:[
+    { id:"lwb",   nm:"Wärmebild-Scan alle Räume", sub:"Feuchte, Dämmung, Wärmebrücken", eur:119, min_ort:50, min_ber:55 },
+    { id:"llec",  nm:"Leckage-Ortung (gezielt)", sub:"Rohrbruch / undichte Leitung eingrenzen", eur:89, min_ort:40, min_ber:30 },
+    { id:"lel",   nm:"Elektro-Check", sub:"Steckdosen, Verteiler, heiße Kontakte", eur:49, min_ort:25, min_ber:15 },
+    { id:"lfen",  nm:"Fenster & Türen Dichtigkeit", sub:"Zugluft, defekte Dichtungen", eur:39, min_ort:20, min_ber:15 },
+    { id:"lfbh",  nm:"Fußbodenheizung / Leitungsverlauf", sub:"Verlauf sichtbar machen", eur:59, min_ort:25, min_ber:25 }
+  ]},
+  { gr:"Außen & Dokumentation", items:[
+    { id:"ldr",   nm:"Drohnen-Inspektion Dach & Fassade", sub:"4K, Risse, Abdichtung", eur:129, min_ort:35, min_ber:45 },
+    { id:"lvid",  nm:"Video-Dokumentation", sub:"geschnittenes Objektvideo", eur:69, min_ort:20, min_ber:40 },
+    { id:"lfoto", nm:"Foto-Dokumentation", sub:"systematisch, im Bericht", eur:0, min_ort:15, min_ber:20 }
+  ]},
+  { gr:"Bericht & Betreuung", items:[
+    { id:"lkurz", nm:"Kurzbericht PDF", sub:"Zusammenfassung + Fotos", eur:0, min_ort:0, min_ber:45 },
+    { id:"lvoll", nm:"Ausführlicher Bericht + Mängelliste", sub:"priorisiert, mit Empfehlungen", eur:49, min_ort:0, min_ber:60 },
+    { id:"lcall", nm:"Bericht-Besprechung (Videocall)", sub:"30–45 Min. mit dem Kunden", eur:49, min_ort:0, min_ber:40 },
+    { id:"lbau",  nm:"Baubegleitung – pro Termin", sub:"Fotos, 360, eur:149, min_ort:60, min_ber:45 }
+  ]},
+  { gr:"Geschäftskunden (B2B)", items:[
+    { id:"bcad",  nm:"CAD-Export & Punktwolke", sub:"für Architekt / Planer", eur:99, min_ort:0, min_ber:40 },
+    { id:"bdoku", nm:"Zustandsdokumentation Gewerbe", sub:"Übergabe / Versicherung, mit Stichtag", eur:129, min_ort:40, min_ber:45 },
+    { id:"bexpo", nm:"Vermarktungs-Aufbereitung", sub:"Einbettung, Branding, Portal-Formate", eur:79, min_ort:0, min_ber:45 }
+  ]}
+];
+
+var PAKETE = {
+  basis:    { nm:"Basis-Check",    eur:179, bis:80,  ids:["lwb","lel","lfoto","lkurz"] },
+  komplett: { nm:"Komplett-Check", eur:299, bis:130, ids:["l3d","lplan","lqm","leben","lgef","lwb","lel","lfen","lfoto","lvoll"] },
+  premium:  { nm:"Premium 360°",   eur:429, bis:200, ids:["l3d","lplan","ltour","lqm","leben","lgef","laus","lwb","lel","lfen","ldr","lvid","lfoto","lvoll","lcall"] },
+  makler:   { nm:"Makler-Paket",   eur:249, bis:130, ids:["l3d","lplan","ltour","lfoto","bexpo"] },
+  planer:   { nm:"Planer-Paket",   eur:299, bis:130, ids:["l3d","lplan","bcad","lfoto"] },
+  frei:     { nm:"Individuell",    eur:0,   bis:80,  ids:[] }
+};
+
+/* Flächenstaffel: ab welcher Fläche wie viel Aufschlag auf den Grundpreis */
+var STAFFEL = [
+  { bis:80,   auf:0.00, txt:"bis 80 m²" },
+  { bis:130,  auf:0.15, txt:"80–130 m²" },
+  { bis:200,  auf:0.35, txt:"130–200 m²" },
+  { bis:350,  auf:0.65, txt:"200–350 m²" },
+  { bis:1e9,  auf:1.00, txt:"über 350 m²" }
+];
+
+/* ---------- Aufbau der Leistungsliste ---------- */
+var byId = {};
+(function(){
+  var host = document.getElementById("leistungen");
+  LEISTUNGEN.forEach(function(g){
+    var h = document.createElement("div");
+    h.className = "group-title";
+    h.textContent = g.gr;
+    host.appendChild(h);
+    g.items.forEach(function(it){
+      byId[it.id] = it;
+      var row = document.createElement("label");
+      row.className = "item";
+      row.innerHTML =
+        '<input type="checkbox" id="' + it.id + '">' +
+        '<span class="nm">' + it.nm + '<small>' + it.sub + '</small></span>' +
+        '<span class="pr">' + (it.eur ? it.eur + " €" : "inkl.") + '</span>' +
+        '<span class="tm">' + Math.round((it.min_ort + it.min_ber) / 6) / 10 + " Std.</span>";
+      host.appendChild(row);
+      row.querySelector("input").addEventListener("change", function(){
+        row.classList.toggle("on", this.checked);
+        aktivesPaket = null;
+        document.querySelectorAll(".pkg").forEach(function(p){ p.classList.remove("on"); });
+        rechne();
+      });
+    });
+  });
+})();
+
+var aktivesPaket = null;
+
+document.querySelectorAll(".pkg").forEach(function(btn){
+  btn.addEventListener("click", function(){
+    var key = btn.getAttribute("data-pkg");
+    aktivesPaket = key === "frei" ? null : key;
+    document.querySelectorAll(".pkg").forEach(function(p){ p.classList.remove("on"); });
+    btn.classList.add("on");
+    var ids = PAKETE[key].ids;
+    Object.keys(byId).forEach(function(id){
+      var cb = document.getElementById(id);
+      cb.checked = ids.indexOf(id) !== -1;
+      cb.closest(".item").classList.toggle("on", cb.checked);
+    });
+    rechne();
+  });
+});
+
+function num(id){ var v = parseFloat(document.getElementById(id).value); return isNaN(v) ? 0 : v; }
+function eur(n){ return Math.round(n) + " €"; }
+function std(min){ return (Math.round(min / 6) / 10).toFixed(1).replace(".", ",") + " Std."; }
+
+function gewaehlte(){
+  return Object.keys(byId).filter(function(id){ return document.getElementById(id).checked; }).map(function(id){ return byId[id]; });
+}
+
+function stufeFuer(qm){
+  for (var i = 0; i < STAFFEL.length; i++) if (qm <= STAFFEL[i].bis) return STAFFEL[i];
+  return STAFFEL[STAFFEL.length - 1];
+}
+
+var letzte = {};
+
+function rechne(){
+  var items = gewaehlte();
+  var qm = num("qm");
+  var etagen = Math.max(1, num("et"));
+  var zimmer = Math.max(1, num("zi"));
+
+  // Grundpreis: Paketpreis oder Summe der Einzelleistungen
+  var basis = aktivesPaket ? PAKETE[aktivesPaket].eur
+                           : items.reduce(function(s, i){ return s + i.eur; }, 0);
+
+  // Zeit realistisch: Rüstzeit + Leistungen, aber mit Skaleneffekt.
+  // Man ist ohnehin vor Ort (RUEST_ORT) und schreibt EINEN Bericht (RUEST_BER);
+  // jede weitere Leistung kostet daher weniger als ihre Einzelzeit.
+  var RUEST_ORT = 15, RUEST_BER = 35;
+
+  var rohOrt = items.reduce(function(s, i){ return s + i.min_ort; }, 0);
+  var rohBer = items.reduce(function(s, i){ return s + i.min_ber; }, 0);
+
+  // Je mehr Leistungen, desto stärker überlappen sie sich (man baut einmal auf,
+  // schreibt einen Bericht). Deshalb sinkt der Faktor mit der Anzahl.
+  var effOrt = Math.max(0.62, 0.90 - Math.max(0, items.length - 4) * 0.028);
+  var effBer = Math.max(0.38, 0.58 - Math.max(0, items.length - 4) * 0.020);
+
+  // Fläche gedämpft (Wurzel): doppelte Fläche = deutlich weniger als doppelte Zeit
+  var ueber = Math.max(0, qm - 80) / 80;
+  var flaechenFaktor = 1 + Math.pow(ueber, 0.62) * 0.32;
+
+  var minOrt = items.length
+    ? RUEST_ORT + rohOrt * effOrt * flaechenFaktor + (etagen - 1) * 18 + Math.max(0, zimmer - 3) * 5
+    : 0;
+  var minBer = items.length
+    ? RUEST_BER + rohBer * effBer * (1 + Math.pow(ueber, 0.62) * 0.18)
+    : 0;
+
+  var st = stufeFuer(qm);
+  var zuschlag = basis * st.auf;
+  var fahrtKm = Math.max(0, num("km") - KM_FREI) * 2;   // Hin + zurück
+  var fahrt = fahrtKm * KM_PREIS;
+  var minFahrt = num("km") * 2 * 1.2;                    // ca. 1,2 Min/km
+
+  var total = basis + zuschlag + fahrt;
+  var stundenGesamt = (minOrt + minBer + minFahrt) / 60;
+  var proStunde = stundenGesamt > 0 ? total / stundenGesamt : 0;
+
+  document.getElementById("r_basis").textContent = eur(basis);
+  document.getElementById("r_stufe").textContent = "(" + st.txt + ")";
+  document.getElementById("r_zuschlag").textContent = "+" + eur(zuschlag);
+  document.getElementById("r_fahrt").textContent = fahrt > 0 ? "+" + eur(fahrt) : "inklusive";
+  document.getElementById("r_total").textContent = eur(total);
+  document.getElementById("r_zeit").textContent =
+    "Vor Ort " + std(minOrt) + " · Bericht " + std(minBer) + " · Fahrt " + std(minFahrt) +
+    "  =  " + std(minOrt + minBer + minFahrt);
+
+  var box = document.getElementById("r_stunde");
+  box.textContent = "Stundensatz: " + Math.round(proStunde) + " €/Std. (Ziel: " + STUNDENZIEL + " €)";
+  box.className = "warn " + (proStunde >= STUNDENZIEL ? "ok" : "low");
+  if (proStunde < STUNDENZIEL && stundenGesamt > 0) {
+    box.textContent += " → zu günstig, empfohlen ab " + Math.ceil(stundenGesamt * STUNDENZIEL / 10) * 10 + " €";
+  }
+
+  letzte = { items:items, basis:basis, zuschlag:zuschlag, fahrt:fahrt, total:total,
+             minOrt:minOrt, minBer:minBer, stunden:stundenGesamt, stufe:st, qm:qm };
+}
+
+/* ---------- Angebotstext ---------- */
+function angebotstext(){
+  var l = letzte;
+  if (!l.items) return "";
+  var art = document.getElementById("art").value;
+  var ort = document.getElementById("ort").value.trim();
+  var paket = aktivesPaket ? PAKETE[aktivesPaket].nm : "Individuelles Angebot";
+
+  var t = "FIVESTAR PROPERTY SCAN – Ihr Angebot\n";
+  t += "----------------------------------------\n";
+  t += "Objekt: " + art + ", ca. " + l.qm + " m²" + (ort ? " in " + ort : "") + "\n";
+  t += "Leistungspaket: " + paket + "\n\n";
+  t += "Enthaltene Leistungen:\n";
+  l.items.forEach(function(i){ t += "  • " + i.nm + "\n"; });
+  t += "\nFestpreis: " + eur(l.total) + "\n";
+  t += "Dauer vor Ort: ca. " + std(l.minOrt) + "\n";
+  t += "Digitaler Bericht: innerhalb von 48 Stunden\n\n";
+  t += "Im Preis enthalten: Anfahrt, Messung, Auswertung und\n";
+  t += "PDF-Bericht mit Messwerten, Wärmebildern und Mängelliste.\n";
+  t += "Keine nachträglichen Aufschläge.\n\n";
+  t += "Fivestar Property Scan · Antalya · Alanya\n";
+  t += "WhatsApp: +49 176 6483 4261";
+  return t;
+}
+
+document.getElementById("gen").addEventListener("click", function(){
+  document.getElementById("out").value = angebotstext();
+});
+document.getElementById("copy").addEventListener("click", function(){
+  var o = document.getElementById("out");
+  if (!o.value) o.value = angebotstext();
+  o.select();
+  navigator.clipboard.writeText(o.value).then(function(){
+    var b = document.getElementById("copy");
+    var alt = b.textContent; b.textContent = "✓ kopiert";
+    setTimeout(function(){ b.textContent = alt; }, 1400);
+  });
+});
+document.getElementById("wa").addEventListener("click", function(){
+  var t = document.getElementById("out").value || angebotstext();
+  window.open("https://wa.me/?text=" + encodeURIComponent(t), "_blank", "noopener");
+});
+
+/* ---------- Nachkalkulation (im Browser gespeichert) ---------- */
+var KEY = "fps-auftraege";
+function laden(){ try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch(e){ return []; } }
+function speichern(a){ try { localStorage.setItem(KEY, JSON.stringify(a)); } catch(e){} }
+
+function zeichneListe(){
+  var a = laden();
+  var body = document.getElementById("nk_body");
+  var avg = document.getElementById("nk_avg");
+  body.innerHTML = "";
+  if (!a.length) {
+    body.innerHTML = '<tr><td colspan="5" class="empty">Noch keine Aufträge erfasst. Trag nach dem ersten Auftrag die echten Zeiten ein – dann rechnet sich dein Stundensatz automatisch.</td></tr>';
+    avg.innerHTML = "";
+    return;
+  }
+  var sumE = 0, sumH = 0;
+  a.forEach(function(r, idx){
+    var h = r.fahrt + r.ort + r.ber;
+    sumE += r.preis; sumH += h;
+    var tr = document.createElement("tr");
+    tr.innerHTML = "<td>" + (r.name || "–") + "</td>" +
+      '<td class="num">' + r.preis + "</td>" +
+      '<td class="num">' + h.toFixed(2).replace(".", ",") + "</td>" +
+      '<td class="num" style="color:' + (h > 0 && r.preis / h >= STUNDENZIEL ? "#7CE0A5" : "#FB7185") + '">' +
+        (h > 0 ? Math.round(r.preis / h) : "–") + "</td>" +
+      '<td><button class="del" data-i="' + idx + '" title="löschen">✕</button></td>';
+    body.appendChild(tr);
+  });
+  var mittel = sumH > 0 ? sumE / sumH : 0;
+  avg.innerHTML =
+    "<div>Aufträge<b>" + a.length + "</b></div>" +
+    "<div>Umsatz<b>" + Math.round(sumE) + " €</b></div>" +
+    "<div>Stunden<b>" + sumH.toFixed(1).replace(".", ",") + "</b></div>" +
+    "<div>Ø Stundensatz<b style='color:" + (mittel >= STUNDENZIEL ? "#7CE0A5" : "#FB7185") + "'>" + Math.round(mittel) + " €</b></div>";
+  body.querySelectorAll(".del").forEach(function(b){
+    b.addEventListener("click", function(){
+      var arr = laden(); arr.splice(parseInt(b.getAttribute("data-i"), 10), 1); speichern(arr); zeichneListe();
+    });
+  });
+}
+
+document.getElementById("nk_add").addEventListener("click", function(){
+  var r = {
+    name: document.getElementById("nk_name").value.trim(),
+    preis: num("nk_preis"),
+    fahrt: num("nk_fahrt"),
+    ort: num("nk_ort"),
+    ber: num("nk_ber")
+  };
+  if (!r.preis && !r.ort) { alert("Bitte mindestens Preis und Zeit vor Ort eintragen."); return; }
+  var a = laden(); a.push(r); speichern(a);
+  ["nk_name","nk_preis","nk_fahrt","nk_ort","nk_ber"].forEach(function(id){ document.getElementById(id).value = ""; });
+  zeichneListe();
+});
+
+["qm","zi","et","km","art"].forEach(function(id){
+  document.getElementById(id).addEventListener("input", rechne);
+  document.getElementById(id).addEventListener("change", rechne);
+});
+
+/* Start: Komplett-Check vorauswählen */
+document.querySelector('.pkg[data-pkg="komplett"]').click();
+zeichneListe();
+</script>
+</body>
+</html>
